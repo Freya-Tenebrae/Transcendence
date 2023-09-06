@@ -14,7 +14,7 @@ RUN npm --version
 
 RUN echo "Cloning Transcendence"
 RUN apt-get install git -y > /dev/null
-RUN git clone https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
+#RUN git clone https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
 
 RUN echo "The back has started"
 CMD ["sleep","infinity"]
