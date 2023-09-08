@@ -1,0 +1,17 @@
+Le projet ft_transcendence consiste à créer un site web pour un tournoi de Pong, où les utilisateurs peuvent jouer en temps réel avec d'autres joueurs. 
+Le backend doit être écrit en NestJS, et le frontend doit être écrit avec un framework TypeScript de choix de l'étudiant.
+Une base de données PostgreSQL doit être utilisée, et le site doit être une application à page unique.
+L'utilisateur doit pouvoir utiliser les boutons Retour et Avant du navigateur,
+et le site doit être compatible avec la dernière version stable de Google Chrome et un autre navigateur web de choix de l'étudiant.
+Le site doit être protégé contre les problèmes de sécurité tels que les injections SQL et doit mettre en œuvre une validation côté serveur pour les formulaires et les entrées utilisateur.
+Des comptes utilisateur doivent être créés en utilisant le système OAuth du réseau 42, et les utilisateurs doivent pouvoir choisir un nom unique et télécharger un avatar.
+L'authentification à deux facteurs peut être activée, et les utilisateurs peuvent ajouter d'autres utilisateurs en tant qu'amis et voir leur statut actuel.
+Les statistiques telles que les victoires et les défaites, le niveau d'échelle, et les réalisations doivent être affichées sur les profils d'utilisateurs.
+Chaque utilisateur doit avoir un historique de match comprenant des jeux 1v1, une échelle, et tout ce qui est utile. 
+Un chat doit être créé pour les utilisateurs, et les utilisateurs doivent pouvoir créer des canaux publics, privés ou protégés par mot de passe et envoyer des messages directs à d'autres utilisateurs.
+Les utilisateurs peuvent inviter d'autres utilisateurs à jouer à un jeu de Pong via l'interface de chat et accéder aux profils d'autres joueurs via l'interface de chat.
+Le but principal du site est de jouer à Pong contre d'autres joueurs, et les utilisateurs doivent pouvoir jouer à un jeu de Pong en direct contre un autre joueur directement sur le site.
+Il doit y avoir un système de matchmaking, et le jeu doit être fidèle au Pong original (1972).
+Des options de personnalisation peuvent être proposées, mais l'utilisateur doit pouvoir sélectionner une version par défaut du jeu sans fonctionnalités supplémentaires s'il le souhaite.
+Le jeu doit être réactif, en tenant compte des problèmes de réseau tels que les déconnexions inattendues ou le décalage.
+L'affectation doit être soumise dans le dépôt Git de l'étudiant, et l'évaluation par les pairs sera effectuée lors de la défense.
