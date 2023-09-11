@@ -11,3 +11,14 @@ function Home() {
 }
 
 export default Home;
+
+// function Header() {
+	// const [isActive, setIsActive] = useState(false);
+	// const [isActive2, setIsActive2] = useState(false);
+	// return (
+		// <div>
+	   {/* </div> */}
+	// )
+// }
+
+// (à remplacer par une fonction Header, qui va comprendre tus les icônes en-tête plus tard)
