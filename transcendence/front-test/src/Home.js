@@ -5,7 +5,7 @@ import './Home.css'
 function Home() {
 	return (
 		<div className='Home'>
-			<img src={home} className="Home-logo" alt="home-logo-beat" />
+			<a href="index.html"><img src={home} className="Home-logo" alt="home-logo-beat" /> </a>
 		</div>
 	);
 }
