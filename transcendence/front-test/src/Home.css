@@ -1,5 +1,10 @@
 .Home-logo {
-	position: absolute;
-	top: 1px;
-	left: 1px;
+	position: relative;
+	top: 10px;
+	left: 10px;
+	height: 30px;
+	width: 30px;
+}
+.Home {
+	background-color: #282c34;
 }

@@ -6,7 +6,6 @@ function Home() {
 	return (
 		<div className='Home'>
 			<img src={home} className="Home-logo" alt="home-logo-beat" />
-			
 		</div>
 	);
 }
