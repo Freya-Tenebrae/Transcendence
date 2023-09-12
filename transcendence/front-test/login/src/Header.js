@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import Home from "./Home";
 import LoginForm from "./LoginForm";
-import Login from "./fonts/login.svg"
+import login from "./fonts/login.svg"
 
 function Header({ handleLoginClick }) {
 	const handleClick = () => {
-		handleLoginClick();
+	  handleLoginClick();
 	};
+  
 	return (
-		<div className="header">
-			<div>
-				{Home()};
-				<span onClick={handleClick} className="loginicon">
-					Sign In
-				</span>
-			</div>
-		</div>
+	  <div className="header">
+		<Home /> {}
+		<LoginForm isShowLogin={true} />
+		{
+		<img src={login} onClick={handleClick} className="loginicon" />
+		}
+	  </div>
 	);
-}
+  }
 
 export default Header;

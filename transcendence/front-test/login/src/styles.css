@@ -13,21 +13,9 @@
   }
   
   .loginicon {
-	margin-bottom: 15%;
-	margin-left: 90%;
-    width: 80px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bolder;
-    color: #474444;
-    height: 40px;
-    left: 91%;
-    top: 10px;
-    background:#696666;
-    border-radius: 24px;
-    cursor: pointer;
+    width:30%;
+    height:30%;
+    cursor:pointer;
   }
   
   .loginicon:hover{
