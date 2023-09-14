@@ -6,13 +6,13 @@ import './Header.css'
 
 function Home() {
 	return (
-	  <div className='Home'>
-		<a href="index.html"><img src={home} className="Home-logo" alt="home-logo-beat" /> </a>
-		<img src={gear} className="Gear" />
-	  </div>
+		<div className='Home'>
+			<a href="index.html"><img src={home} className="Home-logo" alt="home-logo-beat" /> </a>
+			<img src={gear} className="Gear" />
+		</div>
 	);
-  }
-  export default Home;
+}
+export default Home;
 
 // function Header() {
 	// const [isActive, setIsActive] = useState(false);
