@@ -22,4 +22,5 @@ export default Home;
 	// )
 // }
 
-// (à remplacer par une fonction Header, qui va comprendre tous les icônes en-tête plus tard)
+// (à remplacer par une fonction Header, qui va comprendre tous les icônes en-tête
+// plus tard et les différents états qu'ils pourront avoir)

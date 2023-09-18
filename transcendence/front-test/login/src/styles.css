@@ -12,17 +12,18 @@
     top: 0px;
   }
   
-  .loginicon {
+	.loginicon {
 	position: relative;
 	margin-left:92.5%;
+	margin-bottom:5.5%;
 	width:3%;
 	background-color: #474444;
 	cursor:pointer;
-  }
-  
-  .loginicon:hover{
-    color: white;
-  }
+	}
+
+	.loginicon:hover{
+		color: white;
+	}
   
   .login-form{
     width: 100%;
