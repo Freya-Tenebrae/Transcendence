@@ -21,6 +21,6 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 
 RUN echo "The back has started"
-CMD ["npm","run","start"]
+CMD ["npm","run","start:debug"]
 
 # https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
