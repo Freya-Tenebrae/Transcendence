@@ -8,8 +8,8 @@ RUN apt-get upgrade -y > /dev/null
 RUN apt-get install build-essential -y > /dev/null
 
 RUN echo "Installing NPM && Nestjs"
-RUN mkdir -p /usr/Transcendence
-WORKDIR /usr/Transcendence
+RUN mkdir -p /Transcendence/backend
+WORKDIR /Transcendence/backend
 RUN apt-get install -y ca-certificates curl gnupg git
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -21,6 +21,6 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 
 RUN echo "The back has started"
-CMD ["sleep","infinity"]
+CMD ["npm","run","start:debug"]
 
 # https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
