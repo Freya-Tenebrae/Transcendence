@@ -19,6 +19,44 @@ RUN apt-get install nodejs -y > /dev/null
 RUN npm install -g npm@latest
 RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
+RUN npm install prisma --save-dev
+
+ARG DB
+ARG DBU
+ARG DBP
+RUN echo "Installing postgres client (To set up DB & tables if not yet done)"
+RUN apt-get install postgresql-client -y > /dev/null
+# RUN ls
+# RUN rm .env
+# RUN echo "# Environment variables declared in this file are automatically made available to Prisma.\
+# # See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema\
+# \
+# # Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.\
+# # See the documentation for all the connection string options: https://pris.ly/d/connection-strings\
+# " > .env
+# RUN echo "DATABASE_URL=\"postgresql://$DBU:$DBP@db:5432/$DB?schema=public\"" > .env
+# Je vais plutot essayer de faire ca sur prisma sur les conseils de qqun
+# RUN psql postgresql://$DBU:$DBP@db:5432/$DB -c "CREATE TABLE IF NOT EXISTS users"
+# RUN psql postgresql://$DBU:$DBP@db:5432/$DB -c "ALTER TABLE users ADD COLUMN IF NOT EXISTS key SERIAL PRIMARY KEY"
+# RUN psql postgresql://$DBU:$DBP@db:5432/$DB -c "ALTER TABLE users ADD COLUMN IF NOT EXISTS name TEXT"
+# RUN psql postgresql://$DBU:$DBP@db:5432/$DB -c "ALTER TABLE users ADD COLUMN IF NOT EXISTS password TEXT"
+
+
+# ALTER TABLE table_name ADD COLUMN IF NOT EXISTS column_name INTEGER;
+# {\
+# 	ID SERIAL PRIMARY key,\
+# 	NAME	TEXT NOT NULL,\
+# 	PASSWORD	TEXT NOT NULL,\
+# 	SURNAME		TEXT,\
+# 	PSEUDO		TEXT,\
+# 	OAUTH_LINK	TEXT,\
+# 	GAUTH_LINK	TEXT,\
+# 	LAST_CONNECTION	DATE,\
+# 	AVATAR		TEXT,\
+# 	STATUS		TEXT,\
+# 	SCORE		INT,\
+# 	ELO			INT,\
+# }"
 
 RUN echo "The back has started"
 CMD ["npm","run","start:debug"]

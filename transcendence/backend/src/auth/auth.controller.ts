@@ -7,7 +7,7 @@ export class AuthController {
 
   @Get()
   auth(): string {
-	return ("Log in u stupid bastard (curl -X POST http://localhost:3000/auth/login -d '{\"username\": \"john\", \"password\": \"changeme\"}' -H \"Content-Type: application/json\")");
+	return ("Log in u stupid bastard (curl -X POST http://localhost:2000/auth/login -d '{\"username\": \"john\", \"password\": \"changeme\"}' -H \"Content-Type: application/json\")");
   }
 
   @HttpCode(HttpStatus.OK)
