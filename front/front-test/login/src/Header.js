@@ -13,9 +13,9 @@ function Header({ handleLoginClick }) {
 	const handleClick = loginClick({ handleLoginClick });
 	return (
 		<div className="header">
+			<img src={login} onClick={handleClick} alt="" className="loginicon" />
 			<Home /> {}
 			<LoginForm isShowLogin={true} />
-				<img src={login} onClick={handleClick} alt="" className="loginicon" />
 		</div>
 	);
 }
