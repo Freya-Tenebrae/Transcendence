@@ -20,5 +20,5 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 
 RUN echo "The front has started"
-CMD ["sleep", "infinity"]
-# CMD ["npm","run","start:debug"]
+#CMD ["sleep", "infinity"]
+CMD ["npm","start"]
