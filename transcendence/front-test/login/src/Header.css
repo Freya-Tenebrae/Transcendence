@@ -6,15 +6,15 @@
 }
 
 .Gear {
-	margin-left:83.2%;
+	margin-left:87.5%;
 	height: 3%;
 	width: 3%;
 }
 
 .loginicon {
 	position: relative;
-	margin-left:92.5%;
-	margin-bottom:0%;
+	margin-left:96%;
+	margin-bottom:-3.5%;
 	width:3%;
 	background-color: #474444;
 	cursor:pointer;
