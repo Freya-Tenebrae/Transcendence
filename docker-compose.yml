@@ -32,22 +32,48 @@ services:
   # Le back en lui meme
   back:
     build:
-      context: .
+      context: back/
       args:
        - NODE_V=${NODE_MAJOR}
+       - DB=${POSTGRES_DB}
+       - DBU=${POSTGRES_USER}
+       - DBP=${POSTGRES_PASSWORD}
     container_name: back
     ports:
       - 2000:80 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
       - 2001:443
     restart: unless-stopped
-    environment:
-      - NODE_MAJOR
+    env_file:
+      - .env
+    #environment:
+    #  - NODE_MAJOR
     depends_on:
       - db
     networks:
       - back-net
     volumes:
-      - ./transcendence:/Transcendence:rw
+      - ./back/backend:/Transcendence:rw
+#      - github-vol:/Transcendence:rw
+  front:
+    build:
+      context: front/.
+      args:
+       - NODE_V=${NODE_MAJOR}
+    container_name: front
+    ports:
+      - 2002:3000 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
+      - 2003:3000 #Note2: Jsp ce dont t'as besoin en front comme port
+    restart: unless-stopped
+    # env_file:
+    #   - .env
+    environment:
+     - NODE_MAJOR
+    depends_on:
+      - back
+    networks:
+      - back-net
+    volumes:
+      - ./front/front-test:/Transcendence:rw
 #      - github-vol:/Transcendence:rw
 
 networks:

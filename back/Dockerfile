@@ -8,7 +8,6 @@ RUN apt-get upgrade -y > /dev/null
 RUN apt-get install build-essential -y > /dev/null
 
 RUN echo "Installing NPM && Nestjs"
-RUN mkdir -p /Transcendence/backend
 WORKDIR /Transcendence/backend
 RUN apt-get install -y ca-certificates curl gnupg git
 RUN mkdir -p /etc/apt/keyrings
