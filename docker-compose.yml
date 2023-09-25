@@ -32,7 +32,7 @@ services:
   # Le back en lui meme
   back:
     build:
-      context: back/
+      context: back/docker
       args:
        - NODE_V=${NODE_MAJOR}
        - DB=${POSTGRES_DB}
@@ -52,7 +52,7 @@ services:
     networks:
       - back-net
     volumes:
-      - ./back/backend:/Transcendence:rw
+      - ./back:/Transcendence:rw
 #      - github-vol:/Transcendence:rw
   front:
     build:
@@ -73,7 +73,7 @@ services:
     networks:
       - back-net
     volumes:
-      - ./front/front-test:/Transcendence:rw
+      - ./front/front-test/login:/Transcendence:rw
 #      - github-vol:/Transcendence:rw
 
 networks:

@@ -8,7 +8,7 @@ RUN apt-get upgrade -y > /dev/null
 RUN apt-get install build-essential -y > /dev/null
 
 RUN echo "Installing NPM && Nestjs"
-WORKDIR /Transcendence/login/src
+WORKDIR /Transcendence
 RUN apt-get install -y ca-certificates curl gnupg git
 RUN mkdir -p /etc/apt/keyrings
 RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -18,6 +18,7 @@ RUN apt-get install nodejs -y > /dev/null
 RUN npm install -g npm@latest
 RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
+#installe des trucs en plus comme ca
 
 RUN echo "The front has started"
 #CMD ["sleep", "infinity"]
