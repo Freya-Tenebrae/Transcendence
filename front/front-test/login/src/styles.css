@@ -105,7 +105,14 @@
     background-color: black;
     color: #474444;
   }
-  
+
+  .sign-btn{
+	position: center;
+	width:10%;
+	background-color: grey;
+	cursor:pointer;
+}
+
   .show {
     display: block;
     transition: 800ms;
