@@ -32,5 +32,5 @@ RUN npm i -g react-scripts
 #test pour voir si on peut installer les modules directement
 
 RUN echo "The front has started"
-#CMD ["sleep", "infinity"]
-CMD ["npm","start"]
+CMD ["sleep", "infinity"]
+# CMD ["npm","start"]
