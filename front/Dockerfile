@@ -2,6 +2,9 @@ FROM ubuntu:latest
 
 ARG NODE_V
 
+ENV NODE_V=20
+#normalement la derniere pour Node est la 20 pour ubuntu
+
 RUN echo "Updating..."
 RUN apt-get update -y > /dev/null
 RUN apt-get upgrade -y > /dev/null
