@@ -24,9 +24,9 @@ RUN npm i -g @nestjs/schematics
 #installe des trucs en plus comme ca
 RUN echo "Installing React"
 RUN npm install -g react@latest
-RUN npm i -g react-app-polyfill
+RUN npm install -g react-app-polyfill
+RUN npm install -g react-dom
 RUN npm i -g react-dev-utils
-RUN npm i -g react-dom
 RUN npm i -g react-is
 RUN npm i -g react-refresh
 RUN npm i -g react-scripts
