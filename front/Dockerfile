@@ -23,12 +23,13 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 #installe des trucs en plus comme ca
 RUN echo "Installing React"
-RUN npm i -g react-app-polyfill
-RUN npm i -g react-dev-utils
-RUN npm install react react-dom
-RUN npm i -g react-is
-RUN npm i -g react-refresh
-RUN npm i -g react-scripts
+RUN npm install react
+RUN npm install react-dom
+RUN npm install react-app-polyfill
+RUN npm install react-dev-utils
+RUN npm install react-is
+RUN npm install react-refresh
+RUN npm install react-scripts
 #test pour voir si on peut installer les modules directement
 
 RUN echo "The front has started"

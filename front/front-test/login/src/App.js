@@ -2,7 +2,6 @@ import "./styles.css";
 import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import Header from "./Header";
-import Sign from './Sign'
 
 export default function App() {
 	const [isShowLogin, setIsShowLogin] = useState(true);
