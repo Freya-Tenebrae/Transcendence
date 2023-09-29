@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from './LoginForm'
-import './sign.css'
+import './style.css'
 
 const Sign = ({isShowLogin}) => {
 	<div className='Sign'>
@@ -8,4 +8,4 @@ const Sign = ({isShowLogin}) => {
 	</div>
 };
 
-export default sign;
+export default Sign;
