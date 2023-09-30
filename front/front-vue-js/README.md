@@ -27,9 +27,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-nb:choisir Vue 3 la dernière version et il y a déjà les srcs ici il faut juste installer les dépendances(modules)
+#### nb:choisir Vue 3 la dernière version et il y a déjà les srcs ici il faut juste installer les dépendances(modules)
 
-Explications aritechture:
+#### Explications aritechture:
 src/ (où se trouve votre code source),
 assets/(où se trouve les images,icones etc...),
 public/ (où se trouvent les fichiers statiques), 
