@@ -4,12 +4,23 @@
 ```
 sudo apt update
 ```
+
 ## Installer Vue CLI(Vue en ligne de commande)
 ```
 npm install -g @vue/cli
 ```
 
-### Compiles and hot-reloads for development
+### Créer un nouveau projet en Vue
+```
+vue create nom-du-projet
+```
+
+### Rentrer dans le projet
+```
+cd nom-du-projet
+```
+
+### Lance le serveur de sur une page localhost(le lien est écrit dans le terminal)
 ```
 npm run serve
 ```
@@ -28,7 +39,8 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### nb:
-Choisir Vue 3 la dernière version et il y a déjà les srcs ici il faut juste installer les dépendances(modules)
+Choisir Vue 3 la dernière version et il y a déjà les srcs il suffit juste de créer un projet et remplacer les srcs par celles-ci.
+Le code est miniscule, on commence la transition de React à Vue(Pas encore sûr mais plus léger et simple).
 
 #### Explications aritechture:
 src/ (où se trouve votre code source),
