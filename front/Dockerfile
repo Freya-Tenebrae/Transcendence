@@ -29,4 +29,6 @@ RUN npm i @nuxtjs/modules
 
 RUN echo "The front has started"
 CMD ["sleep", "infinity"]
-#CMD ["npm","start"]
+#CMD ["npm", "run", "start"]
+
+EXPOSE 3000
