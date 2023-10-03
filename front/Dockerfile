@@ -23,7 +23,7 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 #installe des trucs en plus comme ca
 RUN echo "Installing VueJS & NuxtJS"
-RUN npm install -g vue
+RUN npm install -g @vue/cli
 RUN npm i @nuxtjs/modules
 #test pour voir si on peut installer les modules directement
 
