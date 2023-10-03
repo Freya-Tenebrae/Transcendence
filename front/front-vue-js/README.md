@@ -42,7 +42,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 Il y a déjà les srcs il suffit juste de créer un projet et remplacer les srcs par celles-ci.
 Le code est aux prémices, on commence la transition de React à Vue(Pas encore sûr mais plus léger et simple).
 
-#### Explications aritechture:
+#### Explications architecture:
 src/ (où se trouve votre code source),
 assets/(où se trouve les images,icones etc...),
 public/ (où se trouvent les fichiers statiques), 
