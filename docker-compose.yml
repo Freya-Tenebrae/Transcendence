@@ -73,7 +73,7 @@ services:
     networks:
       - back-net
     volumes:
-      - ./front/front-vue-js:/Transcendence:rw
+      - ./front/front-vue-js/frontend:/Transcendence:rw
 #      - github-vol:/Transcendence:rw
 
 networks:
