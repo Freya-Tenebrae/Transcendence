@@ -55,6 +55,21 @@ export class ApiController {
 		return this.userService.user(userData)
 	}
 
+	@Get('users')
+	async findUsers(): Promise<UserModel[]> {
+		return this.userService.users({
+			orderBy: {id: 'desc'}
+		});
+	}
+
+	// @Get('feed')
+	// async getPublishedPosts(): Promise<PostModel[]> {
+	//   return this.postService.posts({
+	// 	where: { published: true },
+	//   });
+	// }
+  
+
 	// @Get('user/:data')
 	// async findUser(@Param('data') data): Promise<UserModel | string>{
 	// 	console.log("[api controller user]Returning user requested as ", data);
