@@ -25,10 +25,16 @@ export class ApiController {
 // 	admin		Int		@default(0)
 //   }
 
-	@Get('user/:id')
+	@Get('user/id/:id')
 	async findUserbyID(@Param('id') id:string): Promise<UserModel>{
-		console.log("[api controller user/:]Returning user by id ", id);
+		console.log("[api controller user/:id]Returning user by id ", id);
 		return this.userService.user({id : Number(id)})
+	}
+
+	@Get('user/mail/:mail')
+	async findUserbyMail(@Param('mail') mail:string): Promise<UserModel>{
+		console.log("[api controller user/:mail]Returning user by mail ", mail);
+		return this.userService.user({email : String(mail)})
 	}
 
 	//@HttpCode(HttpStatus.OK)
@@ -39,6 +45,9 @@ export class ApiController {
 	  console.log("New user sign up");
 	  return this.userService.createUser(userData);
 	}
+
+	//Modify user
+	//Delete user
 
 /*
 curl --request POST \
