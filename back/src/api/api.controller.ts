@@ -31,14 +31,53 @@ export class ApiController {
 		return this.userService.user({id : Number(id)})
 	}
 
+	@Get('user/id')
+	async findUserbyIDr(@Body() userData: {id: number}): Promise<UserModel>{
+		console.log("[api controller user/id req]Returning user requested as ", userData);
+		return this.userService.user(userData)
+	}
+
 	@Get('user/mail/:mail')
 	async findUserbyMail(@Param('mail') mail:string): Promise<UserModel>{
 		console.log("[api controller user/:mail]Returning user by mail ", mail);
 		return this.userService.user({email : String(mail)})
 	}
 
+	@Get('user/mail')
+	async findUserbyMailr(@Body() userData: {email: string}): Promise<UserModel>{
+		console.log("[api controller user/mail req]Returning user requested as ", userData);
+		return this.userService.user(userData)
+	}
+
+	@Get('user')
+	async findUserr(@Body() userData): Promise<UserModel>{
+		console.log("[api controller user req]Returning user requested as ", userData);
+		return this.userService.user(userData)
+	}
+
+	// @Get('user/:data')
+	// async findUser(@Param('data') data): Promise<UserModel | string>{
+	// 	console.log("[api controller user]Returning user requested as ", data);
+	// 	try {
+	// 		if (this.userService.user({email: String(data)}) != this.userService.user({id: -1}))
+	// 			return this.userService.user({email: String(data)})
+	// 	}
+	// 	catch {
+	// 		console.log("[api controller user] Didn't find it in emails")
+	// 	}
+	// 	console.log("========================")
+	// 	try {
+	// 		if (this.userService.user({id: Number(data)}) != null)
+	// 			return this.userService.user({id: Number(data)})
+	// 	}
+	// 	catch {
+	// 		console.log("[api controller user] Didn't find it in Ids")
+	// 	}
+	// 	return ("User was not found, go fuck urself")
+	// }
+
 	//@HttpCode(HttpStatus.OK)
-	@Post('newuser')
+	@Post('user')
 	async newUser(
 	  @Body() userData: { name?: string; email: string },
 	): Promise<UserModel> {
