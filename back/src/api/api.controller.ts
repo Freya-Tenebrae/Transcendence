@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpCode, HttpStatus, Param} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, HttpCode, HttpStatus, Param} from '@nestjs/common';
 import { User as UserModel } from '@prisma/client';
 import { UserService } from '../users/users.service';
 
@@ -62,12 +62,30 @@ export class ApiController {
 		});
 	}
 
-	// @Get('feed')
-	// async getPublishedPosts(): Promise<PostModel[]> {
-	//   return this.postService.posts({
-	// 	where: { published: true },
-	//   });
-	// }
+	@Get('users/:searchstring')
+	async SearchUsers(@Param('searchstring') searchstring: string): Promise<UserModel[]> {
+		return this.userService.users({
+			where: {
+				OR: [
+					{
+						email: {contains: searchstring}
+					},
+					{
+						name: {contains: searchstring}
+					}
+				]
+			}
+		});
+	}
+
+
+
+	@Get('admins')
+	async findAdmins(): Promise<UserModel[]> {
+		return this.userService.users({
+			where: {admin: 1}
+		});
+	}
   
 
 	// @Get('user/:data')
@@ -100,6 +118,49 @@ export class ApiController {
 	  return this.userService.createUser(userData);
 	}
 
+	@Put('chusername')
+	async modifyUserName(
+		@Body() userdata: {email: string; newname?:string},):
+		Promise<UserModel> {
+			console.log("[Put user] modifying user request: ", userdata);
+			return this.userService.updateUser({
+				where: {email: userdata.email},
+				data: {name: userdata.newname}
+				})
+		}
+
+	@Put('chpassword')
+	async modifypassword(
+		@Body() userdata: {email: string; newpass?:string},):
+		Promise<UserModel> {
+			console.log("[Put user] modifying user request: ", userdata);
+			return this.userService.updateUser({
+				where: {email: userdata.email},
+				data: {name: userdata.newpass}
+			})
+		}
+
+	@Put('chemail')
+	async modifyemail(
+		@Body() userdata: {email: string; newmail?:string},):
+		Promise<UserModel> {
+			console.log("[Put user] modifying user request: ", userdata);
+			return this.userService.updateUser({
+				where: {email: userdata.email},
+				data: {name: userdata.newmail}
+			})
+		}
+
+	@Put('makeadmin')
+	async makeadmin(
+		@Body() userdata: {email: string; newpass?:string},):
+		Promise<UserModel> {
+			console.log("[Put user] modifying user request: ", userdata);
+			return this.userService.updateUser({
+				where: {email: userdata.email},
+				data: {name: userdata.newpass}
+			})
+		}
 	//Modify user
 	//Delete user
 
