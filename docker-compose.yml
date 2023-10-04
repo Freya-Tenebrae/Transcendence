@@ -56,13 +56,12 @@ services:
 #      - github-vol:/Transcendence:rw
   front:
     build:
-      context: front/.
+      context: front
       args:
        - NODE_V=${NODE_MAJOR}
     container_name: front
     ports:
       - 2002:3000 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
-      - 2003:3000
     restart: unless-stopped
     # env_file:
     #   - .env
@@ -73,7 +72,7 @@ services:
     networks:
       - back-net
     volumes:
-      - ./front/front-vue-js/frontend:/Transcendence:rw
+      - ./front:/Transcendence:rw
 #      - github-vol:/Transcendence:rw
 
 networks:

@@ -28,5 +28,5 @@ RUN npm i @nuxtjs/modules
 #test pour voir si on peut installer les modules directement
 
 RUN echo "The front has started"
-#CMD ["sleep", "infinity"]
-CMD ["npm", "run", "dev"]
+CMD ["sleep", "infinity"]
+#CMD ["npm", "run", "dev"]
