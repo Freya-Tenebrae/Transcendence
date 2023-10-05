@@ -30,7 +30,7 @@ RUN npm i @nuxtjs/modules
 RUN echo "The front has started"
 EXPOSE 3000
 #WORKDIR /Transcendence/frontend
-#CMD ["sleep", "infinity"]
-CMD ["npm", "run", "dev"]
+CMD ["sleep", "infinity"]
+#CMD ["npm", "run", "start"]
 
 # https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
