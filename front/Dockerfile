@@ -31,7 +31,7 @@ RUN echo "The front has started"
 EXPOSE 3000
 WORKDIR /Transcendence/frontend
 #CMD ["sleep", "infinity"]
-#CMD ["npm", "run", "dev"]
-CMD ["sh", "start_front.sh"]
+CMD ["npm", "run", "dev"]
+#CMD ["sh", "start_front.sh"]
 
 # https://github.com/Freya-Tenebrae/Transcendence.git Transcendence
