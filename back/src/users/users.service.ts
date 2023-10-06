@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User, Pass, Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -14,6 +14,17 @@ export class UserService {
 	  }));
     return this.prisma.user.findUnique({
       where: userWhereUniqueInput,
+    });
+  }
+
+  async pass(
+    passWhereUniqueInput: Prisma.PassWhereUniqueInput,
+  ): Promise<Pass | null> {
+	console.log("[user service pass] Found ", this.prisma.pass.findUnique({
+		where: passWhereUniqueInput,
+	  }));
+    return this.prisma.pass.findUnique({
+      where: passWhereUniqueInput,
     });
   }
 
@@ -56,5 +67,35 @@ export class UserService {
     return this.prisma.user.delete({
       where,
     });
+  }
+
+  async createPass(data: Prisma.PassCreateInput): Promise<Pass> {
+	console.log('Pass created : ', data);
+    return this.prisma.pass.create({data});
+  }
+
+  async updatePass(params: {
+    where: Prisma.PassWhereUniqueInput;
+    data: Prisma.PassUpdateInput;
+  }): Promise<Pass> {
+    const { where, data } = params;
+    return this.prisma.pass.update({
+      data,
+      where,
+    });
+  }
+
+  async deletePass(where: Prisma.UserWhereUniqueInput): Promise<User> {
+    return this.prisma.user.delete({
+      where,
+    });
+  }
+
+  async userId(where: Prisma.UserWhereUniqueInput): Promise<Number> {
+	return this.user(where)['id'];
+  }
+
+  async passId(where: Prisma.PassWhereUniqueInput): Promise<Number> {
+	return this.prisma.pass.findUnique({where})['id'];
   }
 }

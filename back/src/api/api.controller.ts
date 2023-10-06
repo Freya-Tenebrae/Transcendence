@@ -129,16 +129,16 @@ export class ApiController {
 				})
 		}
 
-	@Put('chpassword')
-	async modifypassword(
-		@Body() userdata: {email: string; newpass?:string},):
-		Promise<UserModel> {
-			console.log("[Put user] modifying user request: ", userdata);
-			return this.userService.updateUser({
-				where: {email: userdata.email},
-				data: {name: userdata.newpass}
-			})
-		}
+	// @Put('chpassword')
+	// async modifypassword(
+	// 	@Body() userdata: {email: string; newpass?:string},):
+	// 	Promise<UserModel> {
+	// 		console.log("[Put user] modifying user request: ", userdata);
+	// 		return this.userService.updateUser({
+	// 			where: {email: userdata.email},
+	// 			data: {secure: {salted_password: userdata.newpass}}
+	// 		})
+	// 	}
 
 	@Put('chemail')
 	async modifyemail(
