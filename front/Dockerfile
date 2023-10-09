@@ -24,7 +24,9 @@ RUN npm i -g @nestjs/schematics
 #installe des trucs en plus comme ca
 RUN echo "Installing VueJS & NuxtJS"
 RUN npm install -g @vue/cli
-RUN npm i @nuxtjs/modules
+RUN npm install @nuxtjs/modules
+#installe tailwindcss pour le styling
+#RUN npm install --save-dev @nuxtjs/tailwindcss
 #test pour voir si on peut installer les modules directement
 
 RUN echo "The front has started"

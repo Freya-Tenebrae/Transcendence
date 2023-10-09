@@ -18,12 +18,7 @@ async function signUp() {
 </script>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-}
-#app {
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,17 +30,25 @@ async function signUp() {
 </style>
 
 <template>
-    <div style="app">
-        <h1>Sign Up</h1>
+  <title>Cyberpong 2042 - Registration</title>
+  <div class="app">
+      <h2>Sign Up</h2>
+      <div>
+        E-mail
         <input
-            v-model="email"
-            type email
+          v-model="email"
+          type email
         />
-        <input
+        <div>
+          Password
+          <input
             v-model="password"
             type password
-        />
-        <button @click="register">
-        </button>
-    </div>
+          />
+        </div>
+      </div>
+      <button @click="register">
+        Register
+      </button>
+  </div>
 </template>

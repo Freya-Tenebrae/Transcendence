@@ -37,7 +37,6 @@ declare module 'vue' {
     'LazyHead': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']
     'LazyHtml': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
     'LazyBody': typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
-    'Register': typeof import("../register.vue")['default']
   }
 }
 
@@ -77,6 +76,5 @@ export const LazyStyle: typeof import("../node_modules/nuxt/dist/head/runtime/co
 export const LazyHead: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Head']
 export const LazyHtml: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Html']
 export const LazyBody: typeof import("../node_modules/nuxt/dist/head/runtime/components")['Body']
-export const Register: typeof import("../register.vue")['default']
 
 export const componentNames: string[]
