@@ -42,6 +42,7 @@ services:
     ports:
       - 2000:80 # Note on ne peut pas utiliser 80, 443 car apache tourne a moins de tourner sur VM
       - 2001:443
+      - 5555:5555 # Prisma studio
     restart: unless-stopped
     env_file:
       - .env

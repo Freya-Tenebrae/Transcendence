@@ -98,4 +98,17 @@ export class UserService {
   async passId(where: Prisma.PassWhereUniqueInput): Promise<Number> {
 	return this.prisma.pass.findUnique({where})['id'];
   }
+
+  async IdGetPass(id: Number): Promise<Pass | null> {
+	return this.pass({id: Number(id)})
+  }
+
+  async checkuserpass(pass: String, id: Number): Promise<Boolean> {
+	if ((await this.IdGetPass(id)).salted_password !== pass)
+	{
+		return true;
+	}
+	return false;
+		console.log("gottem");
+  }
 }

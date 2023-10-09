@@ -20,6 +20,8 @@ RUN npm i -g @nestjs/cli
 RUN npm i -g @nestjs/schematics
 RUN npm i -g prisma
 RUN npm i -g @nestjs/config
+RUN npm i -g @nestjs/passport passport passport-local
+RUN npm i -g @types/passport-local
 
 ARG DB
 ARG DBU
