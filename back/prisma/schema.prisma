@@ -21,3 +21,165 @@ model Pass {
   id              Int     @unique
   user            User    @relation(fields: [id], references: [id])
 }
+
+// // DELETE ALL ABOVE BEFORE UNMUTE DOWN THERE
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
+// enum StatusMemberChannel {
+//   "CREATOR"
+//   "ADMIN"
+//   "MEMBER"
+//   "INVITED"
+//   "MUTE"
+//   "BAN"
+// }
+
+// model User {
+//   user_id                         Int @unique @id @default(autoincrement())
+//   user_name                       String?
+//   user_surname                    String?
+//   user_nickname                   String @unique
+//   user_email                      String @unique
+//   user_password                   String
+//   // user_OAuth42Link                String// check OAuth42 ???
+//   // user_googleAuthLink             String// check GoogleAuth ???
+//   user_lastConnection             DateTime @default(now())
+//   user_pathAvatar                 String @default("avatar/default_avatar.png") //should be stored to avatar/*user_id* 
+//   user_is_connected               Boolean @default(true)
+//   user_score                      Int @default(0)
+//   user_helo                       Int @default(0)
+//   user_division                   Division @relation(fields: [user_divisionId], references: [division_id])
+//   user_divisionId                 Int @default(0)
+// }
+
+// // model Pass {
+
+// // }
+
+// // model OAuth42 {
+
+// // }
+
+// // model GoogleAuth {
+
+// // }
+
+// model Channel {
+//   channel_id                      Int @unique @id @default(autoincrement())
+//   channel_name                    String @unique
+//   channel_privacy                 Boolean @default(true)
+//   channel_password                String @default("")
+//   channel_creation                DateTime @default(now())
+// }
+
+// model Division {
+//   division_id                     Int @unique @id @default(autoincrement())
+//   division_name                   String
+//   division_pathImg                String
+// }
+
+// model Archivement {
+//   archivement_id                  Int @unique @id @default(autoincrement())
+//   archivement_name                String
+//   archivement_description         String?
+//   archivement_pathImg             String
+// }
+
+// model Match {
+//   match_id                        Int @unique @id @default(autoincrement())
+//   match_user1                     User @relation(fields: [match_userId1], references: [user_id])
+//   match_userId1                   Int
+//   match_user2                     User @relation(fields: [match_userId2], references: [user_id])
+//   match_userId2                   Int
+//   // match_gameMap                   GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
+//   // match_gameMapId                 Int
+//   match_isRanked                  Boolean
+//   match_score                     Int @default(0)
+//   match_over                      Boolean @default(false)
+//   match_date                      DateTime @default(now())
+// }
+
+// // model GameMap {
+// //   gameMap_id                      Int @unique @id @default(autoincrement())
+// //   gameMap_name                    String
+// //   gameMap_pathFile                String
+// //   gameMap_description             String
+// // }
+
+// model PowerUp {
+//   powerUp_id                      Int @unique @id @default(autoincrement())
+//   powerUp_name                    String
+//   powerUp_description             String
+//   powerUp_pathIcon                String
+//   powerUp_action                  String
+// }
+
+// model Friend {
+//   friend_user1                    User @relation(fields: [friend_userId1], references: [user_id])
+//   friend_userId1                  Int
+//   friend_user2                    User @relation(fields: [friend_userId2], references: [user_id])
+//   friend_userId2                  Int
+//   friend_accepted                 Boolean @default(false)
+
+//   @@unique([friend_userId1, friend_userId2])
+// }
+
+// model Blocked {
+//   blocked_user1                   User @relation(fields: [blocked_userId1], references: [user_id])
+//   blocked_userId1                 Int
+//   blocked_user2                   User @relation(fields: [blocked_userId2], references: [user_id])
+//   blocked_userId2                 Int
+
+//   @@unique([blocked_userId1, blocked_userId2])
+// }
+
+// model IsMemberOf {
+//   isMemberOf_user                 User @relation(fields: [isMemberOf_userId], references: [user_id])
+//   isMemberOf_userId               Int
+//   isMemberOf_channel              Channel @relation(fields: [isMemberOf_channelId], references: [channel_id])
+//   isMemberOf_channelId            Int
+//   isMemberOf_status               StatusMemberChannel @default("INVITED")
+//   isMemberOf_dateJoined           DateTime @default(now())
+
+//   @@unique([isMemberOf_userId, isMemberOf_channelId])
+// }
+
+// model ChannelMessage {
+//   channelMessage_user             User @relation(fields: [channelMessage_userId], references: [user_id])
+//   channelMessage_userId           Int
+//   channelMessage_channel          Channel @relation(fields: [isMemberOf_channelId], references: [channel_id])
+//   channelMessage_channelId        Int
+//   channelMessage_date             DateTime @default(now())
+//   channelMessage_content          String
+
+//   @@unique([channelMessage_userId, channelMessage_channelId, channelMessage_date])
+// }
+
+// model Private_message {
+//   privateMessage_user1            User @relation(fields: [privateMessage_userId1], references: [user_id])
+//   privateMessage_userId1          Int
+//   privateMessage_user2            User @relation(fields: [privateMessage_userId2], references: [user_id])
+//   privateMessage_userId2          Int
+//   privateMessage_date             DateTime @default(now())
+//   privateMessage_content          String
+
+//   @@unique([privateMessage_userId1, privateMessage_userId2, DateTime])
+// }
+
+// model ArchivementDone {
+//   archivementDone_user            User @relation(fields: [archivementDone_userId], references: [user_id])
+//   archivementDone_userId          Int
+//   archivementDone_archivement     User @relation(fields: [archivementDone_userId], references: [user_id])
+//   archivementDone_archivementId   Int
+//   archivementDone_date            DateTime @default(now())
+
+//   @@unique([archivementDone_userId, archivementDone_archivementId])
+// }
