@@ -1,5 +1,7 @@
-import { Body, Controller, Post, Get, HttpCode, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Post, Get, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
+
 
 @Controller('auth')
 export class AuthController {
@@ -10,9 +12,11 @@ export class AuthController {
 	return ("Log in u stupid bastard (curl -X POST http://localhost:2000/auth/login -d '{\"username\": \"john\", \"password\": \"changeme\"}' -H \"Content-Type: application/json\")");
   }
 
+  @UseGuards(AuthGuard('local'))
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, string>) {
-    return this.authService.signIn(signInDto.email, signInDto.password);
+  async signIn(@Body() user: {email: string, password: string}): Promise<any> {
+	console.log("[auth controller login] Function called")
+    return this.authService.signIn(user.email);
   }
 }
