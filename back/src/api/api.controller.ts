@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, HttpCode, HttpStatus, Param} from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, HttpCode, HttpStatus, Param, UseGuards} from '@nestjs/common';
 import { User as UserModel } from '@prisma/client';
 import { UserService } from '../users/users.service';
 
@@ -161,6 +161,11 @@ export class ApiController {
 				data: {name: userdata.newpass}
 			})
 		}
+
+	@Get('logged')
+	async amIlogged(): Promise<any> {
+		return "yes !";
+	}
 	//Modify user
 	//Delete user
 
