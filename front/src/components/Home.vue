@@ -70,8 +70,8 @@ export default {
   name: 'HomePage',
   data() {
     return {
-      showLoginModal: false, // Initialisez la variable à false
-      showRegisterModal: false, // Initialisez la variable à false
+      showLoginModal: false,
+      showRegisterModal: false,
     };
   },
   methods: {
@@ -80,8 +80,8 @@ export default {
     },
     connectWith42() {
       // Redirigez l'utilisateur vers la page d'authentification de 42
-      const clientID = 'u-s4t2ud-953c08a4bf98abe8fd58ab07f5eeeaa867dbee781c748db3d0d45fd68e666727'; // Remplacez par votre client ID
-      const redirectURI = 'http://localhost:2002/'; // Remplacez par votre URL de redirection
+      const clientID = 'u-s4t2ud-953c08a4bf98abe8fd58ab07f5eeeaa867dbee781c748db3d0d45fd68e666727'; // client ID
+      const redirectURI = 'http://localhost:2002/'; // URL de redirection
       const responseType = 'code';
 
       const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
