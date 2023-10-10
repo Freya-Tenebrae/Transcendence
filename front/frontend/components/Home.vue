@@ -1,5 +1,4 @@
 <template>
-  <title>Cyberpong 2042</title>
   <div>
     <div class="header">
     <img src="../assets/icons/home.svg" alt="Home-Icon" class="icon-home" @click="redirectToHome" />
@@ -31,7 +30,7 @@
         </div>
         <div class="custom-modal-footer">
           <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
-          <button type="button" class="btn btn-primary" @click="connectWith42">Se connecter avec 42</button>
+          <img src="../assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
         </div>
       </div>
     </div>
@@ -44,7 +43,7 @@
           <span @click="showRegisterModal = false" class="custom-modal-close">&times;</span>
         </div>
         <div class="custom-modal-body">
-          <!-- Contenu du formulaire d'inscriptiom -->
+          <!-- Contenu du formulaire d'inscription -->
           <form>
             <div class="form-group">
               <label for="register-email">Adresse e-mail</label>
