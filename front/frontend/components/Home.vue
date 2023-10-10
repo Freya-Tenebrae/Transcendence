@@ -1,4 +1,5 @@
 <template>
+  <title>Cyberpong 2042</title>
   <div>
     <div class="header">
     <img src="../assets/icons/home.svg" alt="Home-Icon" class="icon-home" @click="redirectToHome" />
