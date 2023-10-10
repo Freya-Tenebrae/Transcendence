@@ -25,13 +25,13 @@ RUN npm i -g @nestjs/schematics
 RUN echo "Installing VueJS & NuxtJS"
 RUN npm install -g @vue/cli
 RUN npm install @nuxtjs/modules
-#installe tailwindcss pour le styling
-#RUN npm install --save-dev @nuxtjs/tailwindcss
 #test pour voir si on peut installer les modules directement
 
 RUN echo "The front has started"
 EXPOSE 3000
 WORKDIR /Transcendence/frontend
+RUN npm i axios
+#on déplacera cette ligne au dessus avec les autres composants à installer quand on aura tout hors de frontend
 #CMD ["sleep", "infinity"]
 CMD ["npm", "run", "dev"]
 #CMD ["sh", "start_front.sh"]
