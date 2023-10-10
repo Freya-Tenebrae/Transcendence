@@ -30,6 +30,7 @@
         </div>
         <div class="custom-modal-footer">
           <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
+          <button type="button" class="btn btn-primary" @click="connectWith42">Se connecter avec 42</button>
         </div>
       </div>
     </div>
@@ -64,6 +65,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'HomePage',
   data() {
@@ -75,6 +77,16 @@ export default {
   methods: {
     redirectToHome() {
       window.location.reload();
+    },
+    connectWith42() {
+      // Redirigez l'utilisateur vers la page d'authentification de 42
+      const clientID = 'u-s4t2ud-953c08a4bf98abe8fd58ab07f5eeeaa867dbee781c748db3d0d45fd68e666727'; // Remplacez par votre client ID
+      const redirectURI = 'http://localhost:2002/'; // Remplacez par votre URL de redirection
+      const responseType = 'code';
+
+      const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
+
+      window.location.href = authURL;
     },
   },
 };
