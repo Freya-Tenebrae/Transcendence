@@ -22,6 +22,8 @@ model User {
   // helo                       Int @default(0)
   // division                   Division @relation(fields: [user_divisionId], references: [division_id])
   // divisionId                 Int @default(0)
+  player1Matches              Game[] @relation("player1")
+  player2Matches              Game[] @relation("player2")
 }
 
 model Pass {
@@ -62,19 +64,21 @@ model Pass {
 //   pathImg             String
 // }
 
-// model Match {
-//   id                        Int @unique @id @default(autoincrement())
-//   user1                     User @relation(fields: [match_userId1], references: [user_id])
-//   userId1                   Int
-//   user2                     User @relation(fields: [match_userId2], references: [user_id])
-//   userId2                   Int
-//   // gameMap                   GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
-//   // gameMapId                 Int
-//   isRanked                  Boolean
-//   score                     Int @default(0)
-//   over                      Boolean @default(false)
-//   date                      DateTime @default(now())
-// }
+model Game {
+  id                        Int @unique @id @default(autoincrement())
+  user1                     User @relation(fields: [userId1], references: [id], name: "player1")
+  userId1                   Int
+  user2                     User @relation(fields: [userId2], references: [id], name: "player2")
+  userId2                   Int
+  // // gameMap                   GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
+  // // gameMapId                 Int
+  isRanked                  Boolean @default(false)
+  score                     Int @default(0)
+  isOver                      Boolean @default(false)
+  date                      DateTime @default(now())
+}
+
+// /!\ need to add a validation in js to prevent userId1 = userId2 ... can't do it in this file
 
 // // model GameMap {
 // //   id                      Int @unique @id @default(autoincrement())
@@ -92,33 +96,33 @@ model Pass {
 // }
 
 // model Friend {
-//   user1                    User @relation(fields: [friend_userId1], references: [user_id])
+//   user1                    User @relation(fields: [userId1], references: [id])
 //   userId1                  Int
-//   user2                    User @relation(fields: [friend_userId2], references: [user_id])
+//   user2                    User @relation(fields: [userId2], references: [id])
 //   userId2                  Int
 //   accepted                 Boolean @default(false)
 
-//   @@unique([friend_userId1, friend_userId2])
+//   @@unique([userId1, userId2])
 // }
 
 // model Blocked {
-//   user1                   User @relation(fields: [blocked_userId1], references: [user_id])
+//   user1                   User @relation(fields: [userId1], references: [id])
 //   userId1                 Int
-//   user2                   User @relation(fields: [blocked_userId2], references: [user_id])
+//   user2                   User @relation(fields: [userId2], references: [id])
 //   userId2                 Int
 
-//   @@unique([blocked_userId1, blocked_userId2])
+//   @@unique([userId1, userId2])
 // }
 
 // model IsMemberOf {
-//   user                 User @relation(fields: [isMemberOf_userId], references: [user_id])
+//   user                 User @relation(fields: [userId], references: [id])
 //   userId               Int
-//   channel              Channel @relation(fields: [isMemberOf_channelId], references: [channel_id])
+//   channel              Channel @relation(fields: [channelId], references: [id])
 //   channelId            Int
 //   status               String @default("INVITED")
 //   dateJoined           DateTime @default(now())
 
-//   @@unique([isMemberOf_userId, isMemberOf_channelId])
+//   @@unique([userId, channelId])
 // }
 
 //   // string acceptable for isMemberOf_status
@@ -130,33 +134,33 @@ model Pass {
 //   // "BAN"
 
 // model ChannelMessage {
-//   user             User @relation(fields: [channelMessage_userId], references: [user_id])
+//   user             User @relation(fields: [userId], references: [id])
 //   userId           Int
-//   channel          Channel @relation(fields: [isMemberOf_channelId], references: [channel_id])
+//   channel          Channel @relation(fields: [channelId], references: [id])
 //   channelId        Int
 //   date             DateTime @default(now())
 //   content          String
 
-//   @@unique([channelMessage_userId, channelMessage_channelId, channelMessage_date])
+//   @@unique([userId, channelId, date])
 // }
 
 // model Private_message {
-//   user1            User @relation(fields: [privateMessage_userId1], references: [user_id])
+//   user1            User @relation(fields: [userId1], references: [user_id])
 //   userId1          Int
-//   user2            User @relation(fields: [privateMessage_userId2], references: [user_id])
+//   user2            User @relation(fields: [userId2], references: [user_id])
 //   userId2          Int
 //   date             DateTime @default(now())
 //   content          String
 
-//   @@unique([privateMessage_userId1, privateMessage_userId2, DateTime])
+//   @@unique([userId1, userId2, date])
 // }
 
 // model ArchivementDone {
-//   user            User @relation(fields: [archivementDone_userId], references: [user_id])
+//   user            User @relation(fields: [userId], references: [user_id])
 //   userId          Int
-//   archivement     User @relation(fields: [archivementDone_userId], references: [user_id])
+//   archivement     User @relation(fields: [userId], references: [user_id])
 //   archivementId   Int
 //   date            DateTime @default(now())
 
-//   @@unique([archivementDone_userId, archivementDone_archivementId])
+//   @@unique([userId, archivementId])
 // }
