@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { ApiModule } from './api/api.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { GameModule } from './game/game.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, ConfigModule.forRoot({ignoreEnvFile: true,}), ApiModule, PrismaModule],
+  imports: [AuthModule, UsersModule, ConfigModule.forRoot({ignoreEnvFile: true,}), ApiModule, PrismaModule, GameModule],
   controllers: [AppController],
   providers: [AppService],
 })
