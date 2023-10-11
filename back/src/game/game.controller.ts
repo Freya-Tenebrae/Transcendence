@@ -8,6 +8,7 @@ import { get } from 'http';
 export class GameController {
   constructor(private gameService: GameService) {}
 
+  // do not use this
   @Post()
   async createWithCreateGameDto(@Body() createGameDto: CreateGameDto) {
     this.gameService.create(createGameDto);
