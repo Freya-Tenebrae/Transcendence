@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			y: canvas.height/2 - PLAYER_HEIGHT/2
 		),
 		ball: (
-			x: canvas.width /2
-			y: canvas.height/2
+			x: canvas.width /2,
+			y: canvas.height/2,
 			r: 5
 		)
 	)
