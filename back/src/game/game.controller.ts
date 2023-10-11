@@ -1,25 +1,39 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body } from '@nestjs/common';
+import { CreateGameDto } from './dto';
+import { GameService } from './game.service';
+import { Game } from './interface/game.interface';
 
 @Controller('game')
 export class GameController {
-  // constructor(private GameService: GameService) {}
+  constructor(private gameService: GameService) {}
 
-  // @Get
-  // getGames()
-  // {
-  //   return [];
+  @Post()
+  async create(@Body() createGameDto: CreateGameDto) {
+    this.gameService.create(createGameDto);
+  }
+
+  @Get()
+  async findAll(): Promise<Game[]> {
+    return this.gameService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<Game | undefined> {
+    return this.gameService.findById(id);
+  }
+
+  // @Put(':id')
+  // async update(@Param('id') id: number, @Body() updateGameDto: UpdateGameDto) {
+  //   return `This action updates a #${id} game`;
   // }
 
-  // @get(':id')
-  // getGame(@Param('id') id: int)
-  // {
-  //   return {};
-  // }
-
-  // @Post
-  // createGames()
-  // {
-
-  // }
-
+  @Delete(':id')
+  async remove(@Param('id') id: number): Promise<string> {
+    if (this.gameService.findById(id)) {
+      this.gameService.remove(id);
+      return `Game with ID #${id} has been deleted.`;
+    } else {
+      throw new Error(`Game with ID #${id} not found.`);
+    }
+  }
 }

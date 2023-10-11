@@ -70,11 +70,12 @@ model Game {
   userId1                   Int
   user2                     User @relation(fields: [userId2], references: [id], name: "player2")
   userId2                   Int
-  // // gameMap                   GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
-  // // gameMapId                 Int
+  // // gameMap             GameMap @relation(fields: [match_gameMapId], references: [gameMap_id])
+  // // gameMapId           Int
   isRanked                  Boolean @default(false)
-  score                     Int @default(0)
-  isOver                      Boolean @default(false)
+  scoreUser1                Int @default(0)
+  scoreUser2                Int @default(0)
+  isOver                    Boolean @default(false)
   date                      DateTime @default(now())
 }
 
