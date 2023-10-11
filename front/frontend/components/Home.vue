@@ -5,6 +5,7 @@
     <div class="icon-container">
       <img src="../assets/icons/login.svg" alt="Login-Icon" class="icon-login" @click="showLoginModal = true" />
       <img src="../assets/icons/lock.svg" alt="Register-Icon" class="icon-register" @click="showRegisterModal = true" />
+      <img v-if="isConnected42" src="../assets/icons/gear.svg" alt="Settings-Icon" class="icon-settings"/>
     </div>
   </div>
     
@@ -72,6 +73,7 @@ export default {
     return {
       showLoginModal: false,
       showRegisterModal: false,
+      isConnected42: false,
     };
   },
   methods: {
@@ -87,6 +89,10 @@ export default {
       const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
 
       window.location.href = authURL;
+      isConnected= false;
+      if (isConnected) {
+        this.isConnected42 = true;
+      }
     },
   },
 };
@@ -94,7 +100,7 @@ export default {
 
 <style>
 /*Styles pour les boutons */
-.icon-home, .icon-login,.icon-register {
+.icon-home, .icon-login,.icon-register, .icon-settings {
   width: 24px;
   height: 24px;
 }
