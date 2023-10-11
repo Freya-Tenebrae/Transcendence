@@ -56,9 +56,22 @@ document.addEventListener('DOMContentLoaded', function () {
 			x: canvas.width /2,
 			y: canvas.height/2,
 			r: 5
+			speed: {
+				x: 2,
+				y: 2
+			}
 		)
 	)
 	draw();
+	play();
 });
+
+function play() {
+	game.ball.x += game.ball.speed.x;
+	game.ball.y += game.ball.speed.y;
+	draw();
+
+	requestAnimationFrame(play);
+}
 
 </script>
