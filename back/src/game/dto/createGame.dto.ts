@@ -4,10 +4,12 @@ export class CreateGameDto {
   userId2: number;
   isRanked: boolean;
   isOver: boolean;
-  scorePlayer1: number;
-  scorePlayer2: number;
-  date: string;
+  scoreUser1: number;
+  scoreUser2: number;
+  date: Date;
   // BELOW NOT IN THE DB
+  started: boolean;
+  timeRemaining: number;
   player1_posY: number; // vertical position beetween -1 (down the game area) and 1 (top the game area)
   player2_posY: number; // same but for player 2
   ball_posY: number; // Same as player but for the ball position

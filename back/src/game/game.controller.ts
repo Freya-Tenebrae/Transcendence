@@ -1,20 +1,34 @@
-import { Controller, Get, Post, Put, Delete, Body } from '@nestjs/common';
-import { CreateGameDto } from './dto';
+import {  Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { CreateGameDto } from './dto/createGame.dto';
 import { GameService } from './game.service';
-import { Game } from './interface/game.interface';
+import { Game } from './interfaces/game.interface';
+import { get } from 'http';
 
 @Controller('game')
 export class GameController {
   constructor(private gameService: GameService) {}
 
   @Post()
-  async create(@Body() createGameDto: CreateGameDto) {
+  async createWithCreateGameDto(@Body() createGameDto: CreateGameDto) {
     this.gameService.create(createGameDto);
   }
 
+  @Post(':userId1/:userId2/:isRanked')
+  async create(@Param('userId1') userId1: number,
+                @Param('userId2') userId2: number,
+                @Param('isRanked') isRanked: boolean) {
+    this.gameService.createNewGame(userId1, userId2, isRanked);
+  }
+
+  // should not use this
   @Get()
   async findAll(): Promise<Game[]> {
     return this.gameService.findAll();
+  }
+
+  @Get(':userId')
+  async findAlForOneUser(@Param('userId') userId: number): Promise<Game[]> {
+    return this.gameService.findAllForOneUser(userId);
   }
 
   @Get(':id')
@@ -22,11 +36,18 @@ export class GameController {
     return this.gameService.findById(id);
   }
 
-  // @Put(':id')
-  // async update(@Param('id') id: number, @Body() updateGameDto: UpdateGameDto) {
-  //   return `This action updates a #${id} game`;
-  // }
+  @Put(':id/:userId/:playerPosY')
+  async update(@Param('id') id: number, 
+                @Param('userId') userId: number, 
+                @Param('playerPosY') playerPosY: number) {
+    if (this.gameService.findById(id)) {
+      this.gameService.runningGame(id, userId, playerPosY);
+    } else {
+      throw new Error(`Game with ID #${id} not found.`);
+    }
+  }
 
+  // be carefull about this function
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<string> {
     if (this.gameService.findById(id)) {
