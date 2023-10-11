@@ -30,7 +30,7 @@
         </div>
         <div class="custom-modal-footer">
           <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
-          <img src="../assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
+          <button type="button" class="btn btn-primary" @click="connectWith42">42</button>
         </div>
       </div>
     </div>
@@ -181,5 +181,11 @@ export default {
 .icon-container {
   display: flex;
   align-items: center; /* Aligner verticalement au centre */
+}
+.icon-container:hover {
+  cursor: pointer; /* Curseur de la main au survol */
+}
+.icon-home:hover {
+  cursor: pointer; /* Curseur de la main au survol */
 }
 </style>
