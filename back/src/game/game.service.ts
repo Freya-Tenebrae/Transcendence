@@ -52,7 +52,7 @@ export class GameService {
     this.game.push(newGame);
   }
 
-  runningGame(id: number, userId: number, playerPosY: number) {
+  async runningGame(id: number, userId: number, playerPosY: number) {
     const gameToUpdate = this.game.find((game) => game.id === id);
     if (gameToUpdate && !gameToUpdate.isOver)
     {
@@ -102,7 +102,7 @@ export class GameService {
           gameToUpdate.timeRemaining = 0;
           gameToUpdate.isOver = true;
           // update ddb values
-          const gameToUpdatePrisma = this.prisma.game.update({
+          const gameToUpdatePrisma = await this.prisma.game.update({
             where: { id: gameToUpdate.id },
             data: {
               isOver: gameToUpdate.isOver,
@@ -120,9 +120,9 @@ export class GameService {
     return this.game;
   }
 
-  findAllForOneUser(userId: number): Game[] {
-    const gamePrismaWhereUser1 = this.prisma.game.findMany({where: { userId1: userId },});
-    const gamePrismaWhereUser2 = this.prisma.game.findMany({where: { userId2: userId },});
+  async findAllForOneUser(userId: number): Promise<Game[]> {
+    const gamePrismaWhereUser1 = await this.prisma.game.findMany({where: { userId1: userId },});
+    const gamePrismaWhereUser2 = await this.prisma.game.findMany({where: { userId2: userId },});
     const gamePlayer = this.game.filter((game) => game.userId1 === userId || game.userId2 === userId)
 
     gamePrismaWhereUser1.forEach((gamePrisma) => {
@@ -184,12 +184,12 @@ export class GameService {
     return this.game.filter((game) => game.userId1 === userId || game.userId2 === userId);
   }
 
-  findById(id: number): Game | undefined {
+  async findById(id: number): Promise<Game | undefined> {
     if (this.game.find((game) => game.id === id))
       return this.game.find((game) => game.id === id);
     else
     {
-      const gamePrisma = this.prisma.game.findUnique({where: { id: id },});
+      const gamePrisma = await this.prisma.game.findUnique({where: { id: id },});
 
       const olderGame: Game = {
         id: gamePrisma.id,
@@ -211,7 +211,7 @@ export class GameService {
       }
       this.game.push(olderGame);
 
-      return gamePrisma;
+      return olderGame;
     }
   }
 
