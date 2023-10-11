@@ -5,6 +5,7 @@
     <div class="icon-container">
       <img src="../assets/icons/login.svg" alt="Login-Icon" class="icon-login" @click="showLoginModal = true" />
       <img src="../assets/icons/lock.svg" alt="Register-Icon" class="icon-register" @click="showRegisterModal = true" />
+      <img v-if="isConnected42" src="../assets/icons/gear.svg" alt="Settings-Icon" class="icon-settings"/>
     </div>
   </div>
     
@@ -30,7 +31,7 @@
         </div>
         <div class="custom-modal-footer">
           <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
-          <button type="button" class="btn btn-primary" @click="connectWith42">Se connecter avec 42</button>
+          <button type="button" class="btn btn-primary" @click="connectWith42">42</button>
         </div>
       </div>
     </div>
@@ -43,7 +44,7 @@
           <span @click="showRegisterModal = false" class="custom-modal-close">&times;</span>
         </div>
         <div class="custom-modal-body">
-          <!-- Contenu du formulaire d'inscriptiom -->
+          <!-- Contenu du formulaire d'inscription -->
           <form>
             <div class="form-group">
               <label for="register-email">Adresse e-mail</label>
@@ -65,13 +66,14 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../node_modules/axios';
 export default {
   name: 'HomePage',
   data() {
     return {
       showLoginModal: false,
       showRegisterModal: false,
+      isConnected42: false,
     };
   },
   methods: {
@@ -87,6 +89,10 @@ export default {
       const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
 
       window.location.href = authURL;
+      isConnected= false;
+      if (isConnected) {
+        this.isConnected42 = true;
+      }
     },
   },
 };
@@ -94,7 +100,7 @@ export default {
 
 <style>
 /*Styles pour les boutons */
-.icon-home, .icon-login,.icon-register {
+.icon-home, .icon-login,.icon-register, .icon-settings {
   width: 24px;
   height: 24px;
 }
@@ -181,5 +187,11 @@ export default {
 .icon-container {
   display: flex;
   align-items: center; /* Aligner verticalement au centre */
+}
+.icon-container:hover {
+  cursor: pointer; /* Curseur de la main au survol */
+}
+.icon-home:hover {
+  cursor: pointer; /* Curseur de la main au survol */
 }
 </style>
