@@ -5,7 +5,6 @@
     <div class="icon-container">
       <img src="../assets/icons/login.svg" alt="Login-Icon" class="icon-login" @click="showLoginModal = true" />
       <img src="../assets/icons/lock.svg" alt="Register-Icon" class="icon-register" @click="showRegisterModal = true" />
-      <img v-if="isConnected42" src="../assets/icons/gear.svg" alt="Settings-Icon" class="icon-settings"/>
     </div>
   </div>
     
@@ -31,7 +30,7 @@
         </div>
         <div class="custom-modal-footer">
           <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
-          <button type="button" class="btn btn-primary" @click="connectWith42">42</button>
+          <img src="../assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
         </div>
       </div>
     </div>
@@ -62,6 +61,7 @@
       </div>
     </div>
   </div>
+  <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
 
@@ -73,8 +73,10 @@ export default {
     return {
       showLoginModal: false,
       showRegisterModal: false,
-      isConnected42: false,
     };
+  },
+  mounted() {
+    this.draw();
   },
   methods: {
     redirectToHome() {
@@ -89,10 +91,39 @@ export default {
       const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
 
       window.location.href = authURL;
-      isConnected= false;
-      if (isConnected) {
-        this.isConnected42 = true;
-      }
+    },
+    draw(){
+      // var game;
+      var context = canvas.getContext('2d');
+      // var anim;
+
+      // const PLAYER_HEIGHT = 100;
+      // const PLAYER_WIDTH = 5;
+      // const MAX_SPEED = 12;
+
+      // Draw field
+      context.fillStyle = 'purple';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      // Draw middle line
+    context.strokeStyle = 'white';
+    context.beginPath();
+    context.moveTo(canvas.width / 2, 0);
+    context.lineTo(canvas.width / 2, canvas.height);
+    context.stroke();
+
+    // // // Draw players
+    context.fillStyle = 'blue';
+    context.fillRect(0, 0, 5, 100);
+    
+    context.fillStyle = 'red';
+    context.fillRect(canvas.width - 5, 0, 5, 100);
+    // // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+
+    // // Draw ball
+    // context.beginPath();
+    // context.fillStyle = 'white';
+    // context.arc(canvas.width /2, canvas.height / 2, 10, 0, Math.PI * 2, false);
+    // context.fill();
     },
   },
 };
@@ -100,7 +131,7 @@ export default {
 
 <style>
 /*Styles pour les boutons */
-.icon-home, .icon-login,.icon-register, .icon-settings {
+.icon-home, .icon-login,.icon-register {
   width: 24px;
   height: 24px;
 }
@@ -188,10 +219,12 @@ export default {
   display: flex;
   align-items: center; /* Aligner verticalement au centre */
 }
-.icon-container:hover {
-  cursor: pointer; /* Curseur de la main au survol */
-}
-.icon-home:hover {
-  cursor: pointer; /* Curseur de la main au survol */
+.game-zone {
+  margin-bottom: 10px;
+  margin-left: 20%;
+  margin-right: 20%;
+  width:60%;
+  height:60%;
+  
 }
 </style>
