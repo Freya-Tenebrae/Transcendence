@@ -1,9 +1,18 @@
 <template>
-	<main>
+	<main role="game">
 		<div>
 			<h1>Game zone</h1>
-			<canvas id="canvas" width="800" height="600"></canvas>
+			<p>Player 1 : <em id= "player1-score">0</em> - Player 2 : <em id="player2-score">0</em>
+			</p>
+			<!-- temporary : start and stop the game -->
+			<li>
+				<button id="start-game">Start game</button>
+			</li>
+			<li>
+				<button id="stop-game">Stop game</button>
+			</li>
 		</div>
+		<canvas id="canvas" width="800" height="600"></canvas>
 	</main>
 </template>
 
@@ -110,8 +119,9 @@ function collide(player) {
 		game.ball.speed.x = 2;
 	}
 	else {
-		// Increase ball's x speed & change its direction
+		// Increase ball's speed & change its direction
 		game.ball.speed.x *= -1.2;
+		changeDirection(player.y);
 	}
 }
 
@@ -128,4 +138,13 @@ function ballMove() {
 	game.ball.x += game.ball.speed.x;
 	game.ball.y += game.ball.speed.y;
 }
+
+// ball trajectory changer
+function changeDirection(playerPosition) {
+	var impact = game.ball.y - playerPosition - PLAYER_HEIGHT / 2;
+	var ratio = 100 / (PLAYER_HEIGHT / 2);
+	//"randomizer" to get a value betwwen 0 and 10 for the y speed of the ball, 0 if it hits the center of the player, 10 if it hits the borders
+	game.ball.speed.y = Math.round(impact * ratio / 10);
+}
+
 </script>
