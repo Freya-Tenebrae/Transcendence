@@ -51,11 +51,12 @@ export class GameController {
   // be carefull about this function
   @Delete(':id')
   async remove(@Param('id') id: number): Promise<string> {
-    if (this.gameService.findById(id)) {
+    let game = await this.gameService.findById(id);
+    if (game && !game.isOver) {
       this.gameService.remove(id);
       return `Game with ID #${id} has been deleted.`;
     } else {
-      throw new Error(`Game with ID #${id} not found.`);
+      throw new Error(`Game with ID #${id} not found or not over.`);
     }
   }
 }

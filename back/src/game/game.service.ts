@@ -59,8 +59,7 @@ export class GameService {
       const now = new Date()
       const elapsedMs = now.getTime() - gameToUpdate.date.getTime();
       gameToUpdate.timeRemaining = gameToUpdate.timeRemaining - elapsedMs / 1000;
-      if (!gameToUpdate.started)
-      {
+      if (!gameToUpdate.started) {
         if (gameToUpdate.timeRemaining <= 120)
           gameToUpdate.started = true;
       } else {
@@ -71,34 +70,49 @@ export class GameService {
           gameToUpdate.player2_posY = playerPosY;
         
         // update position of ball
+        // Y
+        gameToUpdate.ball_posY = gameToUpdate.ball_posY + gameToUpdate.ball_directionY * elapsedMs / 1000;
+        if (gameToUpdate.ball_posY > 1) {
+          gameToUpdate.ball_posY = 1 - (gameToUpdate.ball_posY - 1);
+          gameToUpdate.ball_directionY *= -1;
+        } else if (gameToUpdate.ball_posY < -1) {
+          gameToUpdate.ball_posY = -1 - (gameToUpdate.ball_posY + 1);
+          gameToUpdate.ball_directionY *= -1;
+        }
         // X (and manage points)
         gameToUpdate.ball_posX = gameToUpdate.ball_posX + gameToUpdate.ball_directionX * elapsedMs / 1000;
-        if (gameToUpdate.ball_posX >= 1 || gameToUpdate.ball_posX <= -1)
-        {
-          if (gameToUpdate.ball_posX >= 1)
-          {
-            gameToUpdate.scoreUser1 = gameToUpdate.scoreUser1 + 1;
-            gameToUpdate.ball_directionX = -1;
+        if (gameToUpdate.ball_posX >= 1 || gameToUpdate.ball_posX <= -1) {
+          gameToUpdate.ball_directionX *= -1;
+          if (gameToUpdate.ball_posX >= 1) {
+            if (gameToUpdate.player2_posY + 0.1 <= gameToUpdate.ball_posY ||
+                gameToUpdate.player2_posY - 0.1 >= gameToUpdate.ball_posY) {
+              gameToUpdate.ball_posX = 1 - (gameToUpdate.ball_posX - 1);
+              // manage y direction and x direction (to keep the same speeed of ball)
+              // the farther the ball is from the center of the player (only on Y)
+              // the wyder is the angle of Y (maximum 60°)
+              // management on gameToUpdate.ball_directionX *= -1; need to be changed with this
+            } else {
+              gameToUpdate.scoreUser1 += 1;
+              gameToUpdate.ball_posX = 0;
+              gameToUpdate.ball_posY = 0;
+            }
           }
           else
           {
-            gameToUpdate.scoreUser2 = gameToUpdate.scoreUser2 + 1;
-            gameToUpdate.ball_directionX = +1;
+            if (gameToUpdate.player1_posY + 0.1 <= gameToUpdate.ball_posY ||
+                gameToUpdate.player1_posY - 0.1 >= gameToUpdate.ball_posY) {
+              gameToUpdate.ball_posX = -1 - (gameToUpdate.ball_posX + 1);
+              // same as last comment when ball_posX >= 1
+            } else {
+              gameToUpdate.scoreUser2 += 1;
+              gameToUpdate.ball_posX = 0;
+              gameToUpdate.ball_posY = 0;
+            }
           }
-          gameToUpdate.ball_posY = 0;
-          gameToUpdate.ball_posY = 0;
         }
   
-        // Y
-        gameToUpdate.ball_posY = gameToUpdate.ball_posY + gameToUpdate.ball_directionY * elapsedMs / 1000;
-        if (gameToUpdate.ball_posY > 1)
-          gameToUpdate.ball_directionY = 1 - (gameToUpdate.ball_posY - 1);
-        else if (gameToUpdate.ball_posY < -1)
-          gameToUpdate.ball_directionY = -1 - (gameToUpdate.ball_posY + 1);
-  
         // update time remaining
-        if (gameToUpdate.timeRemaining <= 0)
-        {
+        if (gameToUpdate.timeRemaining <= 0) {
           gameToUpdate.timeRemaining = 0;
           gameToUpdate.isOver = true;
           // update ddb values
