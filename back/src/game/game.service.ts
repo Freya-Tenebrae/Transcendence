@@ -46,8 +46,8 @@ export class GameService {
       player2_posY: 0,
       ball_posY: 0,
       ball_posX: 0,
-      ball_directionY: 0,
-      ball_directionX: directionX,
+      ball_directionY: 0.5,
+      ball_directionX: directionX * 0.5,
     }
     this.game.push(newGame);
   }
