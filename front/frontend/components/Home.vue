@@ -94,8 +94,19 @@ export default {
       window.location.href = authURL;
     },
     draw(){
+      // Get the DPR and size of the canvas
+      const dpr = window.devicePixelRatio;
+      const rect = canvas.getBoundingClientRect();
+
+      // Set the "actual" size of the canvas
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
       var game;
       var context = canvas.getContext('2d');
+      // Scale the context to ensure correct drawing operations
+      context.scale(dpr, dpr);
+
       // var anim;
 
       // (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
@@ -130,10 +141,14 @@ export default {
 
       // Draw ball
       context.beginPath();
-      context.fillStyle = 'white';
+      context.fillStyle = 'yellow';
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
+    score(game){
+      var scoreP1 = game.player1.score;
+      var scoreP2 = game.player2.score;
+    }
   },
 };
 </script>
