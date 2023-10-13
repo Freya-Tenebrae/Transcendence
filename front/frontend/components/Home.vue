@@ -65,6 +65,7 @@
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
   <h1 class="page-header"> GAME ZONE </h1>
   <p class="page-header"> Player 1 > 0 | 0 &lt Player 2</p>
+  <canvas id="player_score_zone" width="640" height="120"></canvas>
   <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
@@ -80,7 +81,19 @@ export default {
     };
   },
   mounted() {
-    this.draw();
+    var game = {
+        player: {
+          y: 0,
+          score: 0
+        },
+        computer: {
+          y: 0,
+          score: 0
+        }
+      };
+    
+    //this.score(game);
+    this.draw(game);
   },
   methods: {
     redirectToHome() {
@@ -96,7 +109,7 @@ export default {
 
       window.location.href = authURL;
     },
-    draw(){
+    draw(game){
       // Get the DPR and size of the canvas
       const dpr = window.devicePixelRatio;
       const rect = canvas.getBoundingClientRect();
@@ -118,17 +131,6 @@ export default {
       const MAX_SPEED = 12;
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
-
-      var game = {
-        player: {
-          y: 0,
-          score: 0
-        },
-        computer: {
-          y: 0,
-          score: 0
-        }
-      };
 
       // Draw field
       context.fillStyle = 'purple';
@@ -259,6 +261,14 @@ export default {
 .icon-container {
   display: flex;
   align-items: center; /* Aligner verticalement au centre */
+}
+
+.player_score_zone {
+  margin-bottom: 10px;
+  margin-left: 20%;
+  margin-right: 20%;
+  width: 10%;
+  height: 10%;
 }
 
 .game-zone {
