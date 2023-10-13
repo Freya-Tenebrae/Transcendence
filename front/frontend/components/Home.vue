@@ -98,6 +98,15 @@ export default {
           y: 0,
           score: 0
         }
+        ball:{
+          x = 0,
+          y = 0,
+          r: 5,
+          speed: {
+            x = 1.2,  //provisoire
+            y = 1.2 //provisoire
+          }
+        }
       };
     
     //this.score(game);
@@ -173,6 +182,13 @@ export default {
       context.fillStyle = "#0095DD";
       context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
       context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
+    },
+    playerMove(event, game) {
+      // get the mouse location in the canvas
+      var canvasLocation = canvas.getBoundingClientRect();
+      var mouseLocation = event.clientY - canvasLocation.y;
+      
+      game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
     }
   },
 };
