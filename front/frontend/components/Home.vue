@@ -62,6 +62,8 @@
       </div>
     </div>
   </div>
+  <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
+  <h1 class="page-header"> GAME ZONE </h1>
   <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
@@ -145,9 +147,9 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
-    score(game){
-      var scoreP1 = game.player1.score;
-      var scoreP2 = game.player2.score;
+    score(scoreP1, scoreP2){
+      scoreP1 = 0;
+      scoreP2 = 0;
     }
   },
 };
@@ -243,6 +245,7 @@ export default {
   display: flex;
   align-items: center; /* Aligner verticalement au centre */
 }
+
 .game-zone {
   margin-bottom: 10px;
   margin-left: 20%;
@@ -251,4 +254,9 @@ export default {
   height:60%;
   
 }
+
+.page-header {
+  text-align: center;
+}
+
 </style>
