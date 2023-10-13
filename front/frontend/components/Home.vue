@@ -97,8 +97,8 @@ export default {
       var context = canvas.getContext('2d');
       // var anim;
 
-    // (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
-    // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
+      // (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
+      // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
       const PLAYER_HEIGHT = 100;
       const PLAYER_WIDTH = 5;
       const MAX_SPEED = 12;
@@ -107,25 +107,26 @@ export default {
       context.fillStyle = 'purple';
       context.fillRect(0, 0, canvas.width, canvas.height);
       // Draw middle line
-    context.strokeStyle = 'white';
-    context.beginPath();
-    context.moveTo(canvas.width / 2, 0);
-    context.lineTo(canvas.width / 2, canvas.height);
-    context.stroke();
+      context.strokeStyle = 'white';
+      context.beginPath();
+      context.moveTo(canvas.width / 2, 0);
+      context.lineTo(canvas.width / 2, canvas.height);
+      context.stroke();
+      context.save(); // save the line and canvas position
 
-    // Draw players
-    context.fillStyle = 'blue';
-    context.fillRect(0, 0, 5, 100);
-    
-    context.fillStyle = 'red';
-    context.fillRect(canvas.width - 5, 0, 5, 100);
-    // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
-
-    // Draw ball
-    context.beginPath();
-    context.fillStyle = 'white';
-    context.arc(canvas.width /2, canvas.height / 2, 5, 0, Math.PI * 2, false);
-    context.fill();
+      // Draw players
+      context.fillStyle = 'blue';
+      context.fillRect(0, 0, 5, 100);
+      
+      context.fillStyle = 'red';
+      context.fillRect(canvas.width - 5, 0, 5, 100);
+      // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+      
+      // Draw ball
+      context.beginPath();
+      context.fillStyle = 'white';
+      context.arc(canvas.width /2, canvas.height / 2, 5, 0, Math.PI * 2, false);
+      context.fill();
     },
   },
 };
