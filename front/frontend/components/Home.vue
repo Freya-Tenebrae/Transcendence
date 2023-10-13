@@ -105,7 +105,6 @@ export default {
       canvas.width = rect.width * dpr;
       canvas.height = rect.height * dpr;
 
-      var game;
       var context = canvas.getContext('2d');
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
@@ -119,6 +118,17 @@ export default {
       const MAX_SPEED = 12;
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
+
+      var game = {
+        player: {
+          y: 0,
+          score: 0
+        },
+        computer: {
+          y: 0,
+          score: 0
+        }
+      };
 
       // Draw field
       context.fillStyle = 'purple';
@@ -140,7 +150,6 @@ export default {
       context.fillStyle = 'red';
       context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, -PLAYER_HEIGHT/2);
       context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, PLAYER_HEIGHT/2);
-      // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
       // Draw ball
       context.beginPath();
