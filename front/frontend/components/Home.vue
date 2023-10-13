@@ -111,20 +111,20 @@ export default {
       // Draw middle line
       context.strokeStyle = 'white';
       context.beginPath();
-      context.moveTo(canvas.width / 2, 0);
-      context.lineTo(canvas.width / 2, canvas.height);
+      context.moveTo(FIELD_WIDTH_LEN, 0);
+      context.lineTo(FIELD_WIDTH_LEN, canvas.height);
       context.stroke();
       context.save(); // save the line and canvas position
       context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
 
       // Draw players
       context.fillStyle = 'blue';
-      context.fillRect(-canvas.width / 2, 0, 5, -50);
-      context.fillRect(-canvas.width / 2, 0, 5, 50);
+      context.fillRect(-FIELD_WIDTH_LEN, 0, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
+      context.fillRect(-FIELD_WIDTH_LEN, 0, PLAYER_WIDTH, PLAYER_HEIGHT/2);
 
       context.fillStyle = 'red';
-      context.fillRect(canvas.width / 2, 0, -5, -50);
-      context.fillRect(canvas.width / 2, 0, -5, 50);
+      context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, -PLAYER_HEIGHT/2);
+      context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, PLAYER_HEIGHT/2);
       // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
       // Draw ball
