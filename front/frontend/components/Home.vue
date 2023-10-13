@@ -109,7 +109,7 @@ export default {
 
       // var anim;
 
-      // (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
+      // N.B: (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
       // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
       const PLAYER_HEIGHT = 100;
       const PLAYER_WIDTH = 5;
