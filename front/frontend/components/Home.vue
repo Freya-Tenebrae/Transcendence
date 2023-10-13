@@ -157,9 +157,14 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
-    score(game){
+    score(game){  // temporaire : il faut le mettre dans draw surement
       scoreP1 = game.player.score;
       scoreP2 = game.computer.score;
+      
+      context.font = "16px Arial";
+      context.fillStyle = "#0095DD";
+      context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
+      context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
     }
   },
 };
