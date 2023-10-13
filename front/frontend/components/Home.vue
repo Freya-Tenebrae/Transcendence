@@ -144,12 +144,12 @@ export default {
 
       // Draw players
       context.fillStyle = 'blue';
-      context.fillRect(-FIELD_WIDTH_LEN, 0, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
-      context.fillRect(-FIELD_WIDTH_LEN, 0, PLAYER_WIDTH, PLAYER_HEIGHT/2);
+      context.fillRect(-FIELD_WIDTH_LEN, game.player.y, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
+      context.fillRect(-FIELD_WIDTH_LEN, game.player.y, PLAYER_WIDTH, PLAYER_HEIGHT/2);
 
       context.fillStyle = 'red';
-      context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, -PLAYER_HEIGHT/2);
-      context.fillRect(FIELD_WIDTH_LEN, 0, -PLAYER_WIDTH, PLAYER_HEIGHT/2);
+      context.fillRect(FIELD_WIDTH_LEN, game.computer.y, -PLAYER_WIDTH, -PLAYER_HEIGHT/2);
+      context.fillRect(FIELD_WIDTH_LEN, game.computer.y, -PLAYER_WIDTH, PLAYER_HEIGHT/2);
 
       // Draw ball
       context.beginPath();
