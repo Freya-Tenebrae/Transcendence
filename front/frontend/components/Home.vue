@@ -157,9 +157,9 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
-    score(scoreP1, scoreP2){
-      scoreP1 = 0;
-      scoreP2 = 0;
+    score(game){
+      scoreP1 = game.player.score;
+      scoreP2 = game.computer.score;
     }
   },
 };
