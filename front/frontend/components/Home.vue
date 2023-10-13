@@ -64,6 +64,7 @@
   </div>
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
   <h1 class="page-header"> GAME ZONE </h1>
+  <p class="page-header"> Player 1 > 0 | 0 &lt Player 2</p>
   <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
