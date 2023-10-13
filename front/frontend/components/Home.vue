@@ -102,6 +102,8 @@ export default {
       const PLAYER_HEIGHT = 100;
       const PLAYER_WIDTH = 5;
       const MAX_SPEED = 12;
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
+      const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
       // Draw field
       context.fillStyle = 'purple';
