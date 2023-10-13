@@ -97,14 +97,14 @@ export default {
         computer: {
           y: 0,
           score: 0
-        }
+        },
         ball:{
-          x = 0,
-          y = 0,
+          x: 0,
+          y: 0,
           r: 5,
           speed: {
-            x = 1.2,  //provisoire
-            y = 1.2 //provisoire
+            x: 1.2,  //provisoire
+            y: 1.2 //provisoire
           }
         }
       };
