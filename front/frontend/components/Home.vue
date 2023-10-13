@@ -120,6 +120,8 @@ export default {
     // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
     // Draw ball
+    // (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
+    // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
     context.beginPath();
     context.fillStyle = 'white';
     context.arc(canvas.width /2, canvas.height / 2, 5, 0, Math.PI * 2, false);
