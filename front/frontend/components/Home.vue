@@ -117,10 +117,12 @@ export default {
 
       // Draw players
       context.fillStyle = 'blue';
-      context.fillRect(-canvas.width / 2, 0, 5, 100);
+      context.fillRect(-canvas.width / 2, 0, 5, -50);
+      context.fillRect(-canvas.width / 2, 0, 5, 50);
 
       context.fillStyle = 'red';
-      context.fillRect(canvas.width / 2, 0, -5, 100);
+      context.fillRect(canvas.width / 2, 0, -5, -50);
+      context.fillRect(canvas.width / 2, 0, -5, 50);
       // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
       // Draw ball
