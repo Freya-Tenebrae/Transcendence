@@ -65,7 +65,7 @@
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
   <h1 class="page-header"> GAME ZONE </h1>
   <p class="page-header"> Player 1 > 0 | 0 &lt Player 2</p>
-  <canvas id="player_score_zone" width="640" height="120"></canvas>
+  <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
   <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
@@ -81,6 +81,14 @@ export default {
     };
   },
   mounted() {
+    // Get the DPR and size of the canvas
+    const dpr = window.devicePixelRatio;
+    const rect = canvas.getBoundingClientRect();
+
+    // Set the "actual" size of the canvas
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+
     var game = {
         player: {
           y: 0,
@@ -110,14 +118,7 @@ export default {
       window.location.href = authURL;
     },
     draw(game){
-      // Get the DPR and size of the canvas
       const dpr = window.devicePixelRatio;
-      const rect = canvas.getBoundingClientRect();
-
-      // Set the "actual" size of the canvas
-      canvas.width = rect.width * dpr;
-      canvas.height = rect.height * dpr;
-
       var context = canvas.getContext('2d');
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
@@ -160,6 +161,11 @@ export default {
       context.fill();
     },
     score(game){  // temporaire : il faut le mettre dans draw surement
+      const dpr = window.devicePixelRatio;
+      var context = score-zone.getContext('2d');
+      // Scale the context to ensure correct drawing operations
+      context.scale(dpr, dpr);
+
       scoreP1 = game.player.score;
       scoreP2 = game.computer.score;
       
