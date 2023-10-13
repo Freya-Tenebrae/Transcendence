@@ -93,13 +93,13 @@ export default {
       window.location.href = authURL;
     },
     draw(){
-      // var game;
+      var game;
       var context = canvas.getContext('2d');
       // var anim;
 
-      // const PLAYER_HEIGHT = 100;
-      // const PLAYER_WIDTH = 5;
-      // const MAX_SPEED = 12;
+      const PLAYER_HEIGHT = 100;
+      const PLAYER_WIDTH = 5;
+      const MAX_SPEED = 12;
 
       // Draw field
       context.fillStyle = 'purple';
@@ -111,19 +111,19 @@ export default {
     context.lineTo(canvas.width / 2, canvas.height);
     context.stroke();
 
-    // // // Draw players
+    // Draw players
     context.fillStyle = 'blue';
     context.fillRect(0, 0, 5, 100);
     
     context.fillStyle = 'red';
     context.fillRect(canvas.width - 5, 0, 5, 100);
-    // // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
+    // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
 
-    // // Draw ball
-    // context.beginPath();
-    // context.fillStyle = 'white';
-    // context.arc(canvas.width /2, canvas.height / 2, 10, 0, Math.PI * 2, false);
-    // context.fill();
+    // Draw ball
+    context.beginPath();
+    context.fillStyle = 'white';
+    context.arc(canvas.width /2, canvas.height / 2, 5, 0, Math.PI * 2, false);
+    context.fill();
     },
   },
 };
