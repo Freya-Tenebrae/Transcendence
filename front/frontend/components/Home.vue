@@ -113,19 +113,20 @@ export default {
       context.lineTo(canvas.width / 2, canvas.height);
       context.stroke();
       context.save(); // save the line and canvas position
+      context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
 
       // Draw players
       context.fillStyle = 'blue';
-      context.fillRect(0, 0, 5, 100);
-      
+      context.fillRect(-canvas.width / 2, 0, 5, 100);
+
       context.fillStyle = 'red';
-      context.fillRect(canvas.width - 5, 0, 5, 100);
+      context.fillRect(canvas.width / 2, 0, -5, 100);
       // context.fillRect(canvas.width - PLAYER_WIDTH, game.computer.y, PLAYER_WIDTH, PLAYER_HEIGHT);
-      
+
       // Draw ball
       context.beginPath();
       context.fillStyle = 'white';
-      context.arc(canvas.width /2, canvas.height / 2, 5, 0, Math.PI * 2, false);
+      context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
   },
