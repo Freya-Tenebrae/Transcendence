@@ -90,27 +90,29 @@ export default {
     canvas.height = rect.height * dpr;
 
     var game = {
-        player: {
-          y: 0,
-          score: 0
-        },
-        computer: {
-          y: 0,
-          score: 0
-        },
-        ball:{
-          x: 0,
-          y: 0,
-          r: 5,
-          speed: {
-            x: 1.2,  //provisoire
-            y: 1.2 //provisoire
-          }
+      player: {
+        y: 0,
+        score: 0
+      },
+      computer: {
+        y: 0,
+        score: 0
+      },
+      ball:{
+        x: 0,
+        y: 0,
+        r: 5,
+        speed: {
+          x: 1.2,  //provisoire
+          y: 1.2 //provisoire
         }
-      };
-    
-    //this.score(game);
+      }
+    };
+
+    //this.score(game); //doesn't work properly, need checking
     this.draw(game);
+    this.computerMove(game);
+    //this.play(game); //doesn't work properly, need checking
   },
   methods: {
     redirectToHome() {
@@ -169,6 +171,7 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
+    //change/show the game scores
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
       var context = score-zone.getContext('2d');
@@ -180,15 +183,29 @@ export default {
       
       context.font = "16px Arial";
       context.fillStyle = "#0095DD";
-      context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
-      context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
+      context.strokeText("Player 1: " + scoreP1, FIELD_HEIGHT_LEN, 20);
+      context.strokeText(" | " + scoreP2 + " : Player 2", FIELD_HEIGHT_LEN, 20);
     },
+    //player movement, will change with player2 introduction
     playerMove(event, game) {
       // get the mouse location in the canvas
       var canvasLocation = canvas.getBoundingClientRect();
       var mouseLocation = event.clientY - canvasLocation.y;
       
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
+    },
+    computerMove(game) {
+      game.computer.y += game.ball.speed.y * 0.85;
+    },
+    ballMove(game) {
+      game.ball.x += game.ball.speed.x;
+      game.ball.y += game.ball.speed.y;
+    },
+    play(game) {
+      this.draw(game);
+      this.computerMove(game);
+      this.ballMove(game);
+      requestAnimationFrame(play);
     }
   },
 };
