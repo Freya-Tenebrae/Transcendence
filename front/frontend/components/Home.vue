@@ -171,6 +171,22 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
+    // collision function
+    collide(game, player) {
+      if (game.ball.y < player.y - PLAYER_HEIGHT / 2 || game.ball.y > player.y + PLAYER_HEIGHT / 2 ) {
+        //reset the ball and the players to the center
+        game.ball.x = 0;
+        game.ball.y = 0;
+        game.player.y = 0;
+        game.computer.y = 0;
+        //reset speed
+        game.ball.speed.x = 1.2;
+      }
+      else {
+        //increase the speed (to change) + change its direction
+        game.ball.speed.x *= -1.2;
+      }
+    },
     //change/show the game scores
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
