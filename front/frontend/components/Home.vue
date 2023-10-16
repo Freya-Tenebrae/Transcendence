@@ -111,9 +111,8 @@ export default {
 
     this.score(game); //doesn't work properly, need checking
     this.draw_field();
-    this.draw(game);
-    // this.computerMove(game);
-     this.play(game); //doesn't work properly, need checking
+    //this.computerMove(game);
+    this.play(game); //doesn't work properly, need checking
   },
   methods: {
     redirectToHome() {
@@ -185,7 +184,7 @@ export default {
       // Draw ball
       context.beginPath();
       context.fillStyle = 'yellow';
-      context.arc(0, 0, 5, 0, Math.PI * 2, false);
+      context.arc(game.ball.x, game.ball.y, 5, 0, Math.PI * 2, false);
       context.fill();
     },
     //change direction function
@@ -218,10 +217,10 @@ export default {
     //change/show the game scores
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
-      var context = canvas.getContext('2d');
-      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       // Scale the context to ensure correct drawing operations
+      var context = canvas.getContext('2d');
       context.scale(dpr, dpr);
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
 
       var scoreP1 = game.player.score;
       var scoreP2 = game.computer.score;
@@ -243,16 +242,15 @@ export default {
       game.computer.y += game.ball.speed.y * 0.85;
     },
     ballMove(game) {
-      
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
       // rebounds on the top and bottom lines of the canvas
       if (game.ball.y > FIELD_HEIGHT_LEN || game.ball.y < -FIELD_HEIGHT_LEN)
         game.ball.speed.y *= -1;
-      if (game.ball.x > FIELD_WIDTH_LEN)
+      if (game.ball.x >= FIELD_WIDTH_LEN - 5)
         this.collide(game.computer);
-      else if (game.ball.x < -FIELD_WIDTH_LEN)
+      else if (game.ball.x <= -FIELD_WIDTH_LEN + 5)
         this.collide(game.player);
       game.ball.x += game.ball.speed.x;
       game.ball.y += game.ball.speed.y;
