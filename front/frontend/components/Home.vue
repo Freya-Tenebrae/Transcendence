@@ -110,8 +110,8 @@ export default {
     };
 
     this.score(game); //doesn't work properly, need checking
-    this.draw(game);
-    this.computerMove(game);
+    // this.draw(game);
+    // this.computerMove(game);
     this.play(game); //doesn't work properly, need checking
   },
   methods: {
@@ -208,8 +208,8 @@ export default {
       
       context.font = "16px Arial";
       context.fillStyle = "#0095DD";
-      context.strokeText("Player 1: " + scoreP1, FIELD_HEIGHT_LEN, 20);
-      context.strokeText(" | " + scoreP2 + " : Player 2", FIELD_HEIGHT_LEN, 20);
+      context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
+      context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
@@ -223,12 +223,24 @@ export default {
       game.computer.y += game.ball.speed.y * 0.85;
     },
     ballMove(game) {
+      
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
+      const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
+
+      // rebounds on the top and bottom lines of the canvas
+      if (game.ball.y > FIELD_HEIGHT_LEN || game.ball.y < -FIELD_HEIGHT_LEN)
+        game.ball.speed.y *= -1;
+      if (game.ball.x > FIELD_WIDTH_LEN)
+        this.collide(game.computer);
+      else if (game.ball.x < -FIELD_WIDTH_LEN)
+        this.collide(game.player);
       game.ball.x += game.ball.speed.x;
       game.ball.y += game.ball.speed.y;
     },
     play(game) {
       var anim;
       this.draw(game);
+      // this.playerMove(game);
       this.computerMove(game);
       this.ballMove(game);
       anim = requestAnimationFrame(() => this.play(game)); 
