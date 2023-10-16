@@ -171,6 +171,13 @@ export default {
       context.arc(0, 0, 5, 0, Math.PI * 2, false);
       context.fill();
     },
+    //change direction function
+    changeDirection(game, playerPosition) {
+      var impact = game.ball.y - playerPosition - PLAYER_HEIGHT;
+      var ratio = 100 / (PLAYER_HEIGHT / 2); // default height is 100, so ratio = 2
+      
+      game.ball.speed.y = Math.round(impact * ratio / 10);
+    },
     // collision function
     collide(game, player) {
       if (game.ball.y < player.y - PLAYER_HEIGHT / 2 || game.ball.y > player.y + PLAYER_HEIGHT / 2 ) {
@@ -185,6 +192,7 @@ export default {
       else {
         //increase the speed (to change) + change its direction
         game.ball.speed.x *= -1.2;
+        this.changeDirection(game, player.y);
       }
     },
     //change/show the game scores
