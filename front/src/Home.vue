@@ -109,11 +109,10 @@ export default {
       }
     };
 
-    this.score(game); //doesn't work properly, need checking
-    this.draw_field();
+    //this.score(game); //doesn't work properly, need checking
     this.draw(game);
-    // this.computerMove(game);
-     this.play(game); //doesn't work properly, need checking
+    this.computerMove(game);
+    //this.play(game); //doesn't work properly, need checking
   },
   methods: {
     redirectToHome() {
@@ -128,23 +127,6 @@ export default {
       const authURL = `https://api.intra.42.fr/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}&response_type=${responseType}`;
 
       window.location.href = authURL;
-    },
-    draw_field() {
-      const dpr = window.devicePixelRatio;
-      var context = canvas.getContext('2d');
-      // Scale the context to ensure correct drawing operations
-      context.scale(dpr, dpr);
-      // Draw field
-      context.fillStyle = 'purple';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      // Draw middle line
-      context.strokeStyle = 'white';
-      context.beginPath();
-      context.moveTo(canvas.width/2, 0);
-      context.lineTo(canvas.width/2, canvas.height);
-      context.stroke();
-      context.save(); // save the line and canvas position
-      context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
     },
     draw(game){
       const dpr = window.devicePixelRatio;
@@ -162,16 +144,17 @@ export default {
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
-      // //Draw field
-      // context.fillStyle = 'purple';
-      // context.fillRect(0, 0, canvas.width, canvas.height);
-      // //Draw middle line
-      // context.strokeStyle = 'white';
-      // context.beginPath();
-      // context.moveTo(FIELD_WIDTH_LEN, 0);
-      // context.lineTo(FIELD_WIDTH_LEN, canvas.height);
-      // context.stroke();
-      // context.save(); // save the line and canvas position
+      // Draw field
+      context.fillStyle = 'purple';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      // Draw middle line
+      context.strokeStyle = 'white';
+      context.beginPath();
+      context.moveTo(FIELD_WIDTH_LEN, 0);
+      context.lineTo(FIELD_WIDTH_LEN, canvas.height);
+      context.stroke();
+      context.save(); // save the line and canvas position
+      context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
 
       // Draw players
       context.fillStyle = 'blue';
@@ -190,16 +173,13 @@ export default {
     },
     //change direction function
     changeDirection(game, playerPosition) {
-      const PLAYER_HEIGHT = 100;
-      var impact = game.ball.y - playerPosition - PLAYER_HEIGHT/2;
+      var impact = game.ball.y - playerPosition - PLAYER_HEIGHT;
       var ratio = 100 / (PLAYER_HEIGHT / 2); // default height is 100, so ratio = 2
       
       game.ball.speed.y = Math.round(impact * ratio / 10);
     },
     // collision function
     collide(game, player) {
-      const PLAYER_HEIGHT = 100;
-      
       if (game.ball.y < player.y - PLAYER_HEIGHT / 2 || game.ball.y > player.y + PLAYER_HEIGHT / 2 ) {
         //reset the ball and the players to the center
         game.ball.x = 0;
@@ -218,18 +198,17 @@ export default {
     //change/show the game scores
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
-      var context = canvas.getContext('2d');
-      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
+      var context = score-zone.getContext('2d');
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
 
-      var scoreP1 = game.player.score;
-      var scoreP2 = game.computer.score;
+      scoreP1 = game.player.score;
+      scoreP2 = game.computer.score;
       
       context.font = "16px Arial";
       context.fillStyle = "#0095DD";
-      context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
-      context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
+      context.strokeText("Player 1: " + scoreP1, FIELD_HEIGHT_LEN, 20);
+      context.strokeText(" | " + scoreP2 + " : Player 2", FIELD_HEIGHT_LEN, 20);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
@@ -243,27 +222,15 @@ export default {
       game.computer.y += game.ball.speed.y * 0.85;
     },
     ballMove(game) {
-      
-      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
-      const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
-
-      // rebounds on the top and bottom lines of the canvas
-      if (game.ball.y > FIELD_HEIGHT_LEN || game.ball.y < -FIELD_HEIGHT_LEN)
-        game.ball.speed.y *= -1;
-      if (game.ball.x > FIELD_WIDTH_LEN)
-        this.collide(game.computer);
-      else if (game.ball.x < -FIELD_WIDTH_LEN)
-        this.collide(game.player);
       game.ball.x += game.ball.speed.x;
       game.ball.y += game.ball.speed.y;
     },
     play(game) {
-      var anim;
-      this.ballMove(game);
-      this.draw(game); // makes weird drawings of the the players and the ball
+      this.draw(game);
       this.computerMove(game);
-      anim = requestAnimationFrame(() => this.play(game)); 
-    },
+      this.ballMove(game);
+      requestAnimationFrame(play);
+    }
   },
 };
 </script>
