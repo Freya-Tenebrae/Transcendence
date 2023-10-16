@@ -109,10 +109,10 @@ export default {
       }
     };
 
-    //this.score(game); //doesn't work properly, need checking
+    this.score(game); //doesn't work properly, need checking
     this.draw(game);
     this.computerMove(game);
-    //this.play(game); //doesn't work properly, need checking
+    this.play(game); //doesn't work properly, need checking
   },
   methods: {
     redirectToHome() {
@@ -198,12 +198,13 @@ export default {
     //change/show the game scores
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
-      var context = score-zone.getContext('2d');
+      var context = canvas.getContext('2d');
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
 
-      scoreP1 = game.player.score;
-      scoreP2 = game.computer.score;
+      var scoreP1 = game.player.score;
+      var scoreP2 = game.computer.score;
       
       context.font = "16px Arial";
       context.fillStyle = "#0095DD";
@@ -226,11 +227,12 @@ export default {
       game.ball.y += game.ball.speed.y;
     },
     play(game) {
+      var anim;
       this.draw(game);
       this.computerMove(game);
       this.ballMove(game);
-      requestAnimationFrame(play);
-    }
+      anim = requestAnimationFrame(() => this.play(game)); 
+    },
   },
 };
 </script>
