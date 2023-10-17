@@ -161,17 +161,6 @@ export default {
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
-      // //Draw field
-      // context.fillStyle = 'purple';
-      // context.fillRect(0, 0, canvas.width, canvas.height);
-      // //Draw middle line
-      // context.strokeStyle = 'white';
-      // context.beginPath();
-      // context.moveTo(FIELD_WIDTH_LEN, 0);
-      // context.lineTo(FIELD_WIDTH_LEN, canvas.height);
-      // context.stroke();
-      // context.save(); // save the line and canvas position
-
       // Draw players
       context.fillStyle = 'blue';
       context.fillRect(-FIELD_WIDTH_LEN, game.player.y, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
@@ -193,7 +182,7 @@ export default {
       var impact = game.ball.y - playerPosition - PLAYER_HEIGHT/2;
       var ratio = 100 / (PLAYER_HEIGHT / 2); // default height is 100, so ratio = 2
       
-      game.ball.speed.y = Math.round(impact * ratio / 10);
+      game.ball.speed.y *= Math.round(impact * ratio / 10);
     },
     // collision function
     collide(game, player) {
@@ -281,6 +270,8 @@ export default {
 .icon-home, .icon-login,.icon-register {
   width: 24px;
   height: 24px;
+  align-items: center;
+  margin-top: auto;
 }
 
 /* Styles personnalisés pour le formulaire de connexion */
