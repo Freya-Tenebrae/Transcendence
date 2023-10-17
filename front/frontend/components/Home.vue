@@ -235,7 +235,8 @@ export default {
       // get the mouse location in the canvas
       var canvasLocation = canvas.getBoundingClientRect();
       var mouseLocation = event.clientY - canvasLocation.y;
-      
+
+      if (mouseLocation < FIELD_HEIGHT_LEN)
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
     },
     computerMove(game) {
@@ -247,10 +248,11 @@ export default {
 
       // rebounds on the top and bottom lines of the canvas
       if (game.ball.y > FIELD_HEIGHT_LEN || game.ball.y < -FIELD_HEIGHT_LEN)
-        game.ball.speed.y *= -1;
-      if (game.ball.x >= FIELD_WIDTH_LEN - 5)
+        game.ball.speed.y *= -1.2;
+      // collision with players
+      if (game.ball.x >= FIELD_WIDTH_LEN - 10)
         this.collide(game.computer);
-      else if (game.ball.x <= -FIELD_WIDTH_LEN + 5)
+      else if (game.ball.x <= -FIELD_WIDTH_LEN + 10)
         this.collide(game.player);
       game.ball.x += game.ball.speed.x;
       game.ball.y += game.ball.speed.y;
@@ -260,8 +262,16 @@ export default {
       this.ballMove(game);
       this.draw(game); // makes weird drawings of the the players and the ball
       this.computerMove(game);
-      anim = requestAnimationFrame(() => this.play(game)); 
+      anim = requestAnimationFrame(() => this.play(game));
     },
+    stop(game) {
+      var anim;
+
+      cancelAnimationFrame(anim);
+
+      game.player.score = 0;
+      game.computer.score = 0;
+    }
   },
 };
 </script>
