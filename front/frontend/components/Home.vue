@@ -360,8 +360,9 @@ export default {
 
 .player_score_zone {
   margin-bottom: 10px;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  display:block;
   width: 10%;
   height: 10%;
 }
@@ -372,7 +373,6 @@ export default {
   margin-right: 20%;
   width:60%;
   height:60%;
-  
 }
 
 .page-header {
@@ -380,3 +380,8 @@ export default {
 }
 
 </style>
+<!-- TO DO :
+- rebond sur les joueurs à corriger
+- tracé des joueurs et de la balle à effacer
+- transfert des données du frontend au backend de façon optimal
+-->
