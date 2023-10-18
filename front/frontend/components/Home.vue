@@ -182,7 +182,7 @@ export default {
     // collision function
     collide(game, player) {
       const PLAYER_HEIGHT = 100;
-      
+
       if (game.ball.y < player.y - PLAYER_HEIGHT / 2 || game.ball.y > player.y + PLAYER_HEIGHT / 2 ) {
         //reset the ball and the players to the center
         game.ball.x = 0;
@@ -203,9 +203,9 @@ export default {
       const dpr = window.devicePixelRatio;
       // Scale the context to ensure correct drawing operations
       var scoreZone = document.getElementById('score-zone');
+      scoreZone.width = scoreZone.height * (scoreZone.clientWidth / scoreZone.clientHeight);
       var context = scoreZone.getContext('2d');
       context.scale(dpr, dpr);
-      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
 
       var scoreP1 = game.player.score;
       var scoreP2 = game.computer.score;
@@ -213,8 +213,8 @@ export default {
       context.font = "16px Arial";
       context.fillStyle = "purple";
       context.textAlign = "center";
-      context.fillText("GAME ZONE", scoreZone.width/2, 20, 100);
-      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 50);
+      context.fillText("GAME ZONE", scoreZone.width/2, scoreZone.height/2);
+      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, scoreZone.height/2 + 50);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
