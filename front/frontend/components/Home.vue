@@ -381,7 +381,7 @@ export default {
 
 </style>
 <!-- TO DO :
-- rebond sur les joueurs à corriger
+- rebond sur les joueurs à corriger // temporaire car dependant des données avec le back
 - tracé des joueurs et de la balle à effacer
-- transfert des données du frontend au backend de façon optimal
+- transfert des données du frontend au backend de façon optimal => PRIORITÉ
 -->
