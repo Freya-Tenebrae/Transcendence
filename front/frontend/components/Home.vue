@@ -176,7 +176,7 @@ export default {
       const PLAYER_HEIGHT = 100;
       var impact = game.ball.y - playerPosition - PLAYER_HEIGHT/2;
       var ratio = 100 / (PLAYER_HEIGHT / 2); // default height is 100, so ratio = 2
-      
+
       game.ball.speed.y *= Math.round(impact * ratio / 10);
     },
     // collision function
@@ -229,7 +229,7 @@ export default {
         game.player.y = mouseLocation + PLAYER_HEIGHT / 2;
       else if (mouseLocation > FIELD_HEIGHT_LEN / 2 + PLAYER_HEIGHT / 2)
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-    
+
       // Send the player's coordinates to the backend
     const userData = {
       id: game.player.id,
@@ -265,7 +265,7 @@ export default {
       var anim;
       this.ballMove(game);
       this.draw(game);
-      //this.playerMove(event, game);
+      //this.playerMove(game);
       this.computerMove(game);
       anim = requestAnimationFrame(() => this.play(game));
     },
