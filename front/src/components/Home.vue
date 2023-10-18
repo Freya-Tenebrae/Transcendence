@@ -207,7 +207,8 @@ export default {
     score(game){  // temporaire : il faut le mettre dans draw surement
       const dpr = window.devicePixelRatio;
       // Scale the context to ensure correct drawing operations
-      var context = canvas.getContext('2d');
+      var scoreZone = document.getElementById('score-zone');
+      var context = scoreZone.getContext('2d');
       context.scale(dpr, dpr);
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
 
@@ -240,9 +241,9 @@ export default {
         game.ball.speed.y *= -1.2;
       // collision with players
       if (game.ball.x >= FIELD_WIDTH_LEN - 10)
-        this.collide(game.computer);
+        this.collide(game, game.computer);
       else if (game.ball.x <= -FIELD_WIDTH_LEN + 10)
-        this.collide(game.player);
+        this.collide(game, game.player);
       game.ball.x += game.ball.speed.x;
       game.ball.y += game.ball.speed.y;
     },
@@ -381,7 +382,7 @@ export default {
 
 </style>
 <!-- TO DO :
-- rebond sur les joueurs à corriger
+- rebond sur les joueurs à corriger // temporaire car dependant des données avec le back
 - tracé des joueurs et de la balle à effacer
-- transfert des données du frontend au backend de façon optimal
+- transfert des données du frontend au backend de façon optimal => PRIORITÉ
 -->
