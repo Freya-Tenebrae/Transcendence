@@ -63,7 +63,6 @@
     </div>
   </div>
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
-  <h1 class="page-header"> GAME ZONE </h1>
   <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
   <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
     <!-- Fin du formulaire d'inscription -->
@@ -111,7 +110,6 @@ export default {
 
     this.score(game); //doesn't work properly, need checking
     this.draw_field();
-    //this.computerMove(game);
     this.play(game); //doesn't work properly, need checking
   },
   methods: {
@@ -151,8 +149,6 @@ export default {
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
 
-      // var anim;
-
       // N.B: (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
       // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
       const PLAYER_HEIGHT = 100;
@@ -161,6 +157,8 @@ export default {
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
+      //clear the previous positions of the players and the ball
+      context.clearRect(-FIELD_WIDTH_LEN, -FIELD_HEIGHT_LEN, canvas.width, canvas.height);
       // Draw players
       context.fillStyle = 'blue';
       context.fillRect(-FIELD_WIDTH_LEN, game.player.y, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
@@ -216,9 +214,10 @@ export default {
       var scoreP2 = game.computer.score;
       
       context.font = "16px Arial";
-      context.fillStyle = "#0095DD";
+      context.fillStyle = "red";
       context.textAlign = "center";
-      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 20);
+      context.fillText("GAME ZONE", scoreZone.width/2, 20, 100);
+      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 50);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
@@ -265,7 +264,7 @@ export default {
     play(game) {
       var anim;
       this.ballMove(game);
-      this.draw(game); // makes weird drawings of the the players and the ball
+      this.draw(game);
       this.computerMove(game);
       anim = requestAnimationFrame(() => this.play(game));
     },
@@ -399,10 +398,6 @@ export default {
   margin-right: 20%;
   width:60%;
   height:60%;
-}
-
-.page-header {
-  text-align: center;
 }
 
 </style>
