@@ -64,7 +64,6 @@
   </div>
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
   <h1 class="page-header"> GAME ZONE </h1>
-  <p class="page-header"> Player 1 > 0 | 0 &lt Player 2</p>
   <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
   <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
     <!-- Fin du formulaire d'inscription -->
@@ -83,6 +82,7 @@ export default {
   mounted() {
     // Get the DPR and size of the canvas
     const dpr = window.devicePixelRatio;
+    const canvas = document.getElementById('canvas');
     const rect = canvas.getBoundingClientRect();
 
     // Set the "actual" size of the canvas
@@ -217,8 +217,8 @@ export default {
       
       context.font = "16px Arial";
       context.fillStyle = "#0095DD";
-      context.strokeText("Player 1: " + scoreP1, -FIELD_HEIGHT_LEN, 20);
-      context.strokeText(" | " + scoreP2 + " : Player 2", -FIELD_HEIGHT_LEN, 20);
+      context.textAlign = "center";
+      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 20);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
@@ -379,8 +379,8 @@ export default {
   margin-left: auto;
   margin-right: auto;
   display:block;
-  width: 10%;
-  height: 10%;
+  width: 60%;
+  height: 100px;
 }
 
 .game-zone {
