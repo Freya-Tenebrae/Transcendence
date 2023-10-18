@@ -283,11 +283,21 @@ export default {
 
 <style>
 /*Styles pour les boutons */
-.icon-home, .icon-login,.icon-register {
+.icon-home, .icon-login {
   width: 24px;
   height: 24px;
   align-items: center;
   margin-top: auto;
+}
+
+.icon-register {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* Styles personnalisés pour le formulaire de connexion */
