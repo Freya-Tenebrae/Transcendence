@@ -64,7 +64,7 @@
   </div>
   <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
   <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
-  <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
+  <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
 
@@ -109,7 +109,7 @@ export default {
     };
 
     this.score(game); //doesn't work properly, need checking
-    this.draw_field();
+    this.change_field();
     this.play(game); //doesn't work properly, need checking
   },
   methods: {
@@ -126,21 +126,8 @@ export default {
 
       window.location.href = authURL;
     },
-    draw_field() {
-      const dpr = window.devicePixelRatio;
+    change_field() {
       var context = canvas.getContext('2d');
-      // Scale the context to ensure correct drawing operations
-      context.scale(dpr, dpr);
-      // Draw field
-      context.fillStyle = 'purple';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      // Draw middle line
-      context.strokeStyle = 'white';
-      context.beginPath();
-      context.moveTo(canvas.width/2, 0);
-      context.lineTo(canvas.width/2, canvas.height);
-      context.stroke();
-      context.save(); // save the line and canvas position
       context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
     },
     draw(game){
@@ -156,9 +143,19 @@ export default {
       const MAX_SPEED = 12;
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
-
+     
       //clear the previous positions of the players and the ball
       context.clearRect(-FIELD_WIDTH_LEN, -FIELD_HEIGHT_LEN, canvas.width, canvas.height);
+      // Draw field
+      context.fillStyle = 'purple';
+      context.fillRect(-FIELD_WIDTH_LEN, -FIELD_HEIGHT_LEN, canvas.width, canvas.height);
+      // Draw middle line
+      context.strokeStyle = 'white';
+      context.beginPath();
+      context.moveTo(0, -FIELD_HEIGHT_LEN);
+      context.lineTo(0, FIELD_HEIGHT_LEN);
+      context.stroke();
+
       // Draw players
       context.fillStyle = 'blue';
       context.fillRect(-FIELD_WIDTH_LEN, game.player.y, PLAYER_WIDTH, -PLAYER_HEIGHT/2);
@@ -193,11 +190,11 @@ export default {
         game.player.y = 0;
         game.computer.y = 0;
         //reset speed
-        game.ball.speed.x = 1.2;
+        game.ball.speed.x = 1.1;
       }
       else {
         //increase the speed (to change) + change its direction
-        game.ball.speed.x *= -1.2;
+        game.ball.speed.x *= -1.1;
         this.changeDirection(game, player.y);
       }
     },
@@ -214,20 +211,23 @@ export default {
       var scoreP2 = game.computer.score;
       
       context.font = "16px Arial";
-      context.fillStyle = "red";
+      context.fillStyle = "purple";
       context.textAlign = "center";
       context.fillText("GAME ZONE", scoreZone.width/2, 20, 100);
       context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 50);
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
+      const PLAYER_HEIGHT = 100;
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
+
       // get the mouse location in the canvas
       var canvasLocation = canvas.getBoundingClientRect();
       var mouseLocation = event.clientY - canvasLocation.y;
 
       if (mouseLocation < FIELD_HEIGHT_LEN / 2 - PLAYER_HEIGHT / 2)
         game.player.y = mouseLocation + PLAYER_HEIGHT / 2;
-      else if (mouseLocation > FIELD_HEIGHT_LEN / 2 + PLAYER_HEIGHT / 2)  
+      else if (mouseLocation > FIELD_HEIGHT_LEN / 2 + PLAYER_HEIGHT / 2)
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
     
       // Send the player's coordinates to the backend
@@ -252,7 +252,7 @@ export default {
 
       // rebounds on the top and bottom lines of the canvas
       if (game.ball.y > FIELD_HEIGHT_LEN - 5 || game.ball.y < -FIELD_HEIGHT_LEN + 5)
-        game.ball.speed.y *= -1.2;
+        game.ball.speed.y *= -1.1;
       // collision with players
       if (game.ball.x >= FIELD_WIDTH_LEN - 10)
         this.collide(game, game.computer);
@@ -265,16 +265,14 @@ export default {
       var anim;
       this.ballMove(game);
       this.draw(game);
+      //this.playerMove(event, game);
       this.computerMove(game);
       anim = requestAnimationFrame(() => this.play(game));
     },
     stop(game) {
       var anim;
 
-      cancelAnimationFrame(anim);
-
-      game.player.score = 0;
-      game.computer.score = 0;
+      anim = cancelAnimationFrame(() => this.play(game));
     }
   },
 };
