@@ -66,7 +66,7 @@
   <h1 class="page-header"> GAME ZONE </h1>
   <p class="page-header"> Player 1 > 0 | 0 &lt Player 2</p>
   <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
-  <canvas id="canvas" width="640" height="480" class ="game-zone"></canvas>
+  <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
     <!-- Fin du formulaire d'inscription -->
 </template>
 
@@ -226,8 +226,23 @@ export default {
       var canvasLocation = canvas.getBoundingClientRect();
       var mouseLocation = event.clientY - canvasLocation.y;
 
-      if (mouseLocation < FIELD_HEIGHT_LEN)
+      if (mouseLocation < FIELD_HEIGHT_LEN / 2 - PLAYER_HEIGHT / 2)
+        game.player.y = mouseLocation + PLAYER_HEIGHT / 2;
+      else if (mouseLocation > FIELD_HEIGHT_LEN / 2 + PLAYER_HEIGHT / 2)  
       game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
+    
+      // Send the player's coordinates to the backend
+    const userData = {
+      id: game.player.id,
+      y: game.player.y,
+    };
+    axios.post('/api/coordinates', userData) // to replace with the real path of the backend
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
     },
     computerMove(game) {
       game.computer.y += game.ball.speed.y * 0.85;
@@ -237,7 +252,7 @@ export default {
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
 
       // rebounds on the top and bottom lines of the canvas
-      if (game.ball.y > FIELD_HEIGHT_LEN || game.ball.y < -FIELD_HEIGHT_LEN)
+      if (game.ball.y > FIELD_HEIGHT_LEN - 5 || game.ball.y < -FIELD_HEIGHT_LEN + 5)
         game.ball.speed.y *= -1.2;
       // collision with players
       if (game.ball.x >= FIELD_WIDTH_LEN - 10)
