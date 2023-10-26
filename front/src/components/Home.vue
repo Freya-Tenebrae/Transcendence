@@ -6,9 +6,23 @@
     <div class="icon-container">
       <img src="../assets/icons/login.svg" alt="Login-Icon" class="icon-login" @click="showLoginModal = true" />
       <img src="../assets/icons/lock.svg" alt="Register-Icon" class="icon-register" @click="showRegisterModal = true" />
+      <img src="../assets/icons/user.svg" alt="Profile-Icon" class="icon-user" @click="showProfilePage = true" />
     </div>
   </div>
-    
+
+    <!--  Page de profil -->
+    <div v-if="showProfilePage" class="custom-modal-background">
+      <div class="custom-modal">
+        <div class="custom-modal-header">
+          <h5>Profil</h5>
+          <span @click="showProfilePage = false" class="custom-modal-close">&times;</span>
+        </div>
+        <div class="custom-modal-body">
+          <p>Vous êtes connecté en tant que Player</p>
+          <button @click="showProfilePage = false">Retour</button>
+        </div>
+      </div>
+    </div>
     <!-- Formulaire de connexion -->
     <div v-if="showLoginModal" class="custom-modal-background">
       <div class="custom-modal">
@@ -18,25 +32,26 @@
         </div>
         <div class="custom-modal-body">
           <!-- Contenu du formulaire connexion -->
-          <form>
+          <form @submit.prevent="login" id="login">
             <div class="form-group">
               <label for="email">Adresse e-mail </label>
-              <input type="email" class="form-control" id="email" placeholder="Entrez votre adresse e-mail">
+              <input type="email" class="form-control" id="email"  required placeholder="Entrez votre adresse e-mail">
             </div>
             <div class="form-group">
               <label for="password">Mot de passe </label>
-              <input type="password" class="form-control" id="password" placeholder="Entrez votre mot de passe">
+              <input type="password" class="form-control" id="password"  required placeholder="Entrez votre mot de passe">
             </div>
-          </form>
-        </div>
-        <div class="custom-modal-footer">
-          <button type="button" class="btn btn-primary" @click="showLoginModal = false">Se connecter</button>
+            <div class="custom-modal-footer">
+          <button type="submit" class="btn btn-primary">Se connecter</button>
           <img src="../assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
+        </div>
+          </form>
         </div>
       </div>
     </div>
       <!-- Fin du formulaire de connexion -->
 
+  <!-- Afficher le formulaire d'inscription -->
   <div v-if="showRegisterModal" class="custom-modal-background">
       <div class="custom-modal">
         <div class="custom-modal-header">
@@ -44,39 +59,67 @@
           <span @click="showRegisterModal = false" class="custom-modal-close">&times;</span>
         </div>
         <div class="custom-modal-body">
-          <!-- Contenu du formulaire d'inscription -->
-          <form>
-            <div class="form-group">
-              <label for="register-email">Adresse e-mail</label>
-              <input type="email" class="form-control" id="register-email" placeholder="Entrez votre adresse e-mail">
-            </div>
-            <div class="form-group">
-              <label for="register-password">Mot de passe</label>
-              <input type="password" class="form-control" id="register-password" placeholder="Entrez votre mot de passe">
-            </div>
-          </form>
+  <form @submit.prevent="submitForm" id="register">
+    <div class="form-group">
+    <label for="email">Adresse e-mail :</label>
+      <input type="email" class="form-control" id="email" name ="email" required placeholder="Entrez votre adresse e-mail">
+    </div>
+
+    <div class="form-group">
+    <label for="confirm-register-email">Confirmer l'adresse e-mail :</label>
+      <input type="email" class="form-control" id="confirm-register-email" name ="confirm-email" required placeholder="Entrez à nouveau votre adresse e-mail">
+    </div>
+
+
+    <div class="form-group">
+      <label for="password">Mot de passe :</label>
+      <input type="password" class="form-control" id="password" name ="password" required placeholder="Entrez votre mot de passe">
+    </div>
+
+    <div class="form-group">
+      <label for="confirm-password">Confirmez le mot de passe :</label>
+      <input type="password" class="form-control" id="confirm-register-password" name ="confirm-password" required placeholder="Entrez à nouveau votre mot de passe">
+    </div>
+
+    <div class="custom-modal-footer">
+          <button type="submit" class="btn btn-primary">S'inscrire</button>
+          <img src="../assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
         </div>
-        <div class="custom-modal-footer">
-          <button type="button" class="btn btn-primary" @click="showRegisterModal = false">S'inscrire</button>
-        </div>
-      </div>
+  </form>
+    </div>
+      
     </div>
   </div>
-  <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
-  <h1 class="page-header"> GAME ZONE </h1>
-  <canvas id="score-zone" width="640" height="120" class="player_score_zone"></canvas>
-  <canvas id="canvas" width="640" height="480" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
+</div>
     <!-- Fin du formulaire d'inscription -->
+
+    <!-- Afficher le modal de confirmation -->
+    <div v-if="showRegisterModal">
+      <p>Inscription réussie !</p>
+      <button @click="showRegisterModal = false">OK</button>
+    </div>
+  <!-- Temporaire : sera remplacé par la zone de score et des joueurs -->
+    <canvas id="score-zone" width="800" height="256" class="player_score_zone"></canvas>
+    <canvas id="canvas" width="800" height="600" class ="game-zone" @mousemove="playerMove($event, game)"></canvas>
+    <button class="quit" @click="stop(game)">Quitter la partie (abandon)</button>
+    <!-- Fin de la zone de jeu -->
 </template>
 
 <script>
 import axios from '../node_modules/axios';
+import * as bcrypt from 'bcryptjs';
+//import { setCookie } from 'cookie-universal-nuxt';
+
 export default {
   name: 'HomePage',
   data() {
     return {
+      mouseEvent: null,
+      showProfilePage: false,
       showLoginModal: false,
       showRegisterModal: false,
+      //registerEmail: localStorage.getItem('registerEmail') || '', // tests avec du stockage local
+      //registerPassword: localStorage.getItem('registerPassword') || '', // tests avec du stockage local
     };
   },
   mounted() {
@@ -84,12 +127,15 @@ export default {
     const dpr = window.devicePixelRatio;
     const canvas = document.getElementById('canvas');
     const rect = canvas.getBoundingClientRect();
+    var isConnected = true;
 
     // Set the "actual" size of the canvas
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
 
     var game = {
+      timer: 125.0,       //provisoire, captée par le backend
+      date: new Date(),  //provisoire, captée par le backend
       player: {
         y: 0,
         score: 0
@@ -109,10 +155,8 @@ export default {
       }
     };
 
-    this.score(game); //doesn't work properly, need checking
-    this.draw_field();
-    //this.computerMove(game);
-    this.play(game); //doesn't work properly, need checking
+    this.change_field();
+    this.play(game);
   },
   methods: {
     redirectToHome() {
@@ -128,21 +172,168 @@ export default {
 
       window.location.href = authURL;
     },
-    draw_field() {
-      const dpr = window.devicePixelRatio;
+
+    async login() {
+     // Récupérer les données du formulaire
+      const formData = new FormData(document.querySelector('form'));
+      const email = formData.get('email');
+      const password = formData.get('password');
+
+      // Créez l'objet `password`.
+    const passwordObject = {
+    create: {
+      salted_password: password,
+      salt: '',
+        },
+      };
+
+      //Envoyer la requête POST à l'API
+      const response = await fetch('http://localhost:2000/auth/login', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          'email': email,
+          password: passwordObject})
+      });
+      // Traiter la réponse de l'API
+      if (response.ok) {
+        this.showLoginModal = false;
+        const data = await response.json();
+        const authToken = data.token;
+
+      // Envoyer la requête GET à l'API pour obtenir les tokens
+        const tokenResponse = await fetch('http://localhost:2000/api/tokens', {
+          method: 'GET',
+          headers: {
+            ' Authorization': `Bearer ${authToken}`
+          }
+        });
+      // Traiter la réponse de l'API avec le token
+        if (tokenResponse.ok) {
+          const tokenData = await tokenResponse.json();
+          const accessToken = tokenData.access_token;
+          const refreshToken = tokenData.refresh_token;
+        } else {
+          const data = await tokenResponse.json();
+          this.error = data.message;
+          alert('Error: can\'t find the associated account token');
+          console.error(this.error);
+        }
+      }
+      else {
+        const data = await response.json();
+        console.log(data);
+        this.error = data.message;
+        alert('Error: can\'t find the associated account');
+        console.error('Error: can\'t find the associated account');
+      }
+    },
+    async submitForm() {                 // Fonction pour envoyer le formulaire d'inscription
+     // Récupérer les données du formulaire
+      const formData = new FormData(document.querySelector('form'));
+      const email = formData.get('email');
+      const password = formData.get('password');
+      const confirmEmail = formData.get('confirm-email');
+      const confirmPassword = formData.get('confirm-password');
+      // Validation de l'adresse e-mail
+    // if (!email) {
+    //   alert('L\'adresse e-mail est requise');
+    //   return;
+    // }
+
+    // const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    // if (!emailRegex.test(email)) {
+    //   alert('L\'adresse e-mail n\'est pas valide');
+    //   return;
+    // }
+
+    // // Validation du mot de passe
+    // if (!password) {
+    //   alert('Le mot de passe est requis');
+    //   return;
+    // }
+
+    // if (password.length < 8) {
+    //   alert('Le mot de passe doit comporter au moins 8 caractères');
+    //   return;
+    // }
+
+    // // Autres règles de complexité du mot de passe
+    // if (!isStrongPassword(password)) {
+    //   alert('Le mot de passe doit être complexe');
+    //   return;
+    // }
+    const saltRounds = 10; // Number of salt rounds (cost factor)
+    const salt = bcrypt.genSaltSync(saltRounds); // Generate a salt
+    const hashedPassword = bcrypt.hashSync(password, salt);
+      
+
+      // Vérifier que les champs correspondent
+      if (email !== confirmEmail) {
+        alert('Les adresses e-mail ne correspondent pas');
+        console.error('Les adresses e-mail ne correspondent pas');
+        return;
+      }
+       if (password !== confirmPassword) {
+         alert('Les mots de passe ne correspondent pas');
+        console.error('Les mots de passe ne correspondent pas');
+         return;
+       }
+      // Créez l'objet `password`.
+    const passwordObject = {
+    create: {
+      salted_password: hashedPassword,
+      salt: salt,
+    },
+  };
+
+      //Envoyer la requête POST à l'API
+      const response = await fetch('http://localhost:2000/api/user', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password: passwordObject})
+      });
+
+     // Traiter la réponse de l'API
+      if (response.ok) {
+        this.showRegisterModal = false;
+        const data = await response.json();
+        const authToken = data.token;
+        alert('Account created');
+        if (data && authToken) {
+          const tokenResponse = await fetch('http://localhost:2000/api/tokens', {
+            method: 'GET',
+            headers: {
+            ' Authorization': `Bearer ${authToken}`
+          }
+        });
+          // Traiter la réponse de l'API avec le token
+          if (tokenResponse.ok) {
+            const tokenData = await tokenResponse.json();
+            const accessToken = tokenData.access_token;
+            const refreshToken = tokenData.refresh_token;
+          } else {
+            const data = await tokenResponse.json();
+            this.error = data.message;
+            console.error(this.error);
+            }
+          }
+      }
+      else {
+        const data = await response.json();
+        this.error = data.message;
+        alert('Error: can\'t create the account');
+        console.error(this.error);
+      }
+    },
+    change_field() {
       var context = canvas.getContext('2d');
-      // Scale the context to ensure correct drawing operations
-      context.scale(dpr, dpr);
-      // Draw field
-      context.fillStyle = 'purple';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      // Draw middle line
-      context.strokeStyle = 'white';
-      context.beginPath();
-      context.moveTo(canvas.width/2, 0);
-      context.lineTo(canvas.width/2, canvas.height);
-      context.stroke();
-      context.save(); // save the line and canvas position
       context.translate(canvas.width / 2, canvas.height / 2); // change the origin of the canvas x & y
     },
     draw(game){
@@ -151,15 +342,24 @@ export default {
       // Scale the context to ensure correct drawing operations
       context.scale(dpr, dpr);
 
-      // var anim;
-
       // N.B: (canvas.width /2, canvas.height / 2) should be defined as the new (0,0)
       // and canvas.width /2, canvas.height / 2 should be the new unit (+1,0, +1,0) to match the backend unit method
       const PLAYER_HEIGHT = 100;
       const PLAYER_WIDTH = 5;
-      const MAX_SPEED = 12;
       const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
       const FIELD_WIDTH_LEN = canvas.width/2; //= 1.0 in width length
+     
+      //clear the previous positions of the players and the ball
+      context.clearRect(-FIELD_WIDTH_LEN, -FIELD_HEIGHT_LEN, canvas.width, canvas.height);
+      // Draw field
+      context.fillStyle = 'purple';
+      context.fillRect(-FIELD_WIDTH_LEN, -FIELD_HEIGHT_LEN, canvas.width, canvas.height);
+      // Draw middle line
+      context.strokeStyle = 'white';
+      context.beginPath();
+      context.moveTo(0, -FIELD_HEIGHT_LEN);
+      context.lineTo(0, FIELD_HEIGHT_LEN);
+      context.stroke();
 
       // Draw players
       context.fillStyle = 'blue';
@@ -179,70 +379,92 @@ export default {
     //change direction function
     changeDirection(game, playerPosition) {
       const PLAYER_HEIGHT = 100;
+      const MAX_SPEED = 5;
+
       var impact = game.ball.y - playerPosition - PLAYER_HEIGHT/2;
       var ratio = 100 / (PLAYER_HEIGHT / 2); // default height is 100, so ratio = 2
-      
-      game.ball.speed.y *= Math.round(impact * ratio / 10);
+      // optional part for ball speed increase
+      game.ball.speed.y *= Math.round(impact * ratio / 100);
+      if (game.ball.speed.y >= MAX_SPEED)
+        game.ball.speed.y = -MAX_SPEED;
+      else if (game.ball.speed.y <= -MAX_SPEED)
+        game.ball.speed.y = MAX_SPEED;
     },
     // collision function
     collide(game, player) {
       const PLAYER_HEIGHT = 100;
-      
+      const MAX_SPEED = 5;
+
       if (game.ball.y < player.y - PLAYER_HEIGHT / 2 || game.ball.y > player.y + PLAYER_HEIGHT / 2 ) {
-        //reset the ball and the players to the center
+        //reset the ball and the players to the center;
         game.ball.x = 0;
         game.ball.y = 0;
         game.player.y = 0;
         game.computer.y = 0;
         //reset speed
         game.ball.speed.x = 1.2;
+        game.ball.speed.y = 1.2;
       }
       else {
         //increase the speed (to change) + change its direction
-        game.ball.speed.x *= -1.2;
+        if (game.ball.speed.x >= MAX_SPEED)
+          game.ball.speed.x = -MAX_SPEED;
+        else if (game.ball.speed.x <= -MAX_SPEED)
+          game.ball.speed.x = MAX_SPEED;
+        else
+          game.ball.speed.x *= -1.2;
         this.changeDirection(game, player.y);
       }
     },
     //change/show the game scores
-    score(game){  // temporaire : il faut le mettre dans draw surement
+    score(game) {
       const dpr = window.devicePixelRatio;
       // Scale the context to ensure correct drawing operations
       var scoreZone = document.getElementById('score-zone');
+      scoreZone.width = scoreZone.height * (scoreZone.clientWidth / scoreZone.clientHeight);
       var context = scoreZone.getContext('2d');
       context.scale(dpr, dpr);
-      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
 
       var scoreP1 = game.player.score;
       var scoreP2 = game.computer.score;
       
-      context.font = "16px Arial";
-      context.fillStyle = "#0095DD";
+      context.font = "30px Arial";
+      context.fillStyle = "purple";
       context.textAlign = "center";
-      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, 20);
+      context.text
+      context.fillText("TIME :", scoreZone.width/2, scoreZone.height/2);
+      context.fillText(game.timer, scoreZone.width/2, scoreZone.height/2 + 25);
+      context.fillText("Player 1: " + scoreP1 + " | " + scoreP2 + " : Player 2", scoreZone.width/2, scoreZone.height/2 + 50); // les player 1 et player 2 seront remplacés par les noms des joueurs
     },
     //player movement, will change with player2 introduction
     playerMove(event, game) {
+      const PLAYER_HEIGHT = 100;
+      const FIELD_HEIGHT_LEN = canvas.height/2; //= 1.0 in height length
+
       // get the mouse location in the canvas
       var canvasLocation = canvas.getBoundingClientRect();
-      var mouseLocation = event.clientY - canvasLocation.y;
-
-      if (mouseLocation < FIELD_HEIGHT_LEN / 2 - PLAYER_HEIGHT / 2)
-        game.player.y = mouseLocation + PLAYER_HEIGHT / 2;
-      else if (mouseLocation > FIELD_HEIGHT_LEN / 2 + PLAYER_HEIGHT / 2)  
-      game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
-    
-      // Send the player's coordinates to the backend
-    const userData = {
-      id: game.player.id,
-      y: game.player.y,
-    };
-    axios.post('/api/coordinates', userData) // to replace with the real path of the backend
-      .then(response => {
-        console.log(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+      var mouseLocation = event.clientY - canvasLocation.top - FIELD_HEIGHT_LEN;
+      // move the player
+      if (game && game.player) {
+        if (mouseLocation < -FIELD_HEIGHT_LEN / + PLAYER_HEIGHT / 2)
+            game.player.y = mouseLocation + PLAYER_HEIGHT / 2;
+          else if (mouseLocation > FIELD_HEIGHT_LEN - PLAYER_HEIGHT / 2)
+            game.player.y = mouseLocation - PLAYER_HEIGHT / 2;
+          else
+            game.player.y = mouseLocation;
+          // Send the player's coordinates to the backend, later on the backend will send the coordinates of the other player
+          //const userData = {
+          //  id: game.player.id,
+          //  y: game.player.y,
+          //};
+          //axios.post('/api/coordinates', userData) // to replace with the real path of the backend
+          //  .then(response => {
+          //    console.log(response.data);
+          //  })
+          //  .catch(error => {
+          //    console.error(error);
+          //  });
+      }
     },
     computerMove(game) {
       game.computer.y += game.ball.speed.y * 0.85;
@@ -263,19 +485,19 @@ export default {
       game.ball.y += game.ball.speed.y;
     },
     play(game) {
+      canvas.addEventListener('mousemove', (event) => this.playerMove(event, game)); // got issues on crashing the session
       var anim;
       this.ballMove(game);
-      this.draw(game); // makes weird drawings of the the players and the ball
+      this.score(game);
+      this.draw(game);
       this.computerMove(game);
       anim = requestAnimationFrame(() => this.play(game));
+      canvas.removeEventListener('mousemove', (event) => this.playerMove(event, game));
     },
     stop(game) {
       var anim;
 
       cancelAnimationFrame(anim);
-
-      game.player.score = 0;
-      game.computer.score = 0;
     }
   },
 };
@@ -283,11 +505,22 @@ export default {
 
 <style>
 /*Styles pour les boutons */
-.icon-home, .icon-login,.icon-register {
+.icon-home, .icon-login{
   width: 24px;
   height: 24px;
   align-items: center;
   margin-top: auto;
+  cursor: pointer;
+}
+
+.icon-register, .icon-user {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* Styles personnalisés pour le formulaire de connexion */
@@ -380,7 +613,7 @@ export default {
   margin-right: auto;
   display:block;
   width: 60%;
-  height: 100px;
+  height: 200px;
 }
 
 .game-zone {
@@ -391,13 +624,18 @@ export default {
   height:60%;
 }
 
-.page-header {
+.quit {
+  height:10%;
+  width: 15%;
+  margin-left: 42%;
   text-align: center;
+  border-width: 2px;
+  border-style: inset;
+  background-color: #0056b3;
+  color: black;
+  cursor:pointer;
 }
-
 </style>
 <!-- TO DO :
-- rebond sur les joueurs à corriger // temporaire car dependant des données avec le back
-- tracé des joueurs et de la balle à effacer
 - transfert des données du frontend au backend de façon optimal => PRIORITÉ
 -->
