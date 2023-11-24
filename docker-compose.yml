@@ -68,12 +68,15 @@ services:
     #   - .env
     environment:
      - NODE_MAJOR
+     - VITE_CLIENT_ID
     depends_on:
       - back
     networks:
       - back-net
     volumes:
       - ./front:/Transcendence:rw
+  img-storage:
+    image: ghcr.io/hascheksolutions/pictshare
 #      - github-vol:/Transcendence:rw
 
 networks:

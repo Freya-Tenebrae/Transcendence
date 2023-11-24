@@ -22,11 +22,10 @@ export default {
   border: 0;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  background-color:#474444;
-  height: 100vh;
+
+    font-family: 'Orbitron', sans-serif; /* Orbitron is a futuristic font */
+    background-color: #0d0d14;
+    color: #a8a8b3;
+    height:100vh;
 }
 </style>

@@ -3,7 +3,9 @@ import { updateAppConfig } from '#app'
 import { defuFn } from '/Transcendence/frontend/node_modules/defu/dist/defu.mjs'
 
 const inlineConfig = {
-  "nuxt": {}
+  "nuxt": {
+    "buildId": "test"
+  }
 }
 
 // Vite - webpack is handled directly in #app/config

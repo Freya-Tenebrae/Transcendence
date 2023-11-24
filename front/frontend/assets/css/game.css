@@ -1,0 +1,239 @@
+/* game.css */
+.body-container {
+    margin: 0;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .style-container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    width : 100vh;
+    background-image: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+    font-family: 'Orbitron', sans-serif;
+    border: 1px solid #9f00c5;
+    border-radius: 8px; 
+    box-shadow: 0px 0px 5px #9f00c5;
+  }
+  
+  .game-container {
+    width: 500px;
+    height: 300px;
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f1e25;
+    border: 2px solid #9f00c5;
+    box-shadow: 0px 0px 10px #9f00c5;
+    position: relative;
+  }
+  
+  .score-container {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    margin-bottom: 10px; 
+    background-color: rgba(0, 0, 0, 0.4); 
+    padding: 5px 0;
+    border: 1px solid #9f00c5;
+    border-radius: 8px; 
+    box-shadow: 0px 0px 5px #9f00c5;
+  }
+  .title-container {
+      font-size: 36px;
+      color: #9f00c5;
+      font-weight: bold;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: 'Orbitron', sans-serif;
+      background: -webkit-linear-gradient(#9f00c5, #0affd1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+  }
+  
+  
+  .left-score, .right-score {
+    color: #0affd1;
+    font-size: 24px;
+    text-shadow: 0px 0px 5px rgba(159, 0, 197, 0.8);
+    animation: pulse 2s infinite ease-in-out;
+  }
+  
+  .quit-game-btn {
+    display: block;
+    width: fit-content;
+    padding: 10px 15px;
+    background-color: #9f00c5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 20px auto;
+    transition: background-color 0.3s ease;
+    line-height: 50px;
+    font-family: 'Orbitron', sans-serif;
+  }
+  .horizontal-center {
+    display: flex;
+    justify-content: center;
+  }
+  .quit-game-btn:hover {
+    color: #2c0038; /* Changement de la couleur du texte lors du survol */
+    box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5); /* Ombre plus prononcée */
+    transform: scale(1.1);
+  }
+  .countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    z-index: 100;
+  }
+  .playerbar {
+    height: 100px; /* Hauteur de la barre */
+    width: 10px; /* Largeur de la barre */
+    background-color: #0affd1; /* Couleur de la barre */
+    margin: 0 auto; /* Centrer la barre horizontalement */
+  }
+  .playerbar2 {
+    height: 100px; /* Hauteur de la barre */
+    width: 10px; /* Largeur de la barre */
+    background-color: #9f00c5; /* Couleur de la barre */
+    margin: 0 auto; /* Centrer la barre horizontalement */
+  }
+  .end-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* fond semi-transparent */
+    color: #fff; /* texte blanc */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100; /* s'assure que ça s'affiche au-dessus du jeu */
+  }
+  .user-info-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px; /* Ajustez en fonction de la taille de votre jeu */
+    width : 502px;
+  }
+  
+  .left-player {
+    text-align: left; /* Aligner le texte à gauche pour le joueur de gauche */
+  }
+  
+  .right-player {
+    text-align: right; /* Aligner le texte à droite pour le joueur de droite */
+  }
+  
+  /* Add this CSS to your styles */
+.ranked-powerups-container {
+  display: flex;
+  justify-content: space-between;
+  width : 500px;
+}
+.powerup-bar-container {
+  display: flex;
+  justify-content: flex-start;
+  width : 500px;
+  margin-top : 5px;
+}
+
+.powerup-bar1, .powerup-bar2 {
+  background-image: linear-gradient(to bottom, #3838381c 0%, #8585851c 100%);
+  box-shadow: 0 0 10px rgba(255, 32, 121, 0.6);
+  border-radius: 5px;
+  height: 20px;
+  width: 45%;
+}
+
+.powerup-bar1 {
+  margin-right: 5%;
+  background-image: linear-gradient(to right, #9f00c5 0%, #0affd1 100%);
+}
+
+.powerup-bar2 {
+  margin-left: 5%;
+  background-image: linear-gradient(to left, #9f00c5 0%, #0affd1 100%);
+}
+
+.powerup-bar1-filling, .powerup-bar2-filling {
+  height: 100%;
+  position:relative;
+  border-radius: 5px;
+  background-image: linear-gradient(to bottom, #383838 0%, #858585 100%);
+}
+
+.powerup-p1-icon-container, .powerup-p2-icon-container {
+  display: flex;
+}
+
+.cooldownEffects {
+  background-image: linear-gradient(to bottom, #383838bb 0%, #383838bb 100%);
+  width: 50px;
+  height: 50px;
+}
+
+.cooldownTimer {
+  color: #000000;
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 13px;
+  text-align: center;
+}
+
+.sandevistanSmash1On, .sandevistanSmash1Off, .sandevistanSmash2On, .sandevistanSmash2Off,
+.sandevistanGuard1On, .sandevistanGuard1Off, .sandevistanGuard2On, .sandevistanGuard2Off {
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50px;
+  height: 50px;
+  margin-top: 5px;
+}
+
+.sandevistanSmash1On, .sandevistanSmash1Off, .sandevistanSmash2On, .sandevistanSmash2Off {
+  background-image: url('~/assets/icons/sandevistanSmash.png');
+}
+
+
+.sandevistanGuard1On, .sandevistanGuard1Off, .sandevistanGuard2On, .sandevistanGuard2Off {
+  background-image: url('~/assets/icons/sandevistanGuard.png');
+}
+
+.sandevistanSmash1On, .sandevistanSmash2On, .sandevistanGuard1On, .sandevistanGuard2On {
+  box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5);
+}
+
+.sandevistanSmash1On, .sandevistanSmash1Off {
+  margin-left: 5px;
+}
+
+.sandevistanSmash2On, .sandevistanSmash2Off {
+  margin-left: 5px;
+}
+
+.sandevistanGuard1On, .sandevistanGuard1Off {
+  margin-left: 5px;
+}
+
+.sandevistanGuard2On, .sandevistanGuard2Off {
+  margin-left: 5px;
+}
+
+.player-nickname {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

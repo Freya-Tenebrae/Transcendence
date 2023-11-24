@@ -6,7 +6,7 @@ import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
 	controllers: [ApiController],
-	providers: [UsersModule, PrismaModule],
+	providers: [UsersModule, AuthModule, PrismaModule],
 	imports: [UsersModule, PrismaModule, AuthModule],
 })
 export class ApiModule {}

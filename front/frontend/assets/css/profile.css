@@ -1,0 +1,270 @@
+.edit-buttons {
+    display: flex;        /* Utiliser flexbox */
+    flex-direction: column;/* Empiler verticalement */
+    align-items: center;   /* Centrer horizontalement */
+    gap: 10px;            /* Espacement entre les boutons */
+  }
+  
+  .edit-btn {
+    background-color: #9f00c5;
+    color: #fff;
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bordures arrondies */
+    cursor: pointer; /* Apparence du curseur pour le clic */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: 'Orbitron', sans-serif; /* Typographie futuriste */
+    padding: 10px 20px; /* Ajouter du padding pour mieux formater les boutons */
+  }
+  .user-nickname-profile {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .resized-image {
+    width: 64px;
+    height: 64px;
+  }
+
+  .profile-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: "transparent";
+    text-align: center;
+    cursor: pointer;
+    width: 10px !important;
+}
+
+.profile-btn {
+  background-color: #9f00c5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding-bottom: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+}
+
+.tab-profile {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #9f00c5;
+  margin-left: 2px;
+  margin-right: 55px;
+  margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.active-tab {
+  height: 5%;
+  background-color: #9f00c5;
+  color: #fff;
+}
+
+
+.tab-achievement {
+  display: inline-block;
+  height: auto;
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #8193a5;
+  color: #fff;
+  margin-left: 40px;
+  margin-right: 55px;
+  margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.achievement-list {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 30vh;
+  overflow-y: auto;
+  padding: 10px;
+  width: 33vh;
+}
+
+.achievement-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.achievement-list::-webkit-scrollbar-track {
+  background: #1e1f22;
+}
+
+.achievement-list::-webkit-scrollbar-thumb {
+  background: #9f00c5;
+}
+
+.achievement-list::-webkit-scrollbar-thumb:hover {
+  background: #9f00c5;
+}
+
+.achievement-item {
+  font-size: smaller;
+  font-family: 'Orbitron', sans-serif;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  padding-top: 5px;
+}
+
+.achievement-item-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #ffffff26;
+  margin-left: 2px;
+  margin-right: 55px;
+  margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+  cursor: pointer;
+}
+
+.achievement-img-div {
+  width: 64px;
+  height: 64px;
+  box-shadow: 0px 0px 12px rgba(0, 184, 197, 0.534);
+  background-image: url('~/assets/icons/achievementLock.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.uniqueAchievement {
+  height: 84px;
+  display: grid;
+  align-items: left; 
+  grid-template-columns: 64px 1fr;
+  column-gap: 5px;
+}
+
+.last10games-list {
+  height: 30vh;
+  align-items: center;
+  font-size: large;
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: auto;
+  margin-top: auto;
+  overflow-y: auto;
+  padding: 10px;
+  width: 33vh;
+}
+
+.last10games-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.last10games-list::-webkit-scrollbar-track {
+  background: #1e1f22;
+}
+
+.last10games-list::-webkit-scrollbar-thumb {
+  background: #9f00c5;
+}
+
+.last10games-list::-webkit-scrollbar-thumb:hover {
+  background: #9f00c5;
+}
+
+.gameItem {
+  height: 84px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 2fr;
+  column-gap: 5px;
+  margin-bottom: 5px;
+  font-size: smaller;
+  font-family: 'Orbitron', sans-serif;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.gameItem.img {
+  height: 64px;
+  width: 64px;
+}
+
+.gameWin {
+  background-color: #337c16;
+}
+
+.gameLoose {
+  background-color: #a8091e;
+}
+
+.gameDraw {
+  background-color: #858585;
+}
+
+.gameDate {
+
+}
+
+.myInfo {
+
+}
+
+.myImage {
+
+}
+
+.myName {
+
+}
+
+.result {
+
+}
+
+.resultStatus {
+
+}
+
+.score {
+
+}
+
+.myScore {
+
+}
+
+.vs {
+
+}
+
+.foeScore {
+
+}
+
+.foeInfo {
+
+}
+
+.foeImage {
+
+}
+
+.foeName {
+
+}

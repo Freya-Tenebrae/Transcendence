@@ -23,5 +23,4 @@ export class AppController {
   getB(): string {
 	return ("b");
   }
-
 }

@@ -1,0 +1,37 @@
+.duel-box {
+    z-index: 1000; /* Ensures the box appears above other content */
+    width: 30%; /* Set a width */
+    text-align: center;
+    background: #1c1c22;
+    border-radius: 5px;
+    border: 1px solid #9f00c5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.duel-container {
+    background-color: #0d0d14;
+    /* border-bottom: 2px solid #9f00c5; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width :100%;
+}
+.duel-box .close {
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.duel-btn {
+    background-color: #0d0d14;
+    border: none;
+    color: #aaa;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #9f00c5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+.duel-btn:hover {
+    cursor: pointer;
+}

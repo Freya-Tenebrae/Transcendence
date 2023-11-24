@@ -27,7 +27,6 @@ RUN npm install -g @vue/cli
 
 EXPOSE 3000
 WORKDIR /Transcendence/frontend
-RUN npm install axios
 RUN echo "The front has started"
 #on déplacera cette ligne au dessus avec les autres composants à installer quand on aura tout hors de frontend
 #CMD ["sleep", "infinity"]

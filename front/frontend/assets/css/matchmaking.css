@@ -1,0 +1,52 @@
+.matchmaking-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Ajouté pour le centrage vertical si nécessaire */
+    gap: 10px;
+    padding: 20px; /* Ajuster selon le besoin */
+    margin: 0 auto; /* Pour le centrage horizontal */
+    max-width: 300px; /* Ajuster la largeur maximale du conteneur */
+    width: 100%;
+    color: #f0f0f0;
+    background-color: #1f1e25;
+    border: 2px solid #9f00c5;
+    box-shadow: 0px 0px 10px #9f00c5;
+    border-radius: 8px;
+    transition: max-height 0.3s ease-in-out;
+  }
+  
+  .matchmaking-container button {
+    background-color: #9f00c5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    font-family: 'Orbitron', sans-serif;
+    padding: 10px 20px;
+    text-transform: uppercase; /* Style additionnel pour le texte en majuscules */
+    width: 100%; /* Bouton de largeur complète */
+    box-sizing: border-box; /* S'assurer que le padding ne change pas la largeur */
+  }
+
+  .matchmaking-loading{
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: auto;
+  }
+
+  path {
+    background-color: #a600e6;
+  }
+  
+  .matchmaking-container button:hover {
+    background-color: #a600e6; /* Une couleur légèrement différente au survol */
+    transform: scale(1.05); /* Effet de zoom léger au survol */
+  }
+  
+  .matchmaking-container h1, .matchmaking-container h2, .matchmaking-container p {
+    text-align: center; /* Texte centré dans le conteneur */
+  }
+  
