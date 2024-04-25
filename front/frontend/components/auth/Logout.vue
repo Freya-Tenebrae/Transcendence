@@ -5,12 +5,12 @@
         <div class="custom-modal">
             <div class="custom-modal-header">
                 <h5>Confirmation</h5>
-                <span @click="showconfirmation = false" class="custom-modal-close">&times;</span>
+                <span @click="closeLogout" class="custom-modal-close">&times;</span>
             </div>
             <div class="custom-modal-body">
                 <p>Voulez-vous vraiment vous déconnecter?</p>
                 <button @click="logout" class="btn-confirm">Oui</button>
-                <button @click="showconfirmation = false" class="btn-confirm">Non</button>
+                <button @click="closeLogout" class="btn-confirm">Non</button>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="custom-modal">
             <div class="custom-modal-header">
                 <h5>Information</h5>
-                <span @click="showLoggedOutModal = false" class="custom-modal-close">&times;</span>
+                <span @click="refresh_page" class="custom-modal-close">&times;</span>
             </div>
             <div class="custom-modal-body">
                 <p>Vous êtes déconnecté</p>
@@ -33,7 +33,7 @@ import { useCookies } from "vue3-cookies";
 import { ref, reactive, onMounted } from 'vue';
 export default {
     name: "Logout",
-    emits: ['closeLogout'],
+    emits: ['close-logout'],
     props: ['showlogout', 'showconfirmation'],
     setup(props, context) {
         const { cookies } = useCookies();
@@ -46,13 +46,18 @@ export default {
         const refresh_page = () => {
             window.location.reload();
         };
+        const closeLogout = () => {
+
+            context.emit('close-logout');
+            state.showLoggedOutModal = false
+        };
         const logout = () => {
             state.cookies.keys().forEach(cookie => state.cookies.remove(cookie));
             state.isUserLoggedIn = false;
             state.showLogoutConfirmationModal = false;
             state.showLoggedOutModal = true;
         };
-        return { ...toRefs(state), refresh_page, logout };
+        return { ...toRefs(state), refresh_page, logout, closeLogout };
     },
 }
 </script>

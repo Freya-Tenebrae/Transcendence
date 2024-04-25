@@ -302,8 +302,9 @@ export class ApiController {
 	@Put('chuser')
 	async modifyUser(@Body() userdata: CreateUserDTO, @User() CallerId: number):
 		Promise<UserModel> {
-			if (await this.authService.verifyadminorsame(userdata, CallerId) == false)
+			if (userdata.id && await this.authService.verifyadminorsame(userdata, CallerId) == false)
 			{
+				console.log("[api controller chuser] userdata: ", userdata, " callerid: ", CallerId)
 				return({message: "Intruder !!!"} as any)
 			}
 			userdata.id = CallerId

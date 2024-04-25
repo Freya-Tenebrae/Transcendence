@@ -117,7 +117,7 @@ export class AuthController {
 		if (code?.error != null || !code?.code) {
 			console.log("[auth controller callback]i got nothing")
 			return res.redirect(`http://${host}:2002/?error=no_code`);
-		}
+		}////
 		const myPass = await this.userService.pass({ id: Number(req.user.id)})
 		const myUser = await this.userService.user({ id: Number(req.user.id)})
 		if (!myUser || !myPass) {

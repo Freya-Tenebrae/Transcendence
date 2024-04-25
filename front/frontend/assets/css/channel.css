@@ -1,12 +1,29 @@
 /* Styles pour la liste des channels */
 .channel-list {
-  margin: auto;
+  margin: 0;
+  /* Pour s'aligner avec le style global, pas de marges latérales */
   width: 50%;
-  background-color: #2f3136;
-  color: #8e9297;
-  text-align: center;
-  border-radius: 0;
-  font-family: 'Orbitron', sans-serif;
+  /* Prend toute la largeur disponible */
+  background-color: #1c1c22;
+  /* Couleur de fond du modal */
+  border: 1px solid #9f00c5;
+  /* Bordure pour s'aligner avec le style des modals */
+  box-shadow: 0px 0px 10px #9f00c5;
+  /* Ombre pour effet néon */
+  color: #fff;
+  /* Texte blanc pour contraster sur le fond sombre */
+  margin: auto;
+  /* Centrer le modal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  /* ou une autre hauteur selon la conception de votre application */
+  position: relative;
+  /* Pour positionner le bouton de fermeture par rapport à ce conteneur */
+  border-radius: 8px;
+  transition: max-height 0.3s ease-in-out;
 }
 
 /* Styles pour le header de la liste des channels */
@@ -19,13 +36,21 @@
   padding: 15px 10px;
 }
 
-.channel-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+
+h2 {
+  margin-bottom: 2vh;
 }
 
-s .channel-item {
+.channel-ul {
+  width: 100%;
+  text-align: center;
+  height: 50%;
+  overflow-y: auto;
+  /* Pour afficher une barre de défilement si nécessaire */
+
+}
+
+.channel-item {
   padding: 5px 10px;
 }
 
@@ -51,7 +76,7 @@ s .channel-item {
 /* Styles pour le bouton de création de channel */
 .create-channel-btn {
   font-size: 1rem;
-  background-color: #43b581;
+  background-color: #7d029b;
   color: #ffffff;
   display: block;
   margin: 10px auto;
@@ -61,12 +86,16 @@ s .channel-item {
   padding: 10px;
   width: 20%;
   text-align: center;
+  border: 1px solid #9f00c5;
+  /* Bordure pour s'aligner avec le style des modals */
+  box-shadow: 0px 0px 10px #9f00c5;
+  /* Ombre pour effet néon */
 }
 
 /* Effet de survol pour le bouton de création de channel */
 .create-channel-btn:hover {
-  background-color: #368f57;
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 /* Styliser les champs de saisie */
@@ -85,20 +114,19 @@ input[type="checkbox"] {
 /* Styliser les boutons de confirmation et d'annulation */
 .confirm-create,
 .cancel-btn {
-  background-color: #43b581;
+  background-color: #7d029b;
   border: none;
   border-radius: 3px;
   padding: 5px 10px;
   color: #ffffff;
   margin: auto;
   display: block;
-  width: 10%;
+  width: 20%;
   text-align: center;
 }
 
 .confirm-create:hover,
 .cancel-btn:hover {
-  background-color: #368f57;
   cursor: pointer;
 }
 

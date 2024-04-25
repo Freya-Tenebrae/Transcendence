@@ -1,219 +1,272 @@
 /* global.css */
 /* Styles généraux pour le thème cyberpunk */
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
 /*Styles pour les boutons */
 .btn-confirm {
-    background-color: #39004d;
-    color: #9f00c5;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;  /* Espacement entre le texte "Inscription réussie !" et le bouton */
-  }
-  
-  .btn-confirm:hover {
-    background-color: #2c0038;
-  }
-  
-  .profile-btn {
-    width: 60px;
-    height: 40px;
-    margin-left: 10px;
-    display:inline-block;
-    cursor : pointer;
-  }
+  background-color: #39004d;
+  color: #9f00c5;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+  /* Espacement entre le texte "Inscription réussie !" et le bouton */
+}
 
-  .start-login-btn {
-    padding: 10px 15px;
-    background-color: #9f00c5;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-    line-height: 50px;
-    font-family: 'Orbitron', sans-serif;
-  }
-  .start-login-btn:hover {
-    color: #2c0038; /* Changement de la couleur du texte lors du survol */
-    box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5); /* Ombre plus prononcée */
-    transform: scale(1.1);
-  }
-  .btn-confirm, .profile-btn, .start-login-btn, .return-btn {
-    font-family: 'Orbitron', sans-serif;
-  }
-  .return-btn {
-    display: block;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 10px 15px;
-    background-color: #39004d;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    line-height: 50px;
-    font-family: 'Orbitron', sans-serif;
-  }
+.btn-confirm:hover {
+  background-color: #2c0038;
+}
 
-  /* Header and icons */
-  
-  .header {
-    background-color: #0d0d14;
-    /* border-bottom: 2px solid #9f00c5; */
-    display: flex;
-    align-items: center; /* Aligner verticalement au centre */
-    justify-content: space-between; /* Espacement égal entre les éléments */
-    padding: 10px; /* Ajouter un peu d'espacement autour de l'en-tête */
-  }
-  .body,footer {
-    background-color: #0d0d14;
-  }
-  /* .footer {
+.profile-btn {
+  width: 60px;
+  height: 40px;
+  margin-left: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.start-login-btn {
+  padding: 10px 15px;
+  background-color: #9f00c5;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+  line-height: 50px;
+  font-family: 'Orbitron', sans-serif;
+  width: 20vh;
+}
+
+.start-login-btn:hover {
+  color: #2c0038;
+  /* Changement de la couleur du texte lors du survol */
+  box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5);
+  /* Ombre plus prononcée */
+  transform: scale(1.1);
+}
+
+.btn-confirm,
+.profile-btn,
+.start-login-btn,
+.return-btn {
+  font-family: 'Orbitron', sans-serif;
+}
+
+.return-btn {
+  display: block;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px 15px;
+  background-color: #39004d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  line-height: 50px;
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* Header and icons */
+
+.header {
+  background-color: #0d0d14;
+  /* border-bottom: 2px solid #9f00c5; */
+  display: flex;
+  align-items: center;
+  /* Aligner verticalement au centre */
+  justify-content: space-between;
+  /* Espacement égal entre les éléments */
+  padding: 10px;
+  /* Ajouter un peu d'espacement autour de l'en-tête */
+}
+
+.body,
+footer {
+  background-color: #0d0d14;
+}
+
+/* .footer {
    border-bottom: 2px solid #9f00c5;
   } */
-  .icon-home, .icon-login,.icon-chat{
-    filter: brightness(0) invert(1);
-    transition: filter 0.3s ease;
-    width: 24px;
-    height: 24px;
-    align-items: center;
-    margin-top: auto;
-    cursor: pointer;
-  }
-  
-  .icon-register, .icon-user, .icon-door,.icon-friends{
-    filter: brightness(0) invert(1);
-    transition: filter 0.3s ease;
-    width: 24px;
-    height: 24px;
-    margin-left: 10px;
-    margin-top: auto;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-  .icon-home:hover, .icon-friends ,.icon-login:hover, .icon-chat:hover, .icon-register:hover, .icon-user:hover, .icon-door:hover {
-      transform: scale(1.1);
-  }
-  .icon-chat {
-      position: fixed;
-      bottom: 20px;   /* 20px depuis le bas de la page */
-      right: 20px;    /* 20px depuis la droite de la page */
-      z-index: 1000;  /* Mettez-le au-dessus d'autres éléments */
-  }
-  
-  /* Styles personnalisés pour le formulaire de connexion */
-  .custom-modal-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(9, 9, 12, 0.9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .custom-modal {
-    background: #1c1c22;
-    border-radius: 5px;
-    border: 1px solid #9f00c5;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-    max-width: 360px;
-    width: 100%;
-  }
-  
-  .custom-modal-header {
-    background: #9f00c5;
-    border-bottom: 2px solid #7d009e;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .custom-modal-header h5 {
-    margin: 0;
-    font-size: 20px;
-  }
-  
-  .custom-modal-close {
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .custom-modal-body {
-    padding: 20px;
-  }
-  
-  .custom-modal-footer {
-    text-align: right;
-    padding: 5px 20px;
-  }
-  .custom-modal-body input[type="email"],
-  .custom-modal-body input[type="password"], .custom-modal-body input[type="nickname"]{
-    background-color: #0d0d14;
-    border: 1px solid #9f00c5;
-    color: #a8a8b3;
-    border-radius: 4px; /* Arrondir les coins */
-    padding: 6px; /* Espacement à l'intérieur du champ */
-    width: 100%; /* Largeur du champ */
-    margin-bottom: 10px; /* Espacement entre les champs */
-  }
-  /* Style personnalisé pour le bouton "Se connecter" */
-  .custom-modal-footer button.btn-primary {
-    background-color: #39004d;
-    border: 1px solid #9f00c5;
-    color: #fff;
-    border: none; /* Supprimer la bordure par défaut */
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer; /* Curseur de la main au survol */
-    transition: background-color 0.3s ease; /* Animation de transition de couleur de fond */
-  }
-  
-  /* Style de survol (hover) du bouton */
-  .custom-modal-footer button.btn-primary:hover {
-    background-color: #2c0038;
-      border-color: #7d009e;
-  }
-  
-  .icon-container {
-    display: flex;
-    align-items: center; /* Aligner verticalement au centre */
-    background-color: #0d0d14;
-  }
-  
-  .profile-img {
-    border-radius: 50%;
-    border: 3px solid #9f00c5;
-    width: 100px;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-  }
-  .center-container {
-    text-align: center;
-  }
+.icon-home,
+.icon-login,
+.icon-chat {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+  width: 24px;
+  height: 24px;
+  align-items: center;
+  margin-top: auto;
+  cursor: pointer;
+}
+
+.icon-register,
+.icon-user,
+.icon-door,
+.icon-friends {
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: auto;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-home:hover,
+.icon-friends,
+.icon-login:hover,
+.icon-chat:hover,
+.icon-register:hover,
+.icon-user:hover,
+.icon-door:hover {
+  transform: scale(1.1);
+}
+
+.icon-chat {
+  position: fixed;
+  bottom: 20px;
+  /* 20px depuis le bas de la page */
+  right: 20px;
+  /* 20px depuis la droite de la page */
+  z-index: 1000;
+  /* Mettez-le au-dessus d'autres éléments */
+}
+
+/* Styles personnalisés pour le formulaire de connexion */
+.custom-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 9, 12, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.custom-modal {
+  background: #1c1c22;
+  border-radius: 5px;
+  border: 1px solid #9f00c5;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  max-width: 360px;
+  width: 100%;
+}
+
+.custom-modal-header {
+  background: #9f00c5;
+  border-bottom: 2px solid #7d009e;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-modal-header h5 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.custom-modal-close {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.custom-modal-body {
+  padding: 20px;
+}
+
+.custom-modal-footer {
+  text-align: right;
+  padding: 5px 20px;
+}
+
+.custom-modal-body input[type="email"],
+.custom-modal-body input[type="password"],
+.custom-modal-body input[type="nickname"] {
+  background-color: #0d0d14;
+  border: 1px solid #9f00c5;
+  color: #a8a8b3;
+  border-radius: 4px;
+  /* Arrondir les coins */
+  padding: 6px;
+  /* Espacement à l'intérieur du champ */
+  width: 100%;
+  /* Largeur du champ */
+  margin-bottom: 10px;
+  /* Espacement entre les champs */
+}
+
+/* Style personnalisé pour le bouton "Se connecter" */
+.custom-modal-footer button.btn-primary {
+  background-color: #39004d;
+  border: 1px solid #9f00c5;
+  color: #fff;
+  border: none;
+  /* Supprimer la bordure par défaut */
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  /* Curseur de la main au survol */
+  transition: background-color 0.3s ease;
+  /* Animation de transition de couleur de fond */
+}
+
+/* Style de survol (hover) du bouton */
+.custom-modal-footer button.btn-primary:hover {
+  background-color: #2c0038;
+  border-color: #7d009e;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  /* Aligner verticalement au centre */
+  background-color: #0d0d14;
+}
+
+.profile-img {
+  border-radius: 50%;
+  border: 3px solid #9f00c5;
+  width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.center-container {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
 
 .loading-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Utilisez la pleine hauteur de la fenêtre de visualisation */
-  background-color: #111; /* Fond sombre pour le thème cyberpunk */
-  color: #fff; /* Couleur néon pour le texte */
-  font-family: 'Orbitron', sans-serif; /* Typographie futuriste */
+  height: 100vh;
+  /* Utilisez la pleine hauteur de la fenêtre de visualisation */
+  background-color: #111;
+  /* Fond sombre pour le thème cyberpunk */
+  color: #fff;
+  /* Couleur néon pour le texte */
+  font-family: 'Orbitron', sans-serif;
+  /* Typographie futuriste */
 }
 
 .loading-text {
@@ -224,54 +277,95 @@
 
 .menu-container {
   display: flex;
-  flex-direction: column; /* Empiler verticalement les boutons */
-  align-items: center; /* Centrer les boutons horizontalement */
-  margin-top: 20px; /* Espacement au-dessus du menu */
+  flex-direction: column;
+  /* Empiler verticalement les boutons */
+  align-items: center;
+  /* Centrer les boutons horizontalement */
+  /* Espacement au-dessus du menu */
+  width: 40vh;
 }
 
 .menu-btn {
   padding: 10px 15px;
-  background-color: #9f00c5; /* Même couleur de fond que .start-login-btn */
-  color: #fff; /* Texte blanc */
-  border: none; /* Pas de bordure */
-  border-radius: 5px; /* Bordures arrondies */
-  cursor: pointer; /* Apparence du curseur pour le clic */
-  margin-top: 10px; /* Espacement entre les boutons */
+  background-color: #9f00c5;
+  /* Même couleur de fond que .start-login-btn */
+  color: #fff;
+  /* Texte blanc */
+  border: none;
+  /* Pas de bordure */
+  border-radius: 5px;
+  /* Bordures arrondies */
+  cursor: pointer;
+  /* Apparence du curseur pour le clic */
+  margin-top: 10px;
+  /* Espacement entre les boutons */
   transition: background-color 0.3s ease, transform 0.3s ease;
-  line-height: 50px; /* Hauteur de ligne pour agrandir les boutons */
-  width: 80%; /* Pour s'assurer que les boutons ne sont pas trop larges */
-  max-width: 300px; /* Largeur maximale des boutons */
-  font-family: 'Orbitron', sans-serif; /* Typographie futuriste */
+  line-height: 50px;
+  /* Hauteur de ligne pour agrandir les boutons */
+  width: 100%;
+  /* Pour s'assurer que les boutons ne sont pas trop larges */
+  max-width: 300px;
+  /* Largeur maximale des boutons */
+  font-family: 'Orbitron', sans-serif;
+  /* Typographie futuriste */
 }
 
 .menu-btn:hover {
-  background-color: #fff; /* Changement de couleur lors du survol */
-  color: #2c0038; /* Changement de la couleur du texte lors du survol */
-  box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5); /* Ombre plus prononcée */
+  background-color: #fff;
+  /* Changement de couleur lors du survol */
+  color: #2c0038;
+  /* Changement de la couleur du texte lors du survol */
+  box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5);
+  /* Ombre plus prononcée */
   transform: scale(1.1);
 }
 
 /* Nuances différentes pour chaque bouton */
-.menu-btn:nth-child(1) { background-color: #9f00c5; } /* Nuance de base */
-.menu-btn:nth-child(2) { background-color: #8e00b1; }
-.menu-btn:nth-child(3) { background-color: #7d009e; }
-.menu-btn:nth-child(4) { background-color: #6c008b; }
-.menu-btn:nth-child(5) { background-color: #5b0078; }
-.menu-btn:nth-child(6) { background-color: #4a0065; }
-.menu-btn:nth-child(7) { background-color: #390052; }
+.menu-btn:nth-child(1) {
+  background-color: #9f00c5;
+}
+
+/* Nuance de base */
+.menu-btn:nth-child(2) {
+  background-color: #8e00b1;
+}
+
+.menu-btn:nth-child(3) {
+  background-color: #7d009e;
+}
+
+.menu-btn:nth-child(4) {
+  background-color: #6c008b;
+}
+
+.menu-btn:nth-child(5) {
+  background-color: #5b0078;
+}
+
+.menu-btn:nth-child(6) {
+  background-color: #4a0065;
+}
+
+.menu-btn:nth-child(7) {
+  background-color: #390052;
+}
+
 .menu-btn:first-child {
   margin-top: 0;
 }
+
 .errors {
-  color:red;
+  color: red;
   font-size: 12px;
 }
+
 /* Pour la réactivité, si les boutons sont trop serrés sur mobile */
 @media (max-width: 600px) {
   .menu-btn {
     padding: 8px 12px;
     line-height: 40px;
-    font-size: 0.9em; /* Réduire la taille de la police sur les petits écrans */
+    font-size: 0.9em;
+    /* Réduire la taille de la police sur les petits écrans */
   }
 }
 
@@ -280,45 +374,66 @@
 @keyframes neon {
   from {
     text-shadow:
-      0 0 10px #9f00c5, /* Lumière violette */
-      0 0 20px #9f00c5, /* Lumière violette */
-      0 0 30px #9f00c5, /* Lumière violette */
-      0 0 40px #39004d, /* Ombre plus foncée */
-      0 0 70px #39004d, /* Ombre plus foncée */
-      0 0 80px #7d009e, /* Violet intermédiaire */
-      0 0 100px #7d009e, /* Violet intermédiaire */
-      0 0 150px #2c0038; /* Violet encore plus foncé */
+      0 0 10px #9f00c5,
+      /* Lumière violette */
+      0 0 20px #9f00c5,
+      /* Lumière violette */
+      0 0 30px #9f00c5,
+      /* Lumière violette */
+      0 0 40px #39004d,
+      /* Ombre plus foncée */
+      0 0 70px #39004d,
+      /* Ombre plus foncée */
+      0 0 80px #7d009e,
+      /* Violet intermédiaire */
+      0 0 100px #7d009e,
+      /* Violet intermédiaire */
+      0 0 150px #2c0038;
+    /* Violet encore plus foncé */
   }
+
   to {
     text-shadow:
-      0 0 5px #9f00c5, /* Lumière violette */
-      0 0 10px #9f00c5, /* Lumière violette */
-      0 0 15px #9f00c5, /* Lumière violette */
-      0 0 20px #39004d, /* Ombre plus foncée */
-      0 0 35px #39004d, /* Ombre plus foncée */
-      0 0 40px #7d009e, /* Violet intermédiaire */
-      0 0 50px #7d009e, /* Violet intermédiaire */
-      0 0 75px #2c0038; /* Violet encore plus foncé */
+      0 0 5px #9f00c5,
+      /* Lumière violette */
+      0 0 10px #9f00c5,
+      /* Lumière violette */
+      0 0 15px #9f00c5,
+      /* Lumière violette */
+      0 0 20px #39004d,
+      /* Ombre plus foncée */
+      0 0 35px #39004d,
+      /* Ombre plus foncée */
+      0 0 40px #7d009e,
+      /* Violet intermédiaire */
+      0 0 50px #7d009e,
+      /* Violet intermédiaire */
+      0 0 75px #2c0038;
+    /* Violet encore plus foncé */
   }
 }
 
 .duel-box {
-  z-index: 1000; /* Ensures the box appears above other content */
-  width: 30%; /* Set a width */
+  z-index: 1000;
+  /* Ensures the box appears above other content */
+  width: 30%;
+  /* Set a width */
   text-align: center;
   background: #1c1c22;
   border-radius: 5px;
   border: 1px solid #9f00c5;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
+
 .duel-container {
   background-color: #0d0d14;
   /* border-bottom: 2px solid #9f00c5; */
   display: flex;
   justify-content: center;
   align-items: center;
-  width :100%;
+  width: 100%;
 }
+
 .duel-box .close {
   color: #aaa;
   font-size: 24px;
@@ -336,6 +451,20 @@
   border: 1px solid #9f00c5;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }
+
 .duel-btn:hover {
   cursor: pointer;
 }
+
+/* .channel-list {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(9, 9, 12, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+} */

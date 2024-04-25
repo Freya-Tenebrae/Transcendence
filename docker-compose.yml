@@ -75,8 +75,8 @@ services:
       - back-net
     volumes:
       - ./front:/Transcendence:rw
-  img-storage:
-    image: ghcr.io/hascheksolutions/pictshare
+  # img-storage:
+  #   image: ghcr.io/hascheksolutions/pictshare
 #      - github-vol:/Transcendence:rw
 
 networks:

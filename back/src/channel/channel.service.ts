@@ -20,21 +20,17 @@ export class ChannelService {
     private channelMessage: ChannelMessage[] = [];
 
     // constructor and call a clock to update all game
-    constructor(private prisma: PrismaService, private archivement: ArchivementService)
-    {
+    constructor(private prisma: PrismaService, private archivement: ArchivementService) {
         this.initializeValue();
     }
 
-    private async initializeValue()
-    {
+    private async initializeValue() {
         const channelPrisma = await this.prisma.channel.findMany();
         const isMemberOfPrisma = await this.prisma.isMemberOf.findMany();
         const channelMessagePrisma = await this.prisma.channelMessage.findMany();
 
-        for (let i = 0; i < channelPrisma.length; i++)
-        {
-            if (!this.channel.find((channel) => channel.id == channelPrisma[i].id))
-            {
+        for (let i = 0; i < channelPrisma.length; i++) {
+            if (!this.channel.find((channel) => channel.id == channelPrisma[i].id)) {
                 const channelFromPrisma: Channel = {
                     id: channelPrisma[i].id,
                     name: channelPrisma[i].name,
@@ -46,11 +42,9 @@ export class ChannelService {
             }
         }
 
-        for (let j = 0; j < isMemberOfPrisma.length; j++)
-        {
-            if (!this.isMemberOf.find((isMemberOf) => isMemberOf.userId == isMemberOfPrisma[j].userId && 
-                isMemberOf.channelId == isMemberOfPrisma[j].channelId))
-            {
+        for (let j = 0; j < isMemberOfPrisma.length; j++) {
+            if (!this.isMemberOf.find((isMemberOf) => isMemberOf.userId == isMemberOfPrisma[j].userId &&
+                isMemberOf.channelId == isMemberOfPrisma[j].channelId)) {
                 const isMemberOfFromPrisma: IsMemberOf = {
                     userId: isMemberOfPrisma[j].userId,
                     channelId: isMemberOfPrisma[j].channelId,
@@ -62,13 +56,11 @@ export class ChannelService {
             }
         }
 
-        for (let k = 0; k < channelMessagePrisma.length; k++)
-        {
-            if (!this.channelMessage.find((channelMessage) => 
-                channelMessage.userId == channelMessagePrisma[k].userId && 
-                channelMessage.channelId == channelMessagePrisma[k].channelId && 
-                channelMessage.date == channelMessagePrisma[k].date))
-            {
+        for (let k = 0; k < channelMessagePrisma.length; k++) {
+            if (!this.channelMessage.find((channelMessage) =>
+                channelMessage.userId == channelMessagePrisma[k].userId &&
+                channelMessage.channelId == channelMessagePrisma[k].channelId &&
+                channelMessage.date == channelMessagePrisma[k].date)) {
                 const channelMessageFromPrisma: ChannelMessage = {
                     userId: channelMessagePrisma[k].userId,
                     channelId: channelMessagePrisma[k].channelId,
@@ -79,22 +71,61 @@ export class ChannelService {
                 this.channelMessage.push(channelMessageFromPrisma);
             }
         }
+
+        // setInterval(() =>
+        // {
+        //     this.putLogs();
+
+        // }, 10000);
     }
 
-    findAllPublicChannels(): Channel[]
-    {
+    // async putLogs()
+    // {
+    //     const channelPrisma = await this.prisma.channel.findMany();
+    //     const isMemberOfPrisma = await this.prisma.isMemberOf.findMany();
+    //     const channelMessagePrisma = await this.prisma.channelMessage.findMany();
+
+    //     console.log("------------------------------------------");
+    //     console.log("channel SERVICE :");
+    //     for (let i = 0; i < this.channel.length; i++)
+    //         console.log(this.channel[i]);
+
+    //     console.log("------------------------------------------");
+    //     console.log("channel PRISMA :");
+    //     for (let i = 0; i < channelPrisma.length; i++)
+    //         console.log(channelPrisma[i]);
+
+    //     console.log("------------------------------------------");
+    //     console.log("isMemberOf SERVICE :");
+    //     for (let i = 0; i < this.isMemberOf.length; i++)
+    //         console.log(this.isMemberOf[i]);
+
+    //     console.log("------------------------------------------");
+    //     console.log("isMemberOf PRISMA :");
+    //     for (let i = 0; i < isMemberOfPrisma.length; i++)
+    //         console.log(isMemberOfPrisma[i]);
+
+    //     console.log("------------------------------------------");
+    //     console.log("channelMessages SERVICE :");
+    //     for (let i = 0; i < this.channelMessage.length; i++)
+    //         console.log(this.channelMessage[i]);
+
+    //     console.log("------------------------------------------");
+    //     console.log("channelMessages PRISMA :")
+    //     for (let i = 0; i < channelMessagePrisma.length; i++)
+    //         console.log(channelMessagePrisma[i]);
+    // }
+
+    findAllPublicChannels(): Channel[] {
         return this.channel.filter((channel) => channel.privacy == false);
     }
 
-    findMyChannels(userId: number): Channel[]
-    {
+    findMyChannels(userId: number): Channel[] {
         const myChannels: Channel[] = [];
         const userIsOnChannels = this.isMemberOf.filter((isMemberOf) => isMemberOf.userId == userId);
-        
-        for (let i = 0; i < this.channel.length; i++)
-        {
-            for (let j = 0; j < userIsOnChannels.length; j++)
-            {
+
+        for (let i = 0; i < this.channel.length; i++) {
+            for (let j = 0; j < userIsOnChannels.length; j++) {
                 if (this.channel[i].id == userIsOnChannels[j].channelId && userIsOnChannels[j].status != "BANNED")
                     myChannels.push(this.channel[i]);
             }
@@ -103,16 +134,13 @@ export class ChannelService {
         return myChannels;
     }
 
-    findMyChannelWithPrivileges(channelId: number, userId:number): Channel[]
-    {
+    findMyChannelWithPrivileges(channelId: number, userId: number): Channel[] {
         const myChannels: Channel[] = [];
-        const userIsOnChannels = this.isMemberOf.filter((isMemberOf) => isMemberOf.userId == userId && 
-        isMemberOf.status == "OWNER" || isMemberOf.status == "ADMIN");
-        
-        for (let i = 0; i < this.channel.length; i++)
-        {
-            for (let j = 0; j < userIsOnChannels.length; j++)
-            {
+        const userIsOnChannels = this.isMemberOf.filter((isMemberOf) => isMemberOf.userId == userId &&
+            isMemberOf.status == "OWNER" || isMemberOf.status == "ADMIN");
+
+        for (let i = 0; i < this.channel.length; i++) {
+            for (let j = 0; j < userIsOnChannels.length; j++) {
                 if (this.channel[i].id == userIsOnChannels[j].channelId && userIsOnChannels[j].status != "BANNED")
                     myChannels.push(this.channel[i]);
             }
@@ -121,9 +149,8 @@ export class ChannelService {
         return myChannels;
     }
 
-    async findSpecificChannels(channelId: number, userId: number): Promise<Channel | undefined>
-    {    
-        const realtion = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId && 
+    async findSpecificChannels(channelId: number, userId: number): Promise<Channel | undefined> {
+        const realtion = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
 
         if (realtion && realtion.status != "BANNED")
@@ -132,55 +159,53 @@ export class ChannelService {
             return undefined;
     }
 
-    async createChannel(userId: number, channelName: string, channelPrivacy: boolean, 
-        channelPass: string): Promise<Channel>
-    {
+    async createChannel(userId: number, channelName: string, channelPrivacy: boolean,
+        channelPass: string): Promise<Channel> {
         const user = await this.prisma.user.findFirst(
-        {
-            where : {id: Number(userId),}
-        });
+            {
+                where: { id: Number(userId), }
+            });
 
         if (!user)
-            return ;
+            return;
 
         let salted_pass: string = "";
         let salt: string = "";
-        if (channelPass != "")
-        {
+        if (channelPass != "") {
             const saltRounds = 10; // Number of salt rounds (cost factor)
             salt = bcrypt.genSaltSync(saltRounds); // Generate a salt
             salted_pass = bcrypt.hashSync(channelPass, salt);
 
         }
         const channelCreated = await this.prisma.channel.create(
-        {
-            data:
             {
-                name: channelName,
-                privacy: channelPrivacy,
-                password: salted_pass,
-                salt: salt,
-                creation: new Date(),
-            },
-        });
+                data:
+                {
+                    name: channelName,
+                    privacy: channelPrivacy,
+                    password: salted_pass,
+                    salt: salt,
+                    creation: new Date(),
+                },
+            });
 
         if (!channelCreated)
-            return ;
+            return;
 
         const isMemberOfCreated = await this.prisma.isMemberOf.create(
-        {
-            data:
             {
-                userId: Number(userId),
-                channelId: channelCreated.id,
-                status: "OWNER",
-                dateJoined: channelCreated.creation,
-            },
-        });
+                data:
+                {
+                    userId: Number(userId),
+                    channelId: channelCreated.id,
+                    status: "OWNER",
+                    dateJoined: channelCreated.creation,
+                },
+            });
 
         if (!isMemberOfCreated)
-            return ;
-        
+            return;
+
         const newChannel: Channel = {
             id: channelCreated.id,
             name: channelCreated.name,
@@ -196,7 +221,7 @@ export class ChannelService {
             dateJoined: isMemberOfCreated.dateJoined,
         };
 
-        this.channel.push(newChannel); 
+        this.channel.push(newChannel);
         this.isMemberOf.push(newIsMemberOf);
 
         this.archivement.unlockArchivements(userId, this.archivement.archivementIdWelcomeToTheAfterlife);
@@ -205,20 +230,17 @@ export class ChannelService {
         return newChannel;
     }
 
-    async updateChannelName(channelId:number, userId: number, newName: string): Promise<boolean>
-    {
-        const relation : IsMemberOf = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
+    async updateChannelName(channelId: number, userId: number, newName: string): Promise<boolean> {
+        const relation: IsMemberOf = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
-        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN"))
-        {
+        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN")) {
             const channel = this.channel.find((channel) => channel.id == channelId);
-            if (channel)
-            {
+            if (channel) {
                 const channelUpdated = await this.prisma.channel.update(
-                {
-                    where: { id: Number(channelId) },
-                    data: { name: newName },
-                });
+                    {
+                        where: { id: Number(channelId) },
+                        data: { name: newName },
+                    });
 
                 if (!channelUpdated)
                     return false;
@@ -230,20 +252,17 @@ export class ChannelService {
         return false;
     }
 
-    async updateChannelImage(channelId:number, userId: number, newPathImage: string): Promise<boolean>
-    {
+    async updateChannelImage(channelId: number, userId: number, newPathImage: string): Promise<boolean> {
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
-        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN"))
-        {
+        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN")) {
             const channel = this.channel.find((channel) => channel.id == channelId);
-            if (channel)
-            {
+            if (channel) {
                 const channelUpdated = await this.prisma.channel.update(
-                {
-                    where: { id: Number(channelId) },
-                    data: { pathImage: newPathImage },
-                });
+                    {
+                        where: { id: Number(channelId) },
+                        data: { pathImage: newPathImage },
+                    });
 
                 if (!channelUpdated)
                     return false;
@@ -255,20 +274,17 @@ export class ChannelService {
         return false;
     }
 
-    async updateChannelPrivacy(channelId:number, userId: number, newPrivacy: boolean): Promise<boolean>
-    {
+    async updateChannelPrivacy(channelId: number, userId: number, newPrivacy: boolean): Promise<boolean> {
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
-        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN"))
-        {
+        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN")) {
             const channel = this.channel.find((channel) => channel.id == channelId);
-            if (channel)
-            {
+            if (channel) {
                 const channelUpdated = await this.prisma.channel.update(
-                {
-                    where: { id: Number(channelId) },
-                    data: { privacy: Boolean(newPrivacy) },
-                });
+                    {
+                        where: { id: Number(channelId) },
+                        data: { privacy: Boolean(newPrivacy) },
+                    });
 
                 if (!channelUpdated)
                     return false;
@@ -280,29 +296,25 @@ export class ChannelService {
         return false;
     }
 
-    async updateChannelPassword(channelId:number, userId: number, newPassword: string): Promise<boolean>
-    {
+    async updateChannelPassword(channelId: number, userId: number, newPassword: string): Promise<boolean> {
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
-        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN"))
-        {
+        if (relation && (relation.status == "OWNER" || relation.status == "ADMIN")) {
             const channel = this.channel.find((channel) => channel.id == channelId);
-            if (channel)
-            {
+            if (channel) {
                 let salted_pass: string = "";
                 let salt: string = "";
-                if (newPassword != "")
-                {
+                if (newPassword != "") {
                     const saltRounds = 10; // Number of salt rounds (cost factor)
                     salt = bcrypt.genSaltSync(saltRounds); // Generate a salt
                     salted_pass = bcrypt.hashSync(newPassword, salt);
 
                 }
                 const channelUpdated = await this.prisma.channel.update(
-                {
-                    where: { id: Number(channelId) },
-                    data: { password: salted_pass, salt: salt },
-                });
+                    {
+                        where: { id: Number(channelId) },
+                        data: { password: salted_pass, salt: salt },
+                    });
 
                 if (!channelUpdated)
                     return false;
@@ -313,27 +325,22 @@ export class ChannelService {
         return false;
     }
 
-    async deleteChannel(channelId:number, userId: number): Promise<boolean>
-    {
+    async deleteChannel(channelId: number, userId: number): Promise<boolean> {
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
-        if (relation && (relation.status == "OWNER"))
-        {
+        if (relation && (relation.status == "OWNER")) {
             const channelToDelete = this.channel.find((channel) => channel.id == channelId);
-            if (channelToDelete)
-            {
+            if (channelToDelete) {
                 const isMemberOfDeleted = await this.prisma.isMemberOf.deleteMany(
-                {
-                    where: { channelId: Number(channelId) },
-                });
+                    {
+                        where: { channelId: Number(channelId) },
+                    });
 
                 if (!isMemberOfDeleted)
                     return false;
 
-                for (let i = 0; i < this.isMemberOf.length; i++)
-                {
-                    if (this.isMemberOf[i].channelId == channelId)
-                    {
+                for (let i = 0; i < this.isMemberOf.length; i++) {
+                    if (this.isMemberOf[i].channelId == channelId) {
                         delete this.isMemberOf[i];
                         this.isMemberOf.splice(i, 1);
                         i--;
@@ -341,17 +348,15 @@ export class ChannelService {
                 }
 
                 const messageOnChannelDeleted = await this.prisma.channelMessage.deleteMany(
-                {
-                    where: { channelId: Number(channelId) },
-                });
-    
+                    {
+                        where: { channelId: Number(channelId) },
+                    });
+
                 if (!messageOnChannelDeleted)
                     return false;
 
-                for (let i = 0; i < this.channelMessage.length; i++)
-                {
-                    if (this.channelMessage[i].channelId == channelId)
-                    {
+                for (let i = 0; i < this.channelMessage.length; i++) {
+                    if (this.channelMessage[i].channelId == channelId) {
                         delete this.channelMessage[i];
                         this.channelMessage.splice(i, 1);
                         i--;
@@ -359,17 +364,15 @@ export class ChannelService {
                 }
 
                 const channelDeleted = await this.prisma.channel.delete(
-                {
-                    where: { id: Number(channelId) },
-                });
+                    {
+                        where: { id: Number(channelId) },
+                    });
 
                 if (!channelDeleted)
                     return false;
-                
-                for (let i = 0; i < this.channel.length; i++)
-                {
-                    if (this.channel[i].id == channelId)
-                    {
+
+                for (let i = 0; i < this.channel.length; i++) {
+                    if (this.channel[i].id == channelId) {
                         delete this.channel[i];
                         this.channel.splice(i, 1);
                         break;
@@ -377,22 +380,24 @@ export class ChannelService {
                 }
                 return true;
             }
-        } 
+        }
         return false;
     }
 
-    async getUsersOfChannel(channelId:number, userId: number): Promise<IsMemberOf[]>
-    {
+    async getAllMyIsMemberOf(userId: number): Promise<IsMemberOf[]> {
+        return this.isMemberOf.filter((isMemberOf) => isMemberOf.userId == Number(userId));
+    }
+
+    async getUsersOfChannel(channelId: number, userId: number): Promise<IsMemberOf[]> {
         if (this.isMemberOf.find((isMemberOf) => isMemberOf.channelId == Number(channelId) &&
             isMemberOf.userId == Number(userId)))
             return this.isMemberOf.filter((isMemberOf) => isMemberOf.channelId == Number(channelId));
         return [];
     }
 
-    async joinChannel(channelId:number, userId: number, password: string): Promise<boolean>
-    {
+    async joinChannel(channelId: number, userId: number, password: string): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
-        const chPrisma = await this.prisma.channel.findUnique({where: {id: Number(channelId)}});
+        const chPrisma = await this.prisma.channel.findUnique({ where: { id: Number(channelId) } });
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
 
@@ -403,16 +408,15 @@ export class ChannelService {
             return false;
 
 
-        if (relation && relation.status == "INVITED")
-        {
+        if (relation && relation.status == "INVITED") {
             const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where: {
-                    userId: Number(userId),
-                    channelId: Number(channelId),
-                },
-                data: { status: "MEMBER" } 
-            });
+                {
+                    where: {
+                        userId: Number(userId),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "MEMBER" }
+                });
 
             if (!isMemberOfUpdated)
                 return false;
@@ -421,29 +425,27 @@ export class ChannelService {
 
             this.archivement.unlockArchivements(userId, this.archivement.archivementIdWelcomeToTheAfterlife);
             return true;
-        }   
-        else 
-        {
+        }
+        else {
             let salted_pass: string = "";
             if (chPrisma.salt == null || chPrisma.salt == "")
                 password = "";
-            else if (password != "" )
+            else if (password != "")
                 salted_pass = bcrypt.hashSync(password, chPrisma.salt);
-            
-            if (chPrisma.password == "" || chPrisma.password == salted_pass)
-            {
+
+            if (chPrisma.password == "" || chPrisma.password == salted_pass) {
                 const isMemberOfCreated = await this.prisma.isMemberOf.create(
-                {
-                    data: {
-                        userId: Number(userId),
-                        channelId: Number(channelId),
-                        status: "MEMBER",
-                    },
-                });
+                    {
+                        data: {
+                            userId: Number(userId),
+                            channelId: Number(channelId),
+                            status: "MEMBER",
+                        },
+                    });
 
                 if (!isMemberOfCreated)
                     return false;
-        
+
                 const newIsMemberOf: IsMemberOf = {
                     userId: isMemberOfCreated.userId,
                     channelId: isMemberOfCreated.channelId,
@@ -460,8 +462,7 @@ export class ChannelService {
         return false;
     }
 
-    async inviteChannel(channelId:number, userId: number, userIdInvited: number): Promise<boolean>
-    {
+    async inviteChannel(channelId: number, userId: number, userIdInvited: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -470,23 +471,22 @@ export class ChannelService {
 
         if (!relation || !ch || relationinvited)
             return false;
-        
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
+
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
             const isMemberOfCreated = await this.prisma.isMemberOf.create(
-            {
-                data:
                 {
-                    userId: Number(userIdInvited),
-                    channelId: Number(channelId),
-                    status: "INVITED",
-                },
-            });
+                    data:
+                    {
+                        userId: Number(userIdInvited),
+                        channelId: Number(channelId),
+                        status: "INVITED",
+                    },
+                });
 
             if (!isMemberOfCreated)
                 return false;
-    
+
             const newIsMemberOf: IsMemberOf = {
                 userId: isMemberOfCreated.userId,
                 channelId: isMemberOfCreated.channelId,
@@ -501,8 +501,7 @@ export class ChannelService {
         return false;
     }
 
-    async banFromChannel(channelId:number, userId: number, userIdToBan: number): Promise<boolean>
-    {
+    async banFromChannel(channelId: number, userId: number, userIdToBan: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -513,47 +512,44 @@ export class ChannelService {
             relationToBan.status == "ADMIN" || relationToBan.status == "BANNED")))
             return false;
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
-            if (relationToBan)
-            {
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
+            if (relationToBan) {
                 const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-                {
-                    where:
                     {
-                        userId: Number(userIdToBan),
-                        channelId: Number(channelId),
-                    },
-                    data: {status: "BANNED"}
-                });
+                        where:
+                        {
+                            userId: Number(userIdToBan),
+                            channelId: Number(channelId),
+                        },
+                        data: { status: "BANNED" }
+                    });
 
                 if (!isMemberOfUpdated)
                     return false;
 
                 relationToBan.status = "BANNED";
             }
-            else
-            {
+            else {
                 const isMemberOfCreated = await this.prisma.isMemberOf.create(
-                {
-                    data:
                     {
-                        userId: Number(userIdToBan),
-                        channelId: Number(channelId),
-                        status: "BANNED",
-                    },
-                });
-        
+                        data:
+                        {
+                            userId: Number(userIdToBan),
+                            channelId: Number(channelId),
+                            status: "BANNED",
+                        },
+                    });
+
                 if (!isMemberOfCreated)
                     return false;
-                
+
                 const newIsMemberOf: IsMemberOf = {
                     userId: isMemberOfCreated.userId,
                     channelId: isMemberOfCreated.channelId,
                     status: isMemberOfCreated.status,
                     dateJoined: isMemberOfCreated.dateJoined,
                 };
-    
+
                 this.isMemberOf.push(newIsMemberOf);
             }
             return true;
@@ -561,8 +557,7 @@ export class ChannelService {
         return false;
     }
 
-    async unBanFromChannel(channelId:number, userId: number, userIdToUnBan: number): Promise<boolean>
-    {
+    async unBanFromChannel(channelId: number, userId: number, userIdToUnBan: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -572,16 +567,15 @@ export class ChannelService {
         if (!relation || !ch || !relationToUnBan || (relationToUnBan && relationToUnBan.status != "BANNED"))
             return false;
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
             const isMemberOfDeleted = await this.prisma.isMemberOf.deleteMany(
-            {
-                where:
                 {
-                    channelId: Number(channelId),
-                    userId: Number(userIdToUnBan),
-                },
-            });
+                    where:
+                    {
+                        channelId: Number(channelId),
+                        userId: Number(userIdToUnBan),
+                    },
+                });
 
             if (!isMemberOfDeleted)
                 return false;
@@ -590,14 +584,13 @@ export class ChannelService {
 
             delete this.isMemberOf[index];
             this.isMemberOf.splice(index, 1);
-            
+
             return true;
         }
         return false;
     }
 
-    async muteFromChannel(channelId:number, userId: number, userIdToMute: number): Promise<boolean>
-    {
+    async muteFromChannel(channelId: number, userId: number, userIdToMute: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -607,17 +600,16 @@ export class ChannelService {
         if (!relation || !ch || !relationToMute || (relationToMute && relationToMute.status != "MEMBER"))
             return false;
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
             const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userIdToMute),
-                    channelId: Number(channelId),
-                },
-                data: {status: "MUTED"}
-            });
+                    where:
+                    {
+                        userId: Number(userIdToMute),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "MUTED" }
+                });
 
             if (!isMemberOfUpdated)
                 return false;
@@ -629,8 +621,7 @@ export class ChannelService {
         return false;
     }
 
-    async unmuteFromChannel(channelId:number, userId: number, userIdToUnMute: number): Promise<boolean>
-    {
+    async unmuteFromChannel(channelId: number, userId: number, userIdToUnMute: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -640,17 +631,16 @@ export class ChannelService {
         if (!relation || !ch || !relationToUnMute || (relationToUnMute && relationToUnMute.status != "MUTED"))
             return false;
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
             const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userIdToUnMute),
-                    channelId: Number(channelId),
-                },
-                data: {status: "MEMBER"}
-            });
+                    where:
+                    {
+                        userId: Number(userIdToUnMute),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "MEMBER" }
+                });
 
             if (!isMemberOfUpdated)
                 return false;
@@ -662,8 +652,7 @@ export class ChannelService {
         return false;
     }
 
-    async promoteFromChannel(channelId:number, userId: number, userIdToPromote: number): Promise<boolean>
-    {
+    async promoteFromChannel(channelId: number, userId: number, userIdToPromote: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -673,17 +662,16 @@ export class ChannelService {
         if (!relation || !ch || !relationToPromote || (relationToPromote && relationToPromote.status != "MEMBER"))
             return false;
 
-        if (relation.status == "OWNER")
-        {
+        if (relation.status == "OWNER") {
             const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userIdToPromote),
-                    channelId: Number(channelId),
-                },
-                data: {status: "ADMIN"}
-            });
+                    where:
+                    {
+                        userId: Number(userIdToPromote),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "ADMIN" }
+                });
 
             if (!isMemberOfUpdated)
                 return false;
@@ -696,8 +684,7 @@ export class ChannelService {
         return false;
     }
 
-    async demoteFromChannel(channelId:number, userId: number, userIdToDemote: number): Promise<boolean>
-    {
+    async demoteFromChannel(channelId: number, userId: number, userIdToDemote: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -707,17 +694,16 @@ export class ChannelService {
         if (!relation || !ch || !relationToDemote || (relationToDemote && relationToDemote.status != "ADMIN"))
             return false;
 
-        if (relation.status == "OWNER")
-        {
+        if (relation.status == "OWNER") {
             const isMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userIdToDemote),
-                    channelId: Number(channelId),
-                },
-                data: {status: "MEMBER"}
-            });
+                    where:
+                    {
+                        userId: Number(userIdToDemote),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "MEMBER" }
+                });
 
             if (!isMemberOfUpdated)
                 return false;
@@ -729,29 +715,27 @@ export class ChannelService {
         return false;
     }
 
-    async giveOwnershipChannelTo(channelId:number, userId: number, userIdToGiveOwnership: number): Promise<boolean>
-    {
+    async giveOwnershipChannelTo(channelId: number, userId: number, userIdToGiveOwnership: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
         const relationToGiveOwnership = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userIdToGiveOwnership &&
             isMemberOf.channelId == channelId);
 
-        if (!relation || !ch || !relationToGiveOwnership || 
+        if (!relation || !ch || !relationToGiveOwnership ||
             (relationToGiveOwnership && relationToGiveOwnership.status != "ADMIN"))
             return false;
 
-        if (relation.status == "OWNER")
-        {
+        if (relation.status == "OWNER") {
             const IsMemberOfUpdated = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userIdToGiveOwnership),
-                    channelId: Number(channelId),
-                },
-                data: {status: "OWNER"}
-            });
+                    where:
+                    {
+                        userId: Number(userIdToGiveOwnership),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "OWNER" }
+                });
 
             if (!IsMemberOfUpdated)
                 return false;
@@ -759,14 +743,14 @@ export class ChannelService {
             relationToGiveOwnership.status = "OWNER";
 
             const IsMemberOfUpdated2 = await this.prisma.isMemberOf.updateMany(
-            {
-                where:
                 {
-                    userId: Number(userId),
-                    channelId: Number(channelId),
-                },
-                data: {status: "ADMIN"}
-            });
+                    where:
+                    {
+                        userId: Number(userId),
+                        channelId: Number(channelId),
+                    },
+                    data: { status: "ADMIN" }
+                });
 
             if (!IsMemberOfUpdated2)
                 return false;
@@ -778,8 +762,7 @@ export class ChannelService {
         return false;
     }
 
-    async KickFromChannel(channelId:number, userId: number, userIdToKick: number): Promise<boolean>
-    {
+    async KickFromChannel(channelId: number, userId: number, userIdToKick: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -789,19 +772,18 @@ export class ChannelService {
         if (!relation || !ch || !relationToKick ||
             relationToKick.status == "OWNER" ||
             relationToKick.status == "BANNED" ||
-            relationToKick.status == "ADMIN")
+            (relation.status != "OWNER" && relationToKick.status == "ADMIN"))
             return false;
 
-        if (relation.status == "OWNER" || relation.status == "ADMIN")
-        {
+        if (relation.status == "OWNER" || relation.status == "ADMIN") {
             const isMemberOfDeleted = await this.prisma.isMemberOf.deleteMany(
-            {
-                where: 
                 {
-                    channelId: Number(channelId),
-                    userId: Number(userIdToKick),
-                },
-            });
+                    where:
+                    {
+                        channelId: Number(channelId),
+                        userId: Number(userIdToKick),
+                    },
+                });
 
             if (!isMemberOfDeleted)
                 return false;
@@ -814,8 +796,7 @@ export class ChannelService {
         return false;
     }
 
-    async leaveChannel(channelId:number, userId: number): Promise<boolean>
-    {
+    async leaveChannel(channelId: number, userId: number): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -823,16 +804,15 @@ export class ChannelService {
         if (!relation || !ch)
             return false;
 
-        if (relation.status != "OWNER" && relation.status != "BANNED")
-        {
+        if (relation.status != "OWNER" && relation.status != "BANNED") {
             const isMemberOdDeleted = await this.prisma.isMemberOf.deleteMany(
-            {
-                where:
                 {
-                    channelId: Number(channelId),
-                    userId: Number(userId),
-                }, 
-            });
+                    where:
+                    {
+                        channelId: Number(channelId),
+                        userId: Number(userId),
+                    },
+                });
 
             if (!isMemberOdDeleted)
                 return false;
@@ -846,21 +826,19 @@ export class ChannelService {
         return false;
     }
 
-    async getAllMessageFromChannel(channelId:number, userId: number): Promise<ChannelMessage[]>
-    {
+    async getAllMessageFromChannel(channelId: number, userId: number): Promise<ChannelMessage[]> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
 
         if (!relation || !ch || relation.status == "BANNED" || relation.status == "INVITED")
-            return ;
+            return;
 
         return this.channelMessage.filter((channelMessage) => channelMessage.channelId == channelId);
     }
 
-    async newMessageToChannel(channelId:number, userId: number, content: string): Promise<boolean>
-    {
-        const ch = this.channel.find((channel) => channel.id = channelId);
+    async newMessageToChannel(channelId: number, userId: number, content: string): Promise<boolean> {
+        const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
 
@@ -870,13 +848,13 @@ export class ChannelService {
 
         const channelMessageCreated = await this.prisma.channelMessage.create(
             {
-            data:
-            {
-                userId: Number(userId),
-                channelId: Number(channelId),
-                content: content,
-            },
-        });
+                data:
+                {
+                    userId: Number(userId),
+                    channelId: Number(channelId),
+                    content: content,
+                },
+            });
 
         if (!channelMessageCreated)
             return false;
@@ -892,8 +870,7 @@ export class ChannelService {
         return true;
     }
 
-    async updateMessageToChannel(channelId:number, userId: number, dateMessageToUpdate: string, content: string): Promise<boolean>
-    {
+    async updateMessageToChannel(channelId: number, userId: number, dateMessageToUpdate: string, content: string): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -904,20 +881,20 @@ export class ChannelService {
 
         const message = this.channelMessage.find((channelMessage) => channelMessage.userId == userId &&
             channelMessage.channelId == channelId && channelMessage.date.toISOString() == dateMessageToUpdate);
-        
+
         if (!message)
             return false;
 
         const channelMessageUpdated = this.prisma.channelMessage.updateMany(
-        {
-            where:
             {
-                userId: Number(userId),
-                channelId: Number(channelId),
-                date: dateMessageToUpdate,
-            },
-            data: {content: content}
-        });
+                where:
+                {
+                    userId: Number(userId),
+                    channelId: Number(channelId),
+                    date: dateMessageToUpdate,
+                },
+                data: { content: content }
+            });
 
         if (!channelMessageUpdated)
             return false;
@@ -927,8 +904,7 @@ export class ChannelService {
         return true;
     }
 
-    async deleteMessageFromChannel(channelId:number, userId: number, userIdMessage: number, dateMessageToDelete: string): Promise<boolean>
-    {
+    async deleteMessageFromChannel(channelId: number, userId: number, userIdMessage: number, dateMessageToDelete: string): Promise<boolean> {
         const ch = this.channel.find((channel) => channel.id == channelId);
         const relation = this.isMemberOf.find((isMemberOf) => isMemberOf.userId == userId &&
             isMemberOf.channelId == channelId);
@@ -939,19 +915,19 @@ export class ChannelService {
 
         const message = this.channelMessage.find((channelMessage) => channelMessage.userId == userIdMessage &&
             channelMessage.channelId == channelId && channelMessage.date.toISOString() == dateMessageToDelete);
-        
+
         if (!message)
             return false;
 
         const channelMessageDeleted = await this.prisma.channelMessage.deleteMany(
-        {
-            where:
             {
-                channelId: Number(channelId),
-                userId: Number(userIdMessage),
-                date: dateMessageToDelete,
-            },
-        });
+                where:
+                {
+                    channelId: Number(channelId),
+                    userId: Number(userIdMessage),
+                    date: dateMessageToDelete,
+                },
+            });
 
         if (!channelMessageDeleted)
             return false;

@@ -38,39 +38,38 @@
       <PrivateChat v-if="isPrivateChatOpen" @close="isPrivateChatOpen = false" :friendFromRelation="selectedFriend"
         :channel="selectedChannel" @showProfile="showProfile" @createDuel="handleDuel" />
       <!-- Affiche la deconnexion -->
-      <Logout :showlogout="showLoggedOut" :showconfirmation="showLogoutConfirmation" @close-logout="" />
+      <Logout :showlogout="showLoggedOut" :showconfirmation="showLogoutConfirmation" @close-logout="handleCloseLogout" />
       <!-- Afficher la liste des parties -->
       <Leaderboard v-if="showLeaderboard_" @close-list="handleCloseList" />
       <!--Affiche la liste d'amis  -->
       <FriendList v-if="isFriendListOpen" @closeFriendList="isFriendListOpen = false" @openPrivateChat="openPrivateChat"
-        @createDuel="handleDuel" @showProfile="showProfile" @inviteToChannel="handleInviteChannel()" />
+        @createDuel="handleDuel" @showProfile="showProfile" @inviteToChannel="handleInviteChannel" />
       <!-- Afficher la fenêtre de duel -->
       <Duel v-if="showDuel" @cancelDuel="handleCloseDuel" :duelFriend="selectedFriend" />
       <Duel v-if="showAccept" @cancelDuel="handleCloseDuel" />
       <!-- Afficher le matchmaking -->
       <Matchmaking v-if="showMatchmaking" @cancelMatchmaking="handleCloseMatchmaking" />
     </div>
-    <div class="body">
+    <div v-if ="!showGame && !showMatchmaking" class="body">
       <div class="center-container">
-        <button
-          v-if="!showGame && !showMenu && !showLeaderboard_ && !showChannelList && !showMatchmaking && !showDuel && !showAccept && !showMatchList"
-          @click="startOrLogin" class="start-login-btn">
-          {{ isUserLoggedIn ? 'Démarrer' : 'Connexion' }}
+        <button v-if="!isUserLoggedIn" @click="startOrLogin" class="start-login-btn">
+          Connexion
         </button>
-        <div v-if="showMenu" class="menu-container">
+        <div
+          v-if="isUserLoggedIn && !showGame  && !showAccept  && !showMatchmaking && !showDuel"
+          class="menu-container">
           <button @click="createMatchmakingForUser(false)" class="menu-btn">Partie Rapide</button>
           <button @click="createMatchmakingForUser(true)" class="menu-btn">Partie Classée</button>
           <button @click="showOngoingGames" class="menu-btn">Mode Spectateur</button>
           <button @click="showOnlineChannel" class="menu-btn">Channel</button>
           <button @click="showLeaderboard" class="menu-btn">Classement</button>
-          <button @click="showMenu = false" class="menu-btn">Quitter</button>
         </div>
       </div>
     </div>
     <div class="footer">
       <div class="icon-container">
-        <img v-if="isUserLoggedIn && !isPrivateChatOpen" src="~/assets/icons/chat.svg" alt="Chat-Icon"
-          class="icon-chat" @click="isPrivateChatOpen = !isPrivateChatOpen" />
+        <img v-if="isUserLoggedIn && !isPrivateChatOpen" src="~/assets/icons/chat.svg" alt="Chat-Icon" class="icon-chat"
+          @click="isPrivateChatOpen = !isPrivateChatOpen" />
       </div>
     </div>
   </div>
@@ -129,7 +128,7 @@ export default {
       isLoginOpen: false,
       isRegisterOpen: false,
       isFriendListOpen: false,
-      isUserLoggedIn: false,
+      isUserLoggedIn: ref(false),
       isPrivateChatOpen: false,
       isProfileOpen: false,
       isSpectating: false,
@@ -147,6 +146,8 @@ export default {
       ErrorBool: false,
       authCode: null,
       idAuth: null,
+      intervalId2: null,
+
       cookies,
     });
     onMounted(() => {
@@ -172,14 +173,45 @@ export default {
       }
       window.history.replaceState({}, document.title, "/");
       checkLoginStatus();
-      if (state.showMatchmaking)
-        state.intervalId = setInterval(() => {
-          loopDuelMatchmaking();
-        }, 2000);
-      setInterval(() => {
-        heartBeat();
-      }, 1000);
+      watch(() => state.isUserLoggedIn, (newValue) => {
+        if (newValue) {
+          state.intervalId2 = setInterval(() => {
+            heartBeat();
+            // console.log("battement");
+          }, 6000);
+        } else {
+          clearInterval(state.intervalId2);
+        }
+      });
+      watch(() => state.isUserLoggedIn, (newValue) => {
+        if (newValue) {
+          state.intervalId = setInterval(() => { // ajouter verification en ligne
+            loopDuelMatchmaking();
+          }, 2000);
+        } else {
+          clearInterval(state.intervalId);
+        }
+      });
     });
+    onUnmounted(() => {
+      clearInterval(state.intervalId);
+    });
+    const heartBeat = async () => {
+      const token = state.cookies.get('authToken'); // get le token dans les cookies
+      const baseUrl = `http://${window.location.hostname}`;
+      const response = await fetch(`${baseUrl}:2000/auth/heartbeat`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      // console.log("battement");
+      if (!response.ok) {
+        clearInterval(state.intervalId2);
+        return;
+      }
+    };
     const handleInviteChannel = (friend) => {
       state.showChannelList = true;
       state.showMenu = false;
@@ -189,6 +221,10 @@ export default {
     const handleChat = () => {
       state.isPrivateChatOpen = true;
       state.showMenu = false;
+    };
+    const handleCloseLogout = () => {
+      state.showLogoutConfirmation = false;
+      state.showLoggedOut = false;
     };
     const showProfile = (otherUserId) => {
       state.profileUserId = otherUserId;
@@ -218,6 +254,7 @@ export default {
         state.isUserLoggedIn = !!authToken;
         state.pageReady = true; // Maintenant, la page est prête à être affichée.
       }, 1); // Simule un délai de traitement
+      return state.isUserLoggedIn;
     };
     const toggleFriendList = () => {
       state.emit('toggle-friend-list');
@@ -257,6 +294,7 @@ export default {
     };
     const handleCloseDuel = () => {
       state.showDuel = false;
+      state.showAccept = false;
       state.showMenu = true;
     };
     const handleQuitGame = () => {
@@ -288,17 +326,6 @@ export default {
       state.isFriendListOpen = false;
       state.isProfileOpen = false;
     };
-    const heartBeat = async () => {
-      const token = state.cookies.get('authToken'); // get le token dans les cookies
-      const baseUrl = `http://${window.location.hostname}`;
-      const response = await fetch(`${baseUrl}:2000/auth/heartbeat`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-    };
     const createMatchmakingForUser = async (isRanked) => {
       const userId = state.cookies.get("userId");
       const token = state.cookies.get('authToken'); // get le token dans les cookies
@@ -321,7 +348,7 @@ export default {
       } catch (error) {
         // console.log(userId);
         // console.log(token);
-        console.log('Erreur lors de la création du matchmaking pour l’utilisateur :', error);
+        // console.log('Erreur lors de la création du matchmaking pour l’utilisateur :', error);
       }
     };
     const loopDuelMatchmaking = async () => {
@@ -348,7 +375,7 @@ export default {
               clearInterval(state.intervalId);
             }
           } else {
-            console.log('ERROR');
+            // console.log('ERROR');
           }
         } catch (error) {
           // console.log('Error in loopMatchmaking:', error);
@@ -373,7 +400,6 @@ export default {
           throw new Error('Erreur lors de la création du duel');
         }
         state.showDuel = true;
-        state.showMenu = false;
         const duel = await response.json();
         // state.semit('duelCreated', duel);
         // console.log(duel);
@@ -381,7 +407,7 @@ export default {
       } catch (error) {
         // console.log(userId);
         // console.log(token);
-        console.log('Erreur lors de la création du duel pour l’utilisateur :', error);
+        // console.log('Erreur lors de la création du duel pour l’utilisateur :', error);
       }
     };
     return {
@@ -412,6 +438,8 @@ export default {
       createDuel,
       Home,
       heartBeat,
+      handleChat,
+      handleCloseLogout,
 
     };
   },

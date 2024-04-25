@@ -175,6 +175,18 @@ export class ChannelController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/getAllMyIsMemberOf/:userId(\\d+)')
+  async getAllMyIsMemberOf(
+    @Param('userId', numberValidityPipe)userId: number,
+    @User() CallerId: number
+  ): Promise<IsMemberOf[]>
+  {
+    if (await this.authService.verifysame({id: userId}, CallerId) == false)
+      return({message: "Intruder !!!"} as any)
+    return this.channelService.getAllMyIsMemberOf(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/getUsersOfChannel/:channelId(\\d+)/:userId(\\d+)')
   async getUsersOfChannel(
     @Param('channelId', numberValidityPipe)channelId: number,

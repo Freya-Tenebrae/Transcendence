@@ -149,12 +149,12 @@ export default {
         // alert('Error: can\'t find the associated account');
         // console.error('Error: can\'t find the associated account');
       }
-      console.log(data);
+      // console.log(data);
       // console.log(state.code2FA);
     };
     const connectWith42 = async () => {
       // Les informations pour l'authentification
-      const redirectURI = encodeURIComponent(`http://localhost:2000/auth/callback`);
+      const redirectURI = encodeURIComponent(`http://0.0.0.0:2000/auth/callback`);
       const OTP = state.code2FA; // Utilisez la valeur de code2FA
       const clientID = `${import.meta.env.VITE_CLIENT_ID}`;
       const baseUrl = `http://${window.location.hostname}`;
@@ -167,7 +167,7 @@ export default {
       }
       // Construire l'URL d'authentification
       if (props.otpError) {
-        const CB = await fetch(`http://localhost:2000/auth/callback-otp/?code=${codeAuth}&OTP=${OTP}&id=${authID}`, {
+        const CB = await fetch(`http://0.0.0.0:2000/auth/callback-otp/?code=${codeAuth}&OTP=${OTP}&id=${authID}`, {
           method: 'GET',
           mode: 'cors',
           headers: {

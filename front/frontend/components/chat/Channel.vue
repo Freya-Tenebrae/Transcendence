@@ -1,61 +1,70 @@
 <template>
-  <div v-if="showChannels" class="channel-list">
-    <span class="close-btn" @click="closeChannelList">&times;</span>
-    <h2>Liste des Channels</h2>
-    <ul>
-      <li v-if="!inviteMode" v-for="channel in channelList" :key="channel.id" class="channel-item">
-        <button class="channel-btn" @click="joinChannelPassword(channel)">{{ channel.name }}</button>
-      </li>
-      <li v-if="inviteMode" v-for="channel in inviteChannels" :key="channel.id" class="channel-item">s
-        <button class="channel-btn" @click="inviteUserToChannel(channel.id, friendToInvite)">{{ "Inviter a : " +
-          channel.name }}</button>
-      </li>
-    </ul>
-    <button v-if="!showCreateChannelForm && !inviteMode" @click="showCreateChannelForm = true"
-      class="create-channel-btn">Créer un
-      Channel</button>
-    <form v-if="showCreateChannelForm" class="create-channel-form"
-      @submit.prevent="createChannel(newChannelName, newChannelPrivacy, newChannelPassword)">
+  <div v-if="showChannels" class="custom-modal-background">
+    <div v-if="showChannels" class="channel-list">
+      <span class="close-btn" @click="closeChannelList">&times;</span>
+      <h2>Liste des Channels</h2>
+      <ul class="channel-ul">
+        <li v-if="!inviteMode" v-for="channel in channelList" :key="channel.id" class="channel-item">
+          <button class="channel-btn" @click="joinChannelPassword(channel)">{{ channel.name }}</button>
+        </li>
+        <li v-if="inviteMode" v-for="channel in inviteChannels" :key="channel.id" class="channel-item">
+          <button class="channel-btn" @click="inviteUserToChannel(channel.id, friendToInvite)">{{ "Inviter a : " +
+            channel.name }}</button>
+        </li>
+      </ul>
+      <h3 v-if="invitedUsersOfChannel.length > 0">Channels invités :</h3>
+      <ul v-if="invitedUsersOfChannel.length > 0">
+        <li v-for="channel in invitedUsersOfChannel" :key="channel.id" class="channel-item">
+          <button class="channel-btn" @click="joinChannel(channel.channelId)">{{ "rejoindre : " +
+            getChannelName(channel.channelId)
+          }}</button>
+        </li>
+      </ul>
+      <button v-if="!showCreateChannelForm && !inviteMode" @click="showCreateChannelForm = true"
+        class="create-channel-btn">Créer un
+        Channel</button>
+      <form v-if="showCreateChannelForm" class="create-channel-form"
+        @submit.prevent="createChannel(newChannelName, newChannelPrivacy, newChannelPassword)">
+        <h2>Créer un nouveau Channel</h2>
+        <label>
+          Nom du Channel :
+          <input v-model="newChannelName" type="name">
+        </label>
+        <br>
+        <input hidden type="text" autocomplete="username" value="{{...}}">
+        <label>
+          Mot de passe du Channel :
+          <input v-model="newChannelPassword" type="password" autocomplete="new-password" placeholder="Mot de passe">
+        </label>
+        <br>
+        <label>
+          Privé :
+          <input v-model="newChannelPrivacy" type="checkbox">
+        </label>
 
-      <h2>Créer un nouveau Channel</h2>
-      <label>
-        Nom du Channel :
-        <input v-model="newChannelName" type="name">
-      </label>
-      <br>
-      <input hidden type="text" autocomplete="username" value="{{...}}">
-      <label>
-        Mot de passe du Channel :
-        <input v-model="newChannelPassword" type="password" autocomplete="new-password" placeholder="Mot de passe">
-      </label>
-      <br>
-      <label>
-        Privé :
-        <input v-model="newChannelPrivacy" type="checkbox">
-      </label>
-
-      <!-- <label>
+        <!-- <label>
         Image du Channel :
         <input type="file" @change="uploadImage">
       </label> -->
-      <br>
-      <br>
-      <div v-if="channelErrors.length > 0">
-        <ul>
-          <li class="errors" v-for="error in channelErrors" :key="error">{{ error }}</li>
-        </ul>
-      </div>
-      <button type="submit" class="confirm-create">Créer</button>
-      <br>
-      <button type="button" class="cancel-btn" @click="showCreateChannelForm = false">Annuler</button>
-    </form>
-    <form v-if="showPasswordForm" class="password-form" @submit.prevent="joinChannel(selectedChannel)">
-      <h2>Entrez le mot de passe pour "{{ selectedChannel?.name }}"</h2>
-      <input hidden type="text" autocomplete="username" value="{{...}}">
-      <input type="password" v-model="channelPassword" placeholder="Mot de passe" autocomplete="new-password">
-      <button type="submit" class="confirm-create">Rejoindre</button>
-      <button type="button" class="cancel-btn" @click="showPasswordForm = false">Annuler</button>
-    </form>
+        <br>
+        <br>
+        <div v-if="channelErrors.length > 0">
+          <ul>
+            <li class="errors" v-for="error in channelErrors" :key="error">{{ error }}</li>
+          </ul>
+        </div>
+        <button type="submit" class="confirm-create">Créer</button>
+        <br>
+        <button type="button" class="cancel-btn" @click="showCreateChannelForm = false">Annuler</button>
+      </form>
+      <form v-if="showPasswordForm" class="password-form" @submit.prevent="joinChannel(selectedChannel)">
+        <h2>Entrez le mot de passe pour "{{ selectedChannel?.name }}"</h2>
+        <input hidden type="text" autocomplete="username" value="{{...}}">
+        <input type="password" v-model="channelPassword" placeholder="Mot de passe" autocomplete="new-password">
+        <button type="submit" class="confirm-create">Rejoindre</button>
+        <button type="button" class="cancel-btn" @click="showPasswordForm = false">Annuler</button>
+      </form>
+    </div>
   </div>
 </template>
   
@@ -65,6 +74,7 @@ import { onMounted, reactive, toRefs, ref } from "vue"; // reactive
 export default {
   name: 'Channel',
   props: ['inviteMode', 'friendToInvite'],
+  emits: ['close-channel-list', 'close-chat'],
   setup(props, context) {
     const { cookies } = useCookies();
     const state = reactive({
@@ -86,42 +96,19 @@ export default {
       newChannelName: '',
       newChannelPassword: '',
       newChannelPrivacy: false,
-      newChannelImage: null,
       showPasswordModal: false,
       channelErrors: [],
       selectedChannel: null,
       channelPassword: '',
       showPasswordForm: false,
+      invitedUsersOfChannel: [],
     });
     onMounted(() => {
       startLoopChannelList();
     });
-    const newChannelImage = ref(null);
-
-    const uploadImage = async (event) => {
-      const file = event.target.files[0];
-      const formData = new FormData();
-      formData.append('image', file);
-
-      try {
-        const response = await fetch('https://api.imgur.com/3/image', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Client-ID YOUR_CLIENT_ID'
-          },
-          body: formData
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        newChannelImage.value = data.data.link;
-        console.log(`File uploaded successfully at ${data.data.link}`);
-      } catch (error) {
-        return;
-      }
+    const getChannelName = (channelId) => {
+      const channel = state.myChannels.find(c => c.id === channelId);
+      return channel ? channel.name : '';
     };
     ///////////////////////// Getter functions /////////////////////////////
     const getChannelList = async () => {
@@ -168,9 +155,13 @@ export default {
       // Attendre que toutes les promesses soient résolues
       const privilegesLists = await Promise.all(privilegesPromises);
 
-      // Fusionner toutes les listes de privilèges en une seule liste
-      state.inviteChannels = [].concat(...privilegesLists);
+      // Fusionner toutes les listes de privilèges en une seule liste sans doublons
+      const mergedPrivileges = [].concat(...privilegesLists);
+      state.inviteChannels = mergedPrivileges.filter((channel, index, self) =>
+        index === self.findIndex(c => c.id === channel.id)
+      );
     };
+
     const getMyChannelWithPrivileges = async (channelId) => {
       const baseUrl = `http://${window.location.hostname}`;
       const response = await fetch(`${baseUrl}:2000/channel/myChannelWithPrivileges/${channelId}/${state.userId}`, {
@@ -183,15 +174,31 @@ export default {
       const newMyChannelWithPrivileges = await response.json();
       return newMyChannelWithPrivileges;
     };
+    const getAllMyMemberisOfChannel = async () => {
+      const baseUrl = `http://${window.location.hostname}`;
+      const response = await fetch(`${baseUrl}:2000/channel/getAllMyIsMemberOf/${state.userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.token}`,
+        },
+      });
+      const newUsersOfChannel = await response.json();
+      state.invitedUsersOfChannel = newUsersOfChannel.filter(user => user.status === 'INVITED');;
+      // console.log(state.invitedUsersOfChannel);
+    };
     ///////////////////////// refresh functions /////////////////////////////
     const refreshChannels = async () => {
       try {
-        if (props.inviteMode)
-          await getMyChannel();
+        await getMyChannel();
         await getChannelList();
+        await getAllMyMemberisOfChannel();
+        // console.log(state.myChannels);
         state.channelErrors = [];
+        // console.log(state.myChannels);
         // console.log(state.channelList);
       } catch (error) {
+        // console.log(error);
         return;
       }
     };
@@ -229,17 +236,10 @@ export default {
             'Authorization': `Bearer ${state.token}`,
           }
         });
-        console.log(response);
+        // console.log(response);
         state.newChannelName = '';
+        closeChannelList();
       }
-      // const responseBody = await response.json();
-      // const images = ["https://i.imgur.com/z3HUWe3.jpg", "https://i.imgur.com/naivuJI.jpg", "https://i.imgur.com/bDfwYsn.jpg"];
-      // const randomIndex = Math.floor(Math.random() * images.length);
-      // const randomImage = images[randomIndex];
-      // console.log(randomImage);
-      // console.log(state.userId);
-      // console.log(responseBody.id);
-      // updateChannelImage(responseBody.id, randomImage);
     };
 
     ///////////////////////// Update functions ///////////////////////////// 
@@ -296,15 +296,17 @@ export default {
       }
     };
     const joinChannelPassword = async (channel) => {
-      state.selectedChannel = channel;
+      state.selectedChannel = channel.id;
       state.showPasswordForm = true;
     };
     ///////////////////////// Join functions /////////////////////////////
     const joinChannel = async (channel) => {
       const baseUrl = `http://${window.location.hostname}`;
+      if (!state.channelPassword)
+        state.channelPassword = '';
       const password = state.channelPassword;
 
-      const response = await fetch(`${baseUrl}:2000/channel/joinChannel/${channel.id}/${state.userId}/${password}`, {
+      const response = await fetch(`${baseUrl}:2000/channel/joinChannel/${channel}/${state.userId}/${password}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -328,14 +330,15 @@ export default {
     const inviteUserToChannel = async (channelId, userIdInvited) => {
       const baseUrl = `http://${window.location.hostname}`;
       const response = await fetch(`${baseUrl}:2000/channel/inviteChannel/${channelId}/${state.userId}/${userIdInvited}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${state.token}`,
         },
       });
+      // console.log(userIdInvited);
     };
-    return { ...toRefs(state), uploadImage, newChannelImage, refreshChannels, closeChannelList, createChannel, updateChannelName, updateChannelImage, updateChannelPrivacy, updateChannelPassword, joinChannel, inviteUserToChannel, joinChannelPassword };
+    return { ...toRefs(state), getChannelName, refreshChannels, closeChannelList, createChannel, updateChannelName, updateChannelImage, updateChannelPrivacy, updateChannelPassword, joinChannel, inviteUserToChannel, joinChannelPassword };
   },
 };
 </script>

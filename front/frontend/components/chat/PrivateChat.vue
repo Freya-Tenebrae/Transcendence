@@ -4,9 +4,9 @@
       <ul class="channel-list-chat">
         <span @click="closeChat" class="close-chat">&times;</span>
         <img class="pm-img" @click="changeChat('private', $event)" src="~/assets/icons/mp.svg" />
-        <li v-for="channel in joinedChannels" :key="channel.id" class="channel-item"
-          :class="{ 'active-channel': activeChannel === channel.id }">
-          <img :src="channel.pathImage" class="pm-img" @click="changeChannel(channel)" />
+        <li v-for="channel in joinedChannels" :key="channel.id" class="channel-item">
+          <img :class="{ 'active-channel': activeChannel === channel.id }" :src="channel.pathImage" class="pm-img"
+            @click="changeChannel(channel)" />
         </li>
       </ul>
       <ul v-if="showPrivateMessages" class="pm-chat">
@@ -26,7 +26,8 @@
         </li>
       </ul>
       <ul v-if="!showPrivateMessages" class="pm-chat">
-        <li v-for="user in    usersOfChannel" :key="user.id" class="pm-item">
+        <li v-for="user in usersOfChannel" :key="user.id" class="pm-item"
+          :class="{ 'banned-user': user.userStatus === 'BANNED' }">
           <button class="pm-btn" @click="showUserContextMenu($event, user)">
             <img :src="user.pathAvatar" alt="User Avatar" class="user-img" />
             <span class="user-nickname">{{ user.nickname }}</span>
@@ -126,12 +127,17 @@
             </template>
           </div>
         </div>
+        <p class="muted-banned" v-if="userStatus === 'BANNED'">Vous avez été banni</p>
+        <p class="muted-banned" v-if="userStatus === 'MUTED'">Vous avez été mute</p>
+        <p class="invited" v-if="userStatus === 'INVITED'">Vous avez été invité,aller dans channel</p>
       </div>
     </div>
     <div class="chat-input-container">
       <img :src="myAvatarPath" alt="My Avatar" class="my-img" />
+      <!-- <span class="status-indicator" :class="userStatusColor">Online</span> -->
       <span class="my-nickname">{{ myNickname }}</span>
-      <input id="messageContent" type="text" placeholder="Envoyer un message" v-model="messageContent"
+      <input v-if="activeUser || activeChannel" id="messageContent" type="text" placeholder="Envoyer un message"
+        v-model="messageContent"
         @keyup.enter="activeChannel ? sendMsgToChannel(activeChannel, messageContent) : sendMsg(activeUser, messageContent)" />
     </div>
   </div>
@@ -140,11 +146,7 @@
 import { useCookies } from "vue3-cookies"; // cookies
 import { ref, reactive, onMounted } from 'vue';
 export default {
-  props: {
-    friendFromRelation: String,
-    channel: String,
-    createDuel: Boolean,
-  },
+  props: ['friendFromRelation', 'channel', 'createDuel'],
   setup(props, context) {
     const { cookies } = useCookies();
     const state = reactive({
@@ -176,6 +178,9 @@ export default {
       allMessageFromChannel: [],
       showChannels: false,
       showChannelsUsers: false,
+      status: null,
+      otherstatus: null,
+      blockedList: [],
     });
     onMounted(() => {
       getUserAvatarNickName();
@@ -200,17 +205,24 @@ export default {
         state.pmFromChannel = user.name;
       }
     };
-    const heartCheck = async () => {
-      const userId = state.cookies.get("userId");
-      const token = state.cookies.get('authToken'); // get le token dans les cookies
-      const baseUrl = `http://${window.location.hostname}`;
-      const response = await fetch(`${baseUrl}:2000/auth/heartcheck?id=${userId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+
+    const getBlockedList = async () => {// fonctionne
+      try {
+        const baseUrl = `http://${window.location.hostname}`;
+        const response = await fetch(`${baseUrl}:2000/relation/findMyBlocked/${state.userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${state.token}`,
+          },
+        });
+        const newblockedList = await response.json();
+        state.blockedList = newblockedList;
+        // console.log(state.blockedList);
+      } catch (error) {
+        // console.log(error);
+        return;
+      }
     };
     const haveMessagesChanged = (oldMessages, newMessages) => {
       // Comparer la longueur des listes
@@ -233,7 +245,7 @@ export default {
         state.menuPosition.x = event.clientX;
         state.menuPosition.y = event.clientY;
 
-        // event.stopPropagation();
+        event.stopPropagation();
       }
     };
 
@@ -254,7 +266,7 @@ export default {
     };
 
     const showUserContextMenu = (event, user) => {
-      event.preventDefault();
+      // event.preventDefault();
       state.selectedUser = user.userId;
       state.selectedStatus = user.status;
       state.menuPosition.x = event.clientX;
@@ -335,6 +347,7 @@ export default {
       const data = await response.json();
       state.myAvatarPath = data.pathAvatar;
       state.myNickname = data.nickname;
+      // await heartCheckMySelf();
     };
     const getUserById = async (id) => {
       const baseUrl = `http://${window.location.hostname}`;
@@ -481,6 +494,7 @@ export default {
         },
       });
       const newMyChannelListId = await response.json();
+      // console.log(newMyChannelListId);
       const newMyChannelList = [];
       for (let i = 0; i < newMyChannelListId.length; i++) {
         var temp = newMyChannelListId[i];
@@ -493,17 +507,21 @@ export default {
       state.activeChannel = channel.id;
       state.showPrivateMessages = false;
       state.showChannels = true;
+      changeChat('channel');
       getUsersOfChannel(channel.id);
     };
     const refreshChats = async () => {
       try {
-        await getMsgs(state.activeUser);
+        if (state.activeUser)
+          await getMsgs(state.activeUser);
         await getPMList();
         await joinedChannel();
+        await getBlockedList();
         if (state.activeChannel) {
           await getUsersOfChannel(state.activeChannel);
           await getAllMessageFromChannel(state.activeChannel);
         }
+        // await heartCheck();
         // console.log(state.activeChannel);
         // console.log(state.userStatus);
         // console.log(state.allMessageFromChannel);
@@ -559,7 +577,6 @@ export default {
     };
     const getAllMessageFromChannel = async (channelId) => {
       if (!channelId) {
-        // console.log('Aucun utilisateur actif sélectionné');
         state.activeChannel = null;
         return;
       }
@@ -572,16 +589,20 @@ export default {
         },
       });
       const newMessages = await response.json();
+      const filteredMessages = newMessages.filter(message => !state.blockedList.includes(message.userId));
 
-      // Mettre à jour les messages seulement s'ils ont changé
-      if (haveMessagesChanged(state.allMessageFromChannel, newMessages)) {
-        state.allMessageFromChannel = newMessages;
+      // Check if the filtered messages have changed
+      if (haveMessagesChanged(state.allMessageFromChannel, filteredMessages)) {
+        // Update the messages only if they have changed
+        state.allMessageFromChannel = filteredMessages;
+      } else {
+        // If the filtered messages have not changed, return early
+        return;
       }
 
       for (let message of state.allMessageFromChannel) {
         let user = state.usersData[message.userId];
         if (!user) {
-          // Si les données de l'utilisateur ne sont pas disponibles, les récupérer
           user = await getUserById(message.userId);
           state.usersData[message.userId1] = user;
         }
@@ -743,7 +764,7 @@ export default {
     };
     const startLoopChat = () => {
       refreshChats(); // Appel initial
-      setInterval(refreshChats, 100); // Exécutez la boucle toutes les 5 secondes
+      setInterval(refreshChats, 500); // Exécutez la boucle toutes les 5 secondes
     };
     return {
       ...toRefs(state),
@@ -784,8 +805,10 @@ export default {
       deleteChannel,
       giveOwnershipChannelToUser,
       createDuel,
-      heartCheck,
+      // heartCheck,
       handleButtonClick,
+      // userStatusColor,
+      getBlockedList,
     };
   },
 };

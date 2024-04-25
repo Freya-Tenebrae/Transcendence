@@ -1,34 +1,77 @@
-.match-list {
+.Spectate-Box {
     margin: 0; /* Pour s'aligner avec le style global, pas de marges latérales */
     width: 50%; /* Prend toute la largeur disponible */
     background-color: #1c1c22; /* Couleur de fond du modal */
     border: 1px solid #9f00c5; /* Bordure pour s'aligner avec le style des modals */
-    box-shadow: 0px 0px 10px rgba(159, 0, 197, 0.5); /* Ombre pour effet néon */
+    box-shadow: 0px 0px 10px #9f00c5; /* Ombre pour effet néon */
     color: #fff; /* Texte blanc pour contraster sur le fond sombre */
     margin: auto; /* Centrer le modal */
-    text-align: center;
-    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh; /* ou une autre hauteur selon la conception de votre application */
+    position: relative; /* Pour positionner le bouton de fermeture par rapport à ce conteneur */
+    border-radius: 8px;
+    transition: max-height 0.3s ease-in-out;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px; /* Taille de la croix pour fermer */
+  }
+
+  h2 {
+    margin-bottom: 2vh;
+  }
+
+  .match-list {
+    height: 70%;
+    width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+
+  .match-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .match-list::-webkit-scrollbar-track {
+    background: #1e1f22;
+  }
+  
+  .match-list::-webkit-scrollbar-thumb {
+    background: #9f00c5;
+  }
+  
+  .match-list::-webkit-scrollbar-thumb:hover {
+    background: #9f00c5;
   }
 
   .match-item {
     padding: 0 0 5px; /* Espacement interne pour une meilleure lisibilite*/
   }
+  
   .match-btn {
     background-color: #9f00c5; /* Couleur du thème pour le texte de l'en-tête */
     border: none; /* Supprimer la bordure par défaut */
-    border-radius: 5px; /* Coins arrondis */
+    border-radius: 8px; /* Coins arrondis */
     padding: 10px 20px; /* Espacement interne pour une meilleure lisibilite*/
+    width: 100%;
     color: #fff;
   }
   .match-btn:hover {
-    background-color: #2c0038; /* Plus sombre au survol */
-    cursor: pointer;
+    box-shadow: 0px 0px 12px rgba(159, 0, 197, 0.5); /* Ombre plus prononcée */
+    color: #1c1c22
   }
 
   .empty-match-list {
     color: #fff;
-    font-size: 1.5em;
-    margin: 20px;
+    width: auto;
+    text-align: center;
   }
 
   .return-btn {

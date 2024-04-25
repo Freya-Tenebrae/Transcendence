@@ -1,12 +1,16 @@
 <template>
-  <div v-if="showLB" class="player-list">
-    <span class="close-btn" @click="closeLeaderboard">&times;</span>
-    <h2>Classement des joueurs</h2>
-    <ul>
-      <li v-for="player in players" :key="player.id" class="player-item">
-        {{ player.nickname }} - ELO: {{ player.elo }}
-      </li>
-    </ul>
+  <div v-if="showLB" class="custom-modal-background">
+    <div v-if="showLB" class="Leaderbord-Box">
+      <span class="close-btn" @click="closeLeaderboard">&times;</span>
+      <h2>Classement des joueurs</h2>
+      <ul class="player-list">
+        <li v-for="player in players" :key="player.id" class="player-item">
+          <p>{{ player.nickname }}</p>
+          <p> - ELO :</p>
+          <p>{{ player.elo }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 

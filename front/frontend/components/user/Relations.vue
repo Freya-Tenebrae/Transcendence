@@ -151,8 +151,9 @@ export default {
     chatWithFriend(friend) {
       this.$emit('openPrivateChat', friend);
     },
-    inviteToChannel(friend) {
-      this.$emit('inviteToChannel', friend);
+    async inviteToChannel(friend) {
+      friend = await this.getUser(friend);
+      this.$emit('inviteToChannel', friend[0].id);
     },
     async createDuel(friend) {
       friend = await this.getUser(friend);
@@ -181,7 +182,7 @@ export default {
         const searchstring = user; // user's nickname
         const sort = "id";
         const asc = "asc";
-        if (searchstring === '' || searchstring === null || searchstring.length  > 100) {
+        if (searchstring === '' || searchstring === null || searchstring.length > 100) {
           return;
         }
         const response = await fetch(`${baseUrl}:2000/api/users/${field}/${searchstring}/${sort}/${asc}`, {

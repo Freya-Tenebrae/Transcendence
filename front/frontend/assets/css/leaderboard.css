@@ -1,14 +1,19 @@
-/* gamelist.css */
-.player-list {
+.Leaderbord-Box {
+    margin: 0; /* Pour s'aligner avec le style global, pas de marges latérales */
+    width: 50%; /* Prend toute la largeur disponible */
+    background-color: #1c1c22; /* Couleur de fond du modal */
+    border: 1px solid #9f00c5; /* Bordure pour s'aligner avec le style des modals */
+    box-shadow: 0px 0px 10px #9f00c5; /* Ombre pour effet néon */
+    color: #fff; /* Texte blanc pour contraster sur le fond sombre */
+    margin: auto; /* Centrer le modal */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 25%;
-    margin-right: 25%;
-    width: 50%;
     height: 60vh; /* ou une autre hauteur selon la conception de votre application */
     position: relative; /* Pour positionner le bouton de fermeture par rapport à ce conteneur */
+    border-radius: 8px;
+    transition: max-height 0.3s ease-in-out;
   }
   
   .close-btn {
@@ -18,14 +23,45 @@
     cursor: pointer;
     font-size: 24px; /* Taille de la croix pour fermer */
   }
+
+  h2 {
+    margin-bottom: 2vh;
+  }
+
+  .player-list {
+    height: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+
+  .player-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .player-list::-webkit-scrollbar-track {
+    background: #1e1f22;
+  }
+  
+  .player-list::-webkit-scrollbar-thumb {
+    background: #9f00c5;
+  }
+  
+  .player-list::-webkit-scrollbar-thumb:hover {
+    background: #9f00c5;
+  }
+
   
   .player-item {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    column-gap: 1vh;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
   }
   
   .player-item:hover {
     background-color: #f0f0f0;
+    color: #1e1f22;
   }
   
   ul {

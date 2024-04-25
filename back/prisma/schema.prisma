@@ -44,7 +44,7 @@ model Pass {
 
 model Channel {
   id                      Int @unique @id @default(autoincrement())
-  name                    String
+  name                    String @unique
   pathImage               String @default("https://i.imgur.com/RDB9iMH.jpg")
   privacy                 Boolean @default(false)
   password                String @default("")

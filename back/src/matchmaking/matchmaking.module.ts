@@ -8,7 +8,7 @@ import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
 	imports: [PrismaModule, GameModule, ArchivementModule, AuthModule],
-  	providers: [PrismaModule, MatchmakingService, GameModule, ArchivementModule],
+  	providers: [PrismaModule, MatchmakingService, GameModule, ArchivementModule, AuthModule],
 	controllers: [MatchmakingController],
   	exports: [MatchmakingService],
 })

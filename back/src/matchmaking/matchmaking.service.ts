@@ -4,6 +4,7 @@ import { GameService } from '../game/game.service';
 import { Matchmaking } from './interfaces/matchmaking.interface';
 import { ArchivementService } from 'src/archivement/archivement.service';
 import { Game } from '@prisma/client';
+import { AuthService } from 'src/auth/auth.service';
 
 
 @Injectable()
@@ -12,7 +13,7 @@ export class MatchmakingService
     private matchmaking: Matchmaking[] = [];
     private numberMatchmaking: number = 0;
 
-    constructor(private prisma: PrismaService, private game: GameService, private archivement: ArchivementService)
+    constructor(private prisma: PrismaService, private game: GameService, private archivement: ArchivementService, private authService: AuthService)
     {
         setInterval(async () =>
         {
@@ -100,6 +101,9 @@ export class MatchmakingService
 
         if (!PrismaUser || !PrismaUserTarget)
             return undefined;
+
+        else if (await this.authService.checkheart({id: Number(targetUserId)}) >= 1)
+            await this.cancelOrDenyDuelRequest(targetUserId);
 
         const newDuel: Matchmaking =
         {
@@ -210,6 +214,7 @@ export class MatchmakingService
     {
         const duelLinked = this.matchmaking.find((matchmaking) => matchmaking.id == this.matchmaking[i].idDuelLinked);
         const indexDuelLinked = this.matchmaking.indexOf(duelLinked);
+
         if (this.matchmaking[i].idGameLinked == 0 &&
             this.matchmaking[i].isDuelAccepted == true &&
             this.matchmaking[indexDuelLinked] &&
@@ -224,6 +229,8 @@ export class MatchmakingService
                 this.matchmaking[indexDuelLinked].isMatchmakingLinked = true;
             }
         }
+        else if (await this.authService.checkheart({id: Number(this.matchmaking[i].userId)}) >= 1)
+            await this.cancelOrDenyDuelRequest(this.matchmaking[i].userId);
     }
 
     private async createGame(matchmaking1: Matchmaking, matchmaking2: Matchmaking): Promise<number>

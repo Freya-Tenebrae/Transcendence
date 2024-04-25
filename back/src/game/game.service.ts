@@ -34,27 +34,27 @@ export class GameService
       const now = new Date()
       for (let i = 0; i < this.game.length; i++)
       {
-        console.log("game Id:",this.game[i].id);
-        console.log("          status_started   :", this.game[i].started);
-        console.log("          status_isOver    :", this.game[i].isOver);
-        console.log("          status_isRanked  :", this.game[i].isRanked);
-        console.log("          timeRemaining at :", this.game[i].timeRemaining.toFixed(2));
-        console.log("          score            : [", this.game[i].scoreUser1, "/", this.game[i].scoreUser2, "]");
-        console.log("          pos player       : [", this.game[i].player1_posY, "/", this.game[i].player2_posY, "]");
-        console.log("          player power     : [", this.game[i].player1_power.toFixed(1), ",", this.game[i].player2_power.toFixed(1), "]");
-        console.log("          player cooldown  : [", this.game[i].player1_powerUpCooldown.toFixed(2), ",", this.game[i].player2_powerUpCooldown.toFixed(2), "]");
-        console.log("          pos ball         : [", this.game[i].ball_posX.toFixed(3), ",", this.game[i].ball_posY.toFixed(3), "]");
-        console.log("          direction in rds :", this.game[i].ball_direction);
-        console.log("          direction in rds%:", this.game[i].ball_direction % 2);
+        // console.log("game Id:",this.game[i].id);
+        // console.log("          status_started   :", this.game[i].started);
+        // console.log("          status_isOver    :", this.game[i].isOver);
+        // console.log("          status_isRanked  :", this.game[i].isRanked);
+        // console.log("          timeRemaining at :", this.game[i].timeRemaining.toFixed(2));
+        // console.log("          score            : [", this.game[i].scoreUser1, "/", this.game[i].scoreUser2, "]");
+        // console.log("          pos player       : [", this.game[i].player1_posY, "/", this.game[i].player2_posY, "]");
+        // console.log("          player power     : [", this.game[i].player1_power.toFixed(1), ",", this.game[i].player2_power.toFixed(1), "]");
+        // console.log("          player cooldown  : [", this.game[i].player1_powerUpCooldown.toFixed(2), ",", this.game[i].player2_powerUpCooldown.toFixed(2), "]");
+        // console.log("          pos ball         : [", this.game[i].ball_posX.toFixed(3), ",", this.game[i].ball_posY.toFixed(3), "]");
+        // console.log("          direction in rds :", this.game[i].ball_direction);
+        // console.log("          direction in rds%:", this.game[i].ball_direction % 2);
         let radiantOntwo: number = this.game[i].ball_direction % 2;
         while (radiantOntwo < 0)
           radiantOntwo += 2;
-        console.log("          direction in rds@:", radiantOntwo);
-        console.log("          speed            :", this.game[i].ball_speed);
-        console.log("          PowerUp 1 smash  :", this.game[i].player1_powerUpSandevistanSmash, "-->", this.game[i].player1_powerUpSandevistanSmashActive);
-        console.log("          PowerUp 1 guard  :", this.game[i].player1_powerUpSandevistanGuard, "-->", this.game[i].player1_powerUpSandevistanGuardActive);
-        console.log("          PowerUp 2 smash  :", this.game[i].player2_powerUpSandevistanSmash, "-->", this.game[i].player2_powerUpSandevistanSmashActive);
-        console.log("          PowerUp 2 guard  :", this.game[i].player2_powerUpSandevistanGuard, "-->", this.game[i].player2_powerUpSandevistanGuardActive);
+        // console.log("          direction in rds@:", radiantOntwo);
+        // console.log("          speed            :", this.game[i].ball_speed);
+        // console.log("          PowerUp 1 smash  :", this.game[i].player1_powerUpSandevistanSmash, "-->", this.game[i].player1_powerUpSandevistanSmashActive);
+        // console.log("          PowerUp 1 guard  :", this.game[i].player1_powerUpSandevistanGuard, "-->", this.game[i].player1_powerUpSandevistanGuardActive);
+        // console.log("          PowerUp 2 smash  :", this.game[i].player2_powerUpSandevistanSmash, "-->", this.game[i].player2_powerUpSandevistanSmashActive);
+        // console.log("          PowerUp 2 guard  :", this.game[i].player2_powerUpSandevistanGuard, "-->", this.game[i].player2_powerUpSandevistanGuardActive);
         if (this.game[i].isOver)
           this.remove(this.game[i].id);
         else

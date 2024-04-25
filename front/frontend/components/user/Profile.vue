@@ -2,7 +2,7 @@
 <template>
   <!--  Page de profil -->
   <div v-if="isProfileOpen" class="custom-modal-background">
-    <div class="custom-modal">
+    <div class="profile-modal">
       <div class="custom-modal-header">
         <h5>Profil</h5>
         <span @click="closeProfilePage" class="custom-modal-close">&times;</span>
@@ -16,24 +16,25 @@
         <div class="tab-item">
           <div v-show="currentIndex === 0">
             <div class="custom-modal-body">
+              <p class="status-indicator-profile" :style="{ color: userStatusColor }">{{ userStatusText }}</p>
               <p class="user-nickname-profile">{{ currentNickname }}</p>
               <img :src="currentUserAvatar" class="profile-img resized-image" />
-              <button @click="closeProfilePage" class="profile-btn">Retour</button>
-              <p></p>
-              <!-- Temporaire : bouton de modification de profil -->
-              <button v-if="currentUser == userId" @click="closeProfilePage, showProfileModal = true"
-                class="profile-btn">Modifier le profil</button>
+              <div class="bottomButton">
+                <button @click="closeProfilePage" class="profile-btn">Retour</button>
+                <button v-if="currentUser == userId" @click="closeProfilePage, showProfileModal = true"
+                  class="profile-btn">Modifier le profil</button>
+              </div>
             </div>
           </div>
           <div class="tab-item">
             <div v-show="currentIndex === 1">
-            <!-- Onglet des succès -->
-            <div v-show="achievementIndex === 0">
+              <!-- Onglet des succès -->
               <div class="custom-modal-body">
                 <div class="achievement-list">
                   <div class="uniqueAchievement" v-for="achievement in achievementList" :key="achievement.id">
                     <div class="achievement-img-div">
-                      <img class="achievement-img resized-image" v-if="achievementIsDone(achievement.id) == false" :src="achievement.pathImage"/>
+                      <img class="achievement-img resized-image" v-if="achievementIsDone(achievement.id) == true"
+                        :src="achievement.pathImage" />
                     </div>
                     <div class="achievement-item">
                       <p>{{ achievement.name }} :</p>
@@ -44,32 +45,31 @@
               </div>
             </div>
           </div>
-        </div>
           <div class="tab-item">
             <!-- Onglet des parties jouées -->
             <div v-show="currentIndex === 2">
               <div class="custom-modal-body">
                 <div class="last10games-list">
                   <div v-for="game in last10Games" :key="game.id">
-                    <div :class="{ 'gameWin': gameResult(game).scoreUser1 > gameResult(game).scoreUser2, 'gameLoose': gameResult(game).scoreUser1 < gameResult(game).scoreUser2, 'gameDraw': gameResult(game).scoreUser1 == gameResult(game).scoreUser2 }">
+                    <div
+                      :class="{ 'gameWin': gameResult(game).scoreUser1 > gameResult(game).scoreUser2, 'gameLoose': gameResult(game).scoreUser1 < gameResult(game).scoreUser2, 'gameDraw': gameResult(game).scoreUser1 == gameResult(game).scoreUser2 }">
                       <div class="gameItem">
-                        <div class="gameDate">
-                          <p>{{ game.date }}</p> 
+                        <div class="gameInfo">
+                          <p>{{ game.isRanked ? "Cyber" : "Casual" }}</p>
+                          <p>{{ gameResult(game).date }}</p>
                         </div>
                         <div class="myInfo">
-                            <img class="myImage" :src="currentUserAvatar"/>
-                            <p class="myName">{{ currentNickname }}</p>
+                          <img class="myImage" :src="currentUserAvatar" />
                         </div>
-                        <div class="result">
-                          <div class="result Status"></div>
-                          <div class= "score">
-                            <span class="myScore">{{ gameResult(game).scoreUser1 }}</span>
-                            <span class="vs">-</span>
-                            <span class="foeScore">{{ gameResult(game).scoreUser2 }}</span>
-                          </div>
+                        <div class="score">
+                          <span class="myScore">{{ gameResult(game).scoreUser1 }}</span>
+                          <span class="vs">-</span>
+                          <span class="foeScore">{{ gameResult(game).scoreUser2 }}</span>
+                        </div>
+                        <div>
+                          <img class="foeImage" :src="gameResult(game).opponentImage" />
                         </div>
                         <div class="foeInfo">
-                          <img class="foeImage" :src="gameResult(game).opponentImage"/>
                           <p class="foeName">{{ gameResult(game).opponentNickname }}</p>
                         </div>
                       </div>
@@ -127,8 +127,9 @@
           <!-- Formulaire de changement d'avatar -->
           <div v-if="showAvatarChange" class="form-group">
             <label for="avatar">Entrez l'URL de votre image de profil :</label>
-            <input type="text" class="form-control" id="avatar" name="avatar"
-              placeholder="Entrez l'URL de votre image de profil" v-model="currentUserAvatar">
+            <!-- <input type="text" class="form-control" id="avatar" name="avatar"
+              placeholder="Entrez l'URL de votre image de profil" v-model="currentUserAvatar"> -->
+            <input type="file" @change="uploadImage" accept="image/*" />
           </div>
           <!-- Formulaire de changement d'avatar -->
           <div v-if="show2FA" class="form-group">
@@ -188,8 +189,8 @@ export default {
       cookies,
       currentUserEmail: '',
       currentNickname: '',
-      currentPassword: '',
       currentUser: null,
+      currentUserId: 0,
       currentUserAvatar: '',
       showEmailChange: false,
       showPasswordChange: false,
@@ -211,24 +212,28 @@ export default {
       last10Games: [],
       achievementList: [],
       currentAchievements: [],
+      avatarLink: '',
+      status: '',
     });
 
     onMounted(async () => {
       if (props.otherUserId) {
         await getUserById(props.otherUserId);
+        await heartCheck(props.otherUserId);
       } else {
         await getUserById(state.userId);
+        await heartCheck(state.userId);
       }
       state.show2FA = false;
       await status2FA(); // Ajoutez cette ligne
       state.last10Games = await getLast10Games();
       state.achievementList = await getAchievementList();
       state.currentAchievements = await getAchievementsDone();
+
     });
 
     const achievementIsDone = (id) => {
-      for (let i = 0; i < state.currentAchievements.length; i++)
-      {
+      for (let i = 0; i < state.currentAchievements.length; i++) {
         if (id == state.currentAchievements[i].archivementId)
           return true;
       }
@@ -284,14 +289,45 @@ export default {
       });
       const data = await response.json();
       //  console.log(`User for ID ${id}:`, data);
-      state.currentUserEmail = data.email;
-      state.currentNickname = data.nickname;
-      state.currentPassword = data.password;
-      state.currentUserAvatar = data.pathAvatar;
-      state.currentUser = data.id;
-      // console.log(data);
-      return data;
+      state.currentUserId = id;
+      if (data) {
+        state.currentUserEmail = data.email;
+        state.currentNickname = data.nickname;
+        state.currentUserAvatar = data.pathAvatar;
+        state.currentUser = data.id;
+        // console.log(data);
+        return data;
+      }
+      //else console.log("User not found");
     };
+    const heartCheck = async (id) => {
+      const token = state.cookies.get('authToken');
+      const baseUrl = `http://${window.location.hostname}`;
+      const response = await fetch(`${baseUrl}:2000/auth/heartcheck?id=${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const result = await response.json();
+      state.status = result.state;
+    };
+    const userStatusColor = computed(() => {
+      if (state.status === 'online') {
+        return 'green';
+      } else {
+        return 'red';
+      }
+    });
+
+    const userStatusText = computed(() => {
+      if (state.status === 'online') {
+        return 'En ligne';
+      } else {
+        return 'Hors ligne';
+      }
+    });
     const validateForm = () => {
       state.formErrors = []; // réinitialiser les erreurs
 
@@ -315,9 +351,6 @@ export default {
         state.formErrors.push('Le mot de passe ne respecte pas les critères de sécurité requis.');
       } else if (password !== confirmPassword) {
         state.formErrors.push('Les mots de passe ne correspondent pas.');
-      }
-      else if (state.showPasswordChange && password === state.currentPassword) {
-        state.formErrors.push('Le mot de passe n\'a pas été modifié.');
       }
 
       if (!validateNickname(nickname) && state.showNicknameChange) {
@@ -352,21 +385,32 @@ export default {
             body: JSON.stringify({ id: userId, email: email })
           });
 
-          if (!emailUpdateResponse.ok) throw new Error('Erreur lors de la mise à jour de l’e-mail');
+          const responseBody = await emailUpdateResponse.json();
+          if (responseBody.error === 'already exists') {
+            state.formErrors.push('L\'adresse e-mail est déjà prise.');
+            return;
+          }
+          else if (responseBody.error === 'invalid email') {
+            state.formErrors.push('L\'adresse e-mail n\'est pas valide.');
+            return;
+          }
+          else if (responseBody.error === 'email not changed') {
+            state.formErrors.push('L\'adresse e-mail n\'a pas été modifiée.');
+          }
         }
 
         if (state.showPasswordChange) {
           const password = formData.get('password');
-          const passwordObject = {
-            salted_password: password,
-          }
+          // const passwordObject = {
+          //   salted_password: password,
+          // }
           const passwordUpdateResponse = await fetch(`${baseUrl}:2000/api/chpassword`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ id: userId, password: passwordObject })
+            body: JSON.stringify({ id: userId, password: password })
           });
 
           if (!passwordUpdateResponse.ok) throw new Error('Erreur lors de la mise à jour du mot de passe');
@@ -376,36 +420,66 @@ export default {
           const nickname = formData.get('nickname');
           const nicknameUpdateResponse = await fetch(`${baseUrl}:2000/api/chuser`, {
             method: 'PUT',
+            mode: 'cors',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({ id: userId, nickname: nickname }) // Update the payload to match CreateUserDTO expected on the server
           });
-
-          if (!nicknameUpdateResponse.ok) {
-            const errorData = await nicknameUpdateResponse.json();
-            throw new Error(errorData.message || 'Erreur lors de la mise à jour du nom d’utilisateur');
+          // console.log(nicknameUpdateResponse);
+          const responseBody = await nicknameUpdateResponse.json();
+          // console.log(responseBody);
+          if (responseBody.error === 'already exists') {
+            state.formErrors.push('Le pseudo est deja pris.');
+            return;
           }
         }
-        if (state.showAvatarChange) {
-          const avatar = formData.get('avatar');
 
-          const avatarUpdateResponse = await fetch('http://localhost:2000/api/chuser', {
+        if (state.showAvatarChange) {
+          // const avatar = formData.get('avatar');
+          const baseUrl = `http://${window.location.hostname}`;
+          const avatarUpdateResponse = await fetch(`${baseUrl}:2000/api/chuser`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ id: userId, pathAvatar: avatar })
+            body: JSON.stringify({ pathAvatar: state.avatarLink })
           });
-
+          // console.log(avatar);
           if (!avatarUpdateResponse.ok) throw new Error('Erreur lors de la mise à jour de la photo d\'avatar');
         }
-
-        alert('Profil mis à jour avec succès');
+        // console.log("avatar : " + formData.get('avatar'), "nickname : " + formData.get('nickname'), "password : " + formData.get('password'), "email : " + formData.get('email'));
+        // console.log("avatar : " + state.currentUserAvatar, "nickname : " + state.currentNickname, "password : " + state.currentPassword, "email : " + state.currentUserEmail);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
+      }
+    };
+    const uploadImage = async (event) => {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append('image', file);
+
+      try {
+        const response = await fetch('https://api.imgur.com/3/image', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Client-ID 44bbc99956db00b',
+            Accept: "application/json",
+          },
+          body: formData
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        state.avatarLink = data.data.link;
+        // console.log(`File uploaded successfully at ${data.data.link}`);
+      } catch (error) {
+        return;
       }
     };
     const setActiveChange = (changeType) => {
@@ -454,38 +528,41 @@ export default {
       const data = await response.json();
       return data;
     };
-    const getUserNick = async (id) => {
+    const getUserData = async (id) => {
       const baseUrl = `http://${window.location.hostname}`;
       const response = await fetch(`${baseUrl}:2000/api/user/id/${id}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${state.token}`,
-          },
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${state.token}`,
+        },
       });
       const data = await response.json();
-      return data.nickname;
+      return data;
     };
     const fetchUser = async (id) => {
       if (!state.users[id]) {
-        const user = await getUserNick(id);
-        state.users[id] = user;
+        const user = await getUserData(id);
+        state.users[id] = { nickname: user.nickname, pathAvatar: user.pathAvatar };
       }
     };
     const gameResult = (game) => {
       const data = {
+        date: '',
         opponentNickname: '',
         opponentImage: '',
         result: '',
         scoreUser1: 0,
         scoreUser2: 0,
       };
-      if (game.userId1 == state.userId) {
+      if (game.userId1 == state.currentUserId) {
         data.scoreUser1 = game.scoreUser1;
         data.scoreUser2 = game.scoreUser2;
         fetchUser(game.userId2);
-        data.opponentNickname = state.users[game.userId2];
-        data.opponentImage = state.users[game.userId2];
+        if (state.users[game.userId2] && state.users[game.userId2].nickname && state.users[game.userId2].pathAvatar) {
+          data.opponentNickname = state.users[game.userId2].nickname;
+          data.opponentImage = state.users[game.userId2].pathAvatar;
+        }
         if (game.scoreUser1 > game.scoreUser2)
           data.result = 'Victoire';
         else if (game.scoreUser1 < game.scoreUser2)
@@ -493,11 +570,15 @@ export default {
         else
           data.result = 'Egalité';
       }
-      else {
+      if (game.userId2 == state.currentUserId) {
         data.scoreUser1 = game.scoreUser2;
         data.scoreUser2 = game.scoreUser1;
         fetchUser(game.userId1);
-        data.opponentNickname = state.users[game.userId1];
+
+        if (state.users[game.userId1] && state.users[game.userId1].nickname && state.users[game.userId1].pathAvatar) {
+          data.opponentNickname = state.users[game.userId1].nickname;
+          data.opponentImage = state.users[game.userId1].pathAvatar;
+        }
         if (game.scoreUser1 > game.scoreUser2)
           data.result = 'Défaite';
         else if (game.scoreUser1 < game.scoreUser2)
@@ -505,6 +586,8 @@ export default {
         else
           data.result = 'Egalité';
       }
+      const old_date = new Date(game.date);
+      data.date = (old_date.getDate() + '/' + (old_date.getMonth() + 1) + '/' + old_date.getFullYear() + ' : ' + old_date.getHours() + ':' + old_date.getMinutes());
       return data;
     };
     const getAchievementList = async () => {
@@ -540,12 +623,14 @@ export default {
       state.showSubmit = false;
       state.show2FA = false;
       state.showEditButtons = true;
+      // props.otherUserId = null;
       state.formErrors = [];
     };
     const closeProfilePage = () => {
-      context.emit('closeProfile');
-      if (state.otherUserId)
+      if (props.otherUserId) {
         context.emit('clearOtherUserId');
+      }
+      context.emit('closeProfile');
     };
     return {
       ...toRefs(state),
@@ -564,8 +649,13 @@ export default {
       getLast10Games,
       getAchievementList,
       getAchievementsDone,
+      getUserData,
       fetchUser,
       gameResult,
+      uploadImage,
+      heartCheck,
+      userStatusText,
+      userStatusColor,
     };
   },
 };

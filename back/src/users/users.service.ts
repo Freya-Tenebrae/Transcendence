@@ -8,12 +8,21 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async goodtomake(candidate: CreateUserDTO): Promise<boolean> {
-	if (candidate.id && await this.user({id: candidate.id}))
-		return (false)
+	// if (candidate.id && await this.user({id: candidate.id}))
+	// {
+	// 	console.log("[user service goodtomake] user with id: ", candidate.id, " already exists")
+	// 	return (false)
+	// }
 	if (candidate.email && await this.user({email: candidate.email}))
+	{
+		console.log("[user service goodtomake] user with email: ", candidate.email, " already exists")
 		return (false)
+	}
 	if (candidate.nickname && await this.user({nickname: candidate.nickname}))
+	{
+		console.log("[user service goodtomake] user with nickname: ", candidate.nickname, " already exists")
 		return (false)
+	}
 	return (true)
   }
   async user(
@@ -66,14 +75,17 @@ export class UserService {
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
-	console.log('User created : ', data);
+	console.log('[user service create user] User input: ', data);
 	// data.password = {
 	// 	connectOrCreate: {
 	// 		id
 	// 	}
 	// }
 	if (await this.goodtomake(data as any) != true)
-		return null
+	{
+		console.log("[user service create user] not found good to make")
+		return ({error: "already exists"}) as any
+	}
 	try {
 		const OurUser = await this.prisma.user.create({
 			data,
@@ -115,7 +127,10 @@ export class UserService {
   }): Promise<User> {
 	console.log("[user service updateuser] called with ", params.data)
 	if (await this.goodtomake(params.data as any) != true)
-		return null
+	{
+		console.log("[user service updateuser] not found good to make")
+		return ({error: "already exists"}) as any
+	}
 	try {
 		const { where, data } = params;
 		return this.prisma.user.update({

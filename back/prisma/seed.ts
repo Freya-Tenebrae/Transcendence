@@ -61,30 +61,30 @@ main()
 
 async function createAllArchivement(): Promise<string>
 {
-  await createOneArchivement(1, 'new Mercenary', 'win a normal game', 'https://i.imgur.com/Yhw92xo.png');
-  await createOneArchivement(2, 'Mercenary', 'win 10 normal game', 'https://i.imgur.com/CfkfkNz.png');
-  await createOneArchivement(3, 'veteran Mercenary', 'win 100 normal game', 'https://i.imgur.com/udBhycT.png');
-  await createOneArchivement(4, 'new Edgerunner', 'win a ranked game', 'https://i.imgur.com/9aPHZHb.png');
-  await createOneArchivement(5, 'Edgerunner', 'win 10 ranked game', 'https://i.imgur.com/QDlYqKj.png');
-  await createOneArchivement(6, 'veteran Edgerunner', 'win 100 ranked game', 'https://i.imgur.com/VkKIn5o.png');
-  await createOneArchivement(7, 'rising Legend', 'hit the top 7', 'https://i.imgur.com/GnRFAGU.png');
-  await createOneArchivement(8, 'Nighticity Legend', 'hit the top 3', 'https://i.imgur.com/D4ZqtKp.png');
-  await createOneArchivement(9, 'welcome to the afterlife', 'join a channel', 'https://i.imgur.com/d0iXBb5.png');
-  await createOneArchivement(10, 'vip', 'become an admin of channel or create you\'r own', 'https://i.imgur.com/4QKMo3W.png');
-  await createOneArchivement(11, 'partner', 'become friend with someone', 'https://i.imgur.com/J9AHlJs.png');
+  await createOneArchivement('new Mercenary', 'win a normal game', 'https://i.imgur.com/Yhw92xo.png');
+  await createOneArchivement('Mercenary', 'win 10 normal game', 'https://i.imgur.com/CfkfkNz.png');
+  await createOneArchivement('veteran Mercenary', 'win 100 normal game', 'https://i.imgur.com/udBhycT.png');
+  await createOneArchivement('new Edgerunner', 'win a ranked game', 'https://i.imgur.com/9aPHZHb.png');
+  await createOneArchivement('Edgerunner', 'win 10 ranked game', 'https://i.imgur.com/QDlYqKj.png');
+  await createOneArchivement('veteran Edgerunner', 'win 100 ranked game', 'https://i.imgur.com/VkKIn5o.png');
+  await createOneArchivement('rising Legend', 'hit the top 7', 'https://i.imgur.com/GnRFAGU.png');
+  await createOneArchivement('Nighticity Legend', 'hit the top 3', 'https://i.imgur.com/D4ZqtKp.png');
+  await createOneArchivement('welcome to the afterlife', 'join a channel', 'https://i.imgur.com/d0iXBb5.png');
+  await createOneArchivement('vip', 'become an admin of channel or create you\'r own', 'https://i.imgur.com/4QKMo3W.png');
+  await createOneArchivement('partner', 'become friend with someone', 'https://i.imgur.com/J9AHlJs.png');
   
   return "all archivements created";
 }
 
 async function createDefaultUsers(): Promise<string>
 {
-  await createOneUser('Rogue.Amendiares@afterlife.com', 'Amendiares', 'Rogue', 'Rogue', 'https://i.imgur.com/NHxt55K.jpg', 5500, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
-  await createOneUser('saburo.arasaka@arasaka.com', 'Arasaka', 'Saburo', 'SaburoArasaka', 'https://i.imgur.com/Tojsf0a.jpg', 4900, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
-  await createOneUser('mama.welles@coyotecojo.com', 'Welles', 'Guadalupe Alejandra', 'Mama Welles', 'https://i.imgur.com/0MRl60L.jpg', 4200, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
-  await createOneUser('alice@42.fr', 'Alice', 'Al', '@lice', 'https://i.imgur.com/sSRAn9E.jpg', 1086, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 1);
-  await createOneUser('bob@42.fr', 'Bob', 'Bo', 'Bob', 'https://i.imgur.com/detbUfK.jpg', 1077, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
-  await createOneUser('charlie@42.fr', 'Chalie', 'Ch', 'Chalie', 'https://i.imgur.com/lBtG15e.jpg', 1042, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
-  await createOneUser('deku@42.fr', 'Midoriya', 'Izuku', 'Deku', 'https://i.imgur.com/Dsosskp.jpg', 1018, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('Rogue.Amendiares@afterlife.com', 'Rogue', 'Amendiares', 'Rogue', 'https://i.imgur.com/NHxt55K.jpg', 5500, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('saburo.arasaka@arasaka.com', 'Saburo', 'Arasaka', 'Saburo Arasaka', 'https://i.imgur.com/Tojsf0a.jpg', 4900, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('mama.welles@coyotecojo.com', 'Guadalupe Alejandra', 'Welles', 'Mama Welles', 'https://i.imgur.com/0MRl60L.jpg', 4200, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('alice@42.fr', '', 'Alice', '@lice', 'https://i.imgur.com/sSRAn9E.jpg', 1086, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 1);
+  await createOneUser('bob@42.fr', '', 'Bob', 'Bob', 'https://i.imgur.com/detbUfK.jpg', 1077, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('charlie@42.fr', 'Chalie', 'Chalie', 'Chalie', 'https://i.imgur.com/lBtG15e.jpg', 1042, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
+  await createOneUser('deku@42.fr', 'Izuku', 'Midoriya', 'Deku', 'https://i.imgur.com/Dsosskp.jpg', 1018, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
   await createOneUser('correction1@42.fr', 'correction1', 'correction1', 'correction1', 'https://i.imgur.com/5T0p5kr.jpg', 1000, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
   await createOneUser('correction2@42.fr', 'correction2', 'correction2', 'correction2', 'https://i.imgur.com/5T0p5kr.jpg', 1000, '$2a$10$SPudBGQ5CbaXYTgbWdE4DeEZI9WbxJoVW2XGvPWqpbuwR4Aqxe0AK', '$2a$10$SPudBGQ5CbaXYTgbWdE4De', null, null, 0);
   
@@ -100,7 +100,7 @@ async function createDefaultChannels(): Promise<string>
   await createOneisMemberOf(1, 1, 'OWNER', date)
 
   date = new Date(2020, 11, 10, 15, 30, 0, 0); // 2020-12-10 8:30:00
-  await createOneChannel(2, 'Arasaka', 'https://i.imgur.com/kY7FmhN.jpg', false, '$2b$10$TqGwaSJzpu3vnZa7iQ71L.WTPI0YZRNudCzwP4oaw1Zy7l4Y8KCgW', '$2b$10$TqGwaSJzpu3vnZa7iQ71L.', date); // !!! MDP
+  await createOneChannel(2, 'Arasaka', 'https://i.imgur.com/kY7FmhN.jpg', false, '$2b$10$5pk0fddsT7J8rQszLOCS3e7UgNZdHlstQ9QDu6jTe9/KbgtHWqyCC', '$2b$10$5pk0fddsT7J8rQszLOCS3e', date); // !!! MDP
   await createOneisMemberOf(2, 2,'OWNER', date)
   
   date = new Date(2021, 9, 12, 21, 30, 0, 0); // 2021-10-12 21:30:00
@@ -283,7 +283,6 @@ async function createChannelMessages(): Promise<string>
 }
 
 async function createOneArchivement(
-  id: number,
   name: string,
   description: string,
   pathImg: string)
@@ -292,7 +291,7 @@ async function createOneArchivement(
   {
     where:
     {
-      id: Number(id),
+      name: name,
     },
     update: {},
     create:
@@ -360,9 +359,10 @@ async function createOneChannel(
 {
   const newChannel = await prisma.channel.upsert(
   {
-    where:
+    where: 
     {
       id: Number(id),
+      name: name,
     },
     update: {},
     create:

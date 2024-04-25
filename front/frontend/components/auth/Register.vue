@@ -47,7 +47,6 @@
           </div>
           <div class="custom-modal-footer">
             <button type="submit" class="btn btn-primary">S'inscrire</button>
-            <img src="~/assets/icons/42.svg" alt="Register-Icon" class="icon-register" @click="connectWith42" />
           </div>
         </form>
         <!-- Fin du formulaire d'inscription -->

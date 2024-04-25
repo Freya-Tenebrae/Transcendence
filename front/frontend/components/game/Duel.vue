@@ -1,12 +1,15 @@
 <template>
-    <div v-if="isDuelPending && !showGame && duelAccepted" class="matchmaking-container">
-        <h1>Duel</h1>
-        <img src="~/assets/icons/matchmaking.svg" class="matchmaking-loading" alt="loading" />
-        <button v-if="!showGame" @click="cancelDuel">Annuler</button>
-    </div>
-    <div v-else-if="isDuelPending && !duelAccepted && !showGame" class="matchmaking-container">
-        <button v-if="!showGame" @click="acceptDuel">Accepter</button>
-        <button v-if="!showGame" @click="cancelDuel">Refuser</button>
+    <div v-if="isDuelPending && !showGame" class="custom-modal-background">
+        <div v-if="isDuelPending && !showGame && duelAccepted" class="matchmaking-container">
+            <h1>Duel</h1>
+            <img src="~/assets/icons/matchmaking.svg" class="matchmaking-loading" alt="loading" />
+            <button v-if="!showGame" @click="cancelDuel">Annuler</button>
+        </div>
+        <div v-else-if="isDuelPending && !duelAccepted && !showGame && !duelFriend" class="matchmaking-container">
+            <h2>Demande de duel </h2>
+            <button v-if="!showGame" @click="acceptDuel">Accepter</button>
+            <button v-if="!showGame" @click="cancelDuel">Refuser</button>
+        </div>
     </div>
     <Game v-if="showGame" @closeGame="gameOver" />
 </template>
@@ -80,7 +83,7 @@ export default {
                         }
                     }
                     else {
-                        console.log('ERROR');
+                        // console.log('ERROR');
                     }
                 } catch (error) {
                     this.isDuelPending = false;
@@ -111,7 +114,7 @@ export default {
             });
             this.isDuelPending = false;
             this.$emit('cancelDuel');
-            console.log('Duel annulé avec succès');
+            // console.log('Duel annulé avec succès');
         },
         // hide the box when the duel is accepted or cancelled
         // hideDuelBox() {

@@ -1,10 +1,12 @@
 <!-- Matchmaking.vue -->
 <template>
-  <div v-if="searching && !showGame" class="matchmaking-container">
-    <h1>Matchmaking</h1>
-    <!-- <p>Recherche en cours...</p> -->
-    <img src="~/assets/icons/matchmaking.svg" class="matchmaking-loading" alt="loading" />
-    <button v-if="!showGame" @click="cancelMatchmakingForUser">Annuler</button>
+  <div v-if="searching && !showGame" class="custom-modal-background">
+    <div v-if="searching && !showGame" class="matchmaking-container">
+      <h1>Matchmaking</h1>
+      <!-- <p>Recherche en cours...</p> -->
+      <img src="~/assets/icons/matchmaking.svg" class="matchmaking-loading" alt="loading" />
+      <button v-if="!showGame" @click="cancelMatchmakingForUser">Annuler</button>
+    </div>
   </div>
   <Game v-if="showGame" @closeGame="gameOver" />
 </template>
@@ -53,19 +55,18 @@ export default {
           }
           const m = await response.json();
           if (m) {
-            if (m == undefined)
-            {
-              console.log('ERROR');
+            if (m == undefined) {
+              // console.log('ERROR');
               this.searching = false;
               this.$emit('cancelMatchmaking');
             }
-            else if (!m.isDuel && m.idGameLinked > 0) {
+            else if (m.idGameLinked > 0) {
               this.cookies.set("gameId", m.idGameLinked);
               this.showGame = true;
               clearInterval(this.intervalId);
             }
           } else {
-            console.log('ERROR');
+            // console.log('ERROR');
             this.searching = false;
             this.$emit('cancelMatchmaking');
           }
@@ -99,12 +100,12 @@ export default {
         const result = await response.json();
 
         if (result == false) {
-          console.log('Le matchmaking n’a pas pu être annulé');
+          // console.log('Le matchmaking n’a pas pu être annulé');
         }
         else {
           this.searching = false;
           this.$emit('cancelMatchmaking');
-          console.log('Matchmaking annulé avec succès');
+          // console.log('Matchmaking annulé avec succès');
           // stop loop
           return await response.json();
         }

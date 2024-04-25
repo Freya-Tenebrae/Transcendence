@@ -3,27 +3,33 @@
     <!-- <p>Vous êtes en jeu ou en matchmaking. Vous allez être retourné au menu principal.</p> -->
     <!-- <button @click="$emit('close-match-list')" class="btn-confirm">OK</button> -->
     <!-- </div> -->
-    <div v-if="searching" class="match-list">
-        <h2>Liste des matchs en cours :</h2>
-        <div v-if="matchList.length !== 0" v-for="match in matchList">
-            <div v-if="!match.isOver">
-                <button v-if="match.userId1 != this.userId || match.userId2 !=this.userId" @click="accessMatch(match.id)" class="match-btn">
-                    {{ match.isRanked ? 'Classé' : 'Normal' }} : {{ users[match.userId1] }} vs {{ users[match.userId2] }}
-                    |
-                    {{ match.scoreUser1 }} : {{ match.scoreUser2 }}
-                </button>
+    <div v-if="searching" class="custom-modal-background">
+        <div v-if="searching" class="Spectate-Box">
+            <h2>Liste des matchs en cours :</h2>
+            <div class="match-list">
+                <div v-if="matchList.length !== 0" v-for="match in matchList">
+                    <div v-if="!match.isOver">
+                        <button v-if="match.userId1 != this.userId && match.userId2 != this.userId"
+                            @click="accessMatch(match.id)" class="match-btn">
+                            {{ match.isRanked ? 'Cyber' : 'Casual' }} : {{ users[match.userId1] }} vs {{
+                                users[match.userId2] }}
+                            |
+                            {{ match.scoreUser1 }} : {{ match.scoreUser2 }}
+                        </button>
+                    </div>
+                </div>
+                <div v-else-if="matchList.length === 0">
+                    <p class="empty-match-list">Aucun match en cours</p>
+                </div>
             </div>
-        </div>
-        <div v-else-if="matchList.length === 0">
-            <p class="empty-match-list">Aucun match en cours</p>
+            <button @click="showGame = false; isSpectating = false; $emit('close-match-list')" class="quit-game-btn">
+                {{ showGame ? 'Quitter la partie' : 'Retour' }}
+            </button>
         </div>
     </div>
     <div v-if="!searching && showGame && isSpectating">
         <Game v-if="showGame" @close-game="gameOver" />
     </div>
-    <button @click="showGame = false; isSpectating = false; $emit('close-match-list')" class="quit-game-btn">
-        {{ showGame ? 'Quitter la partie' : 'Retour' }}
-    </button>
 </template>
 
 <script>
@@ -105,7 +111,7 @@ export default {
                             clearInterval(this.intervalId);
                         }
                     } else {
-                        console.log('Aucun match en cours');
+                        // console.log('Aucun match en cours');
                     }
                 } catch (error) {
                     clearInterval(this.intervalId);
@@ -145,8 +151,8 @@ export default {
                     this.searching = false;
                 }
             }
-            else
-                console.log('Aucun match en cours');
+            // else
+            //     console.log('Aucun match en cours');
         },
     },
     components: {

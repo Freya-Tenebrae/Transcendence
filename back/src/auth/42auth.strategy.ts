@@ -10,7 +10,7 @@ export class oath42 extends PassportStrategy(Strategy, '42auth') {
     super({
 	  clientID: clientidConstant.secret,
 	  clientSecret: clientSecretConstant.secret,
-	  callbackURL: 'http://localhost:2000/auth/callback'
+	  callbackURL: 'http://0.0.0.0:2000/auth/callback'
     });
   }
 

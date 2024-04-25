@@ -144,6 +144,9 @@ export class AuthService {
 	}
 
 	async verifysame(user: CreateUserDTO, id: number): Promise<boolean> {
+		//console.log("[auth service verify] user callimg ", user, " id calling: ", id)
+		if (!user.id || user.id == 0)
+			return true
 		if (user.id != id) {
 			console.log("[Auth service verifysame] different user and not admin")
 			return (false);
@@ -154,14 +157,14 @@ export class AuthService {
 
 	async beatheart(user: CreateUserDTO): Promise<any> {
 		var myUser = await this.usersService.user({id: user.id})
-		myUser.heartbeat = new Date()
+		user.heartbeat = new Date()
 		if (myUser)
 		{
 			await this.usersService.updateUser({
 				where: {
 					id: user.id,
 				},
-				data: (myUser as any),
+				data: (user as any),
 			})
 		}
 	}

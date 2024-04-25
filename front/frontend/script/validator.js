@@ -12,7 +12,8 @@ export function validateEmail(email) {
   }
   
   export function validateNickname(nickname) {
-    // les conditions pour un pseudo valable, par exemple au moins 3 caractères, etc.
-    const re = /^[a-zA-Z0-9_]{3,}$/;
+    // Autorise les lettres (minuscules et majuscules), les chiffres, les tirets (-) et les underscores (_)
+    // et exige une longueur minimale de 3 caractères
+    const re = /^[a-zA-Z0-9_-]{3,}$/;
     return re.test(nickname);
   }
