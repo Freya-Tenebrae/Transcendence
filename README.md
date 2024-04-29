@@ -8,17 +8,13 @@ It was made with [Maximilien Mercorelli](https://github.com/mmercore), [Pierre M
 
 This project aims to create a website hosting a pong game, with auth systems, live chat, and multiplayer.
 
-## Using Cub3D
+## Using Transcendence
 
 ### Cloning
 
 ```shell
 git clone https://github.com/Freya-Tenebrae/Transcendence.git
 ```
-
-### Cub3D
-
-On Cub3dD there is no door, no entities, no pickup, no end, no action possible (exept movement) and textures are defined by wall orientation
 
 #### Compilation
 
